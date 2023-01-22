@@ -1,0 +1,18 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Liste des hachathons!{% endblock %}
+
+{% block body %}
+    {% for hackathon in hackathons %}
+        {{ hackathon.name }}
+        <a href="{{ path('back_hackathon_show', {'id': hackathon.id}) }}">Voir</a>
+        <a href="{{ path('back_hackathon_edit', {'id': hackathon.id}) }}">Editer</a>
+        <a href="{{ path('back_hackathon_remove', {'id': hackathon.id, 'token': csrf_token('remove' ~ hackathon.id)}) }}">Supprimer</a>
+        <a href="{{ path('back_hackathon_sortable', {'id': hackathon.id, 'position': 'UP'}) }}">UP</a>
+        <a href="{{ path('back_hackathon_sortable', {'id': hackathon.id, 'position': 'DOWN'}) }}">DOWN</a>
+
+        <br>
+    {% else %}
+        Aucun hackathon trouvé.
+    {% endfor %}
+{% endblock %}
