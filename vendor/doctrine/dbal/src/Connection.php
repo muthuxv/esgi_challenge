@@ -80,7 +80,11 @@ class Connection
     /** @var Configuration */
     protected $_config;
 
-    /** @var EventManager */
+    /**
+     * @deprecated
+     *
+     * @var EventManager
+     */
     protected $_eventManager;
 
     /**
@@ -159,7 +163,6 @@ class Connection
      * @param Configuration|null  $config       The configuration, optional.
      * @param EventManager|null   $eventManager The event manager, optional.
      * @psalm-param Params $params
-     * @phpstan-param array<string,mixed> $params
      *
      * @throws Exception
      */
@@ -183,6 +186,13 @@ class Connection
             if (! $params['platform'] instanceof Platforms\AbstractPlatform) {
                 throw Exception::invalidPlatformType($params['platform']);
             }
+
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/pull/5699',
+                'The "platform" connection parameter is deprecated.'
+                    . ' Use a driver middleware that would instantiate the platform instead.',
+            );
 
             $this->platform = $params['platform'];
             $this->platform->setEventManager($this->_eventManager);
@@ -249,10 +259,19 @@ class Connection
     /**
      * Gets the EventManager used by the Connection.
      *
+     * @deprecated
+     *
      * @return EventManager
      */
     public function getEventManager()
     {
+        Deprecation::triggerIfCalledFromOutside(
+            'doctrine/dbal',
+            'https://github.com/doctrine/dbal/issues/5784',
+            '%s is deprecated.',
+            __METHOD__,
+        );
+
         return $this->_eventManager;
     }
 
@@ -333,6 +352,13 @@ class Connection
         }
 
         if ($this->_eventManager->hasListeners(Events::postConnect)) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/issues/5784',
+                'Subscribing to %s events is deprecated. Implement a middleware instead.',
+                Events::postConnect,
+            );
+
             $eventArgs = new Event\ConnectionEventArgs($this);
             $this->_eventManager->dispatchEvent(Events::postConnect, $eventArgs);
         }
@@ -392,6 +418,15 @@ class Connection
                 if (! isset($this->params['dbname'])) {
                     throw $originalException;
                 }
+
+                Deprecation::trigger(
+                    'doctrine/dbal',
+                    'https://github.com/doctrine/dbal/pull/5707',
+                    'Relying on a fallback connection used to determine the database platform while connecting'
+                        . ' to a non-existing database is deprecated. Either use an existing database name in'
+                        . ' connection parameters or omit the database name if the platform'
+                        . ' and the server configuration allow that.',
+                );
 
                 // The database to connect to might not yet exist.
                 // Retry detection without database name connection parameter.
@@ -1312,7 +1347,18 @@ class Connection
             );
         }
 
-        $this->getEventManager()->dispatchEvent(Events::onTransactionBegin, new TransactionBeginEventArgs($this));
+        $eventManager = $this->getEventManager();
+
+        if ($eventManager->hasListeners(Events::onTransactionBegin)) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/issues/5784',
+                'Subscribing to %s events is deprecated.',
+                Events::onTransactionBegin,
+            );
+
+            $eventManager->dispatchEvent(Events::onTransactionBegin, new TransactionBeginEventArgs($this));
+        }
 
         return true;
     }
@@ -1336,38 +1382,54 @@ class Connection
 
         $connection = $this->getWrappedConnection();
 
-        $logger = $this->_config->getSQLLogger();
-
         if ($this->transactionNestingLevel === 1) {
-            if ($logger !== null) {
-                $logger->startQuery('"COMMIT"');
-            }
-
-            $result = $connection->commit();
-
-            if ($logger !== null) {
-                $logger->stopQuery();
-            }
+            $result = $this->doCommit($connection);
         } elseif ($this->nestTransactionsWithSavepoints) {
-            if ($logger !== null) {
-                $logger->startQuery('"RELEASE SAVEPOINT"');
-            }
-
             $this->releaseSavepoint($this->_getNestedTransactionSavePointName());
-            if ($logger !== null) {
-                $logger->stopQuery();
-            }
         }
 
         --$this->transactionNestingLevel;
 
-        $this->getEventManager()->dispatchEvent(Events::onTransactionCommit, new TransactionCommitEventArgs($this));
+        $eventManager = $this->getEventManager();
+
+        if ($eventManager->hasListeners(Events::onTransactionCommit)) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/issues/5784',
+                'Subscribing to %s events is deprecated.',
+                Events::onTransactionCommit,
+            );
+
+            $eventManager->dispatchEvent(Events::onTransactionCommit, new TransactionCommitEventArgs($this));
+        }
 
         if ($this->autoCommit !== false || $this->transactionNestingLevel !== 0) {
             return $result;
         }
 
         $this->beginTransaction();
+
+        return $result;
+    }
+
+    /**
+     * @return bool
+     *
+     * @throws DriverException
+     */
+    private function doCommit(DriverConnection $connection)
+    {
+        $logger = $this->_config->getSQLLogger();
+
+        if ($logger !== null) {
+            $logger->startQuery('"COMMIT"');
+        }
+
+        $result = $connection->commit();
+
+        if ($logger !== null) {
+            $logger->stopQuery();
+        }
 
         return $result;
     }
@@ -1439,7 +1501,18 @@ class Connection
             --$this->transactionNestingLevel;
         }
 
-        $this->getEventManager()->dispatchEvent(Events::onTransactionRollBack, new TransactionRollBackEventArgs($this));
+        $eventManager = $this->getEventManager();
+
+        if ($eventManager->hasListeners(Events::onTransactionRollBack)) {
+            Deprecation::trigger(
+                'doctrine/dbal',
+                'https://github.com/doctrine/dbal/issues/5784',
+                'Subscribing to %s events is deprecated.',
+                Events::onTransactionRollBack,
+            );
+
+            $eventManager->dispatchEvent(Events::onTransactionRollBack, new TransactionRollBackEventArgs($this));
+        }
 
         return true;
     }
@@ -1475,6 +1548,8 @@ class Connection
      */
     public function releaseSavepoint($savepoint)
     {
+        $logger = $this->_config->getSQLLogger();
+
         $platform = $this->getDatabasePlatform();
 
         if (! $platform->supportsSavepoints()) {
@@ -1482,10 +1557,24 @@ class Connection
         }
 
         if (! $platform->supportsReleaseSavepoints()) {
+            if ($logger !== null) {
+                $logger->stopQuery();
+            }
+
             return;
         }
 
+        if ($logger !== null) {
+            $logger->startQuery('"RELEASE SAVEPOINT"');
+        }
+
         $this->executeStatement($platform->releaseSavePoint($savepoint));
+
+        if ($logger === null) {
+            return;
+        }
+
+        $logger->stopQuery();
     }
 
     /**

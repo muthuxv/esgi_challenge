@@ -293,7 +293,11 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
      */
     protected function newClassMetadataInstance($className)
     {
-        return new ClassMetadata($className, $this->em->getConfiguration()->getNamingStrategy());
+        return new ClassMetadata(
+            $className,
+            $this->em->getConfiguration()->getNamingStrategy(),
+            $this->em->getConfiguration()->getTypedFieldMapper()
+        );
     }
 
     /**
@@ -388,7 +392,6 @@ class ClassMetadataFactory extends AbstractClassMetadataFactory
                 $mapping['sourceEntity'] = $subClass->name;
             }
 
-            //$subclassMapping = $mapping;
             if (! isset($mapping['inherited']) && ! $parentClass->isMappedSuperclass) {
                 $mapping['inherited'] = $parentClass->name;
             }

@@ -12,6 +12,8 @@ use Doctrine\Persistence\Event\LifecycleEventArgs as BaseLifecycleEventArgs;
  * Lifecycle Events are triggered by the UnitOfWork during lifecycle transitions
  * of entities.
  *
+ * @deprecated This class will be removed in ORM 3.0. Use one of the dedicated classes instead.
+ *
  * @extends BaseLifecycleEventArgs<EntityManagerInterface>
  */
 class LifecycleEventArgs extends BaseLifecycleEventArgs
@@ -42,7 +44,7 @@ class LifecycleEventArgs extends BaseLifecycleEventArgs
         Deprecation::trigger(
             'doctrine/orm',
             'https://github.com/doctrine/orm/issues/9875',
-            'Method %s() is deprecated and will be removed in Doctrine ORM 3.0. Use getObjectManager() instead.',
+            'Method %s() is deprecated and will be removed in Doctrine ORM 3.0. Use getObject() instead.',
             __METHOD__
         );
 
