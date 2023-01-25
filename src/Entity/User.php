@@ -30,12 +30,9 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column]
     private ?string $password = null;
 
-    #[ORM\ManyToMany(targetEntity: Hackathon::class, mappedBy: 'participants')]
-    private Collection $hackathons;
-
     public function __construct()
     {
-        $this->hackathons = new ArrayCollection();
+        $this->roles = ['ROLE_USER']; // default role
     }
 
     public function getId(): ?int
@@ -106,32 +103,5 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         // If you store any temporary, sensitive data on the user, clear it here
         // $this->plainPassword = null;
-    }
-
-    /**
-     * @return Collection<int, Hackathon>
-     */
-    public function getHackathons(): Collection
-    {
-        return $this->hackathons;
-    }
-
-    public function addHackathon(Hackathon $hackathon): self
-    {
-        if (!$this->hackathons->contains($hackathon)) {
-            $this->hackathons->add($hackathon);
-            $hackathon->addParticipant($this);
-        }
-
-        return $this;
-    }
-
-    public function removeHackathon(Hackathon $hackathon): self
-    {
-        if ($this->hackathons->removeElement($hackathon)) {
-            $hackathon->removeParticipant($this);
-        }
-
-        return $this;
     }
 }
