@@ -26,13 +26,8 @@ parameters:
 			path: lib/Doctrine/Common/DataFixtures/Loader.php
 
 		-
-			message: "#^Property Doctrine\\\\Common\\\\DataFixtures\\\\Loader\\:\\:\\$orderedFixtures \\(array\\<class\\-string\\<Doctrine\\\\Common\\\\DataFixtures\\\\OrderedFixtureInterface\\>\\|int, Doctrine\\\\Common\\\\DataFixtures\\\\OrderedFixtureInterface\\>\\) does not accept array\\<class\\-string\\<Doctrine\\\\Common\\\\DataFixtures\\\\FixtureInterface\\>, Doctrine\\\\Common\\\\DataFixtures\\\\FixtureInterface\\>\\.$#"
-			count: 2
-			path: lib/Doctrine/Common/DataFixtures/Loader.php
-
-		-
 			message: "#^Call to an undefined method Doctrine\\\\Persistence\\\\ObjectManager\\:\\:getReference\\(\\)\\.$#"
-			count: 1
+			count: 2
 			path: lib/Doctrine/Common/DataFixtures/ProxyReferenceRepository.php
 
 		-
@@ -114,4 +109,3 @@ parameters:
 			message: "#^Call to an undefined method Doctrine\\\\ODM\\\\MongoDB\\\\DocumentManager\\:\\:getConnection\\(\\)\\.$#"
 			count: 1
 			path: tests/Doctrine/Tests/Common/DataFixtures/Purger/MongoDBPurgerTest.php
-

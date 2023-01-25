@@ -527,11 +527,12 @@ public function __construct(<params>)
      * Sets the class fields visibility for the entity (can either be private or protected).
      *
      * @param string $visibility
-     * @psalm-param self::FIELD_VISIBLE_*
      *
      * @return void
      *
      * @throws InvalidArgumentException
+     *
+     * @psalm-assert self::FIELD_VISIBLE_* $visibility
      */
     public function setFieldVisibility($visibility)
     {
@@ -1054,7 +1055,7 @@ public function __construct(<params>)
         }
 
         if (isset($metadata->table['options']) && $metadata->table['options']) {
-            $table[] = 'options={' . $this->exportTableOptions((array) $metadata->table['options']) . '}';
+            $table[] = 'options={' . $this->exportTableOptions($metadata->table['options']) . '}';
         }
 
         if (isset($metadata->table['uniqueConstraints']) && $metadata->table['uniqueConstraints']) {
