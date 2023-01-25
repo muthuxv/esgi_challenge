@@ -1077,7 +1077,8 @@ abstract class AbstractQuery
      *
      * @param ArrayCollection|mixed[]|null $parameters    The query parameters.
      * @param string|int|null              $hydrationMode The hydration mode to use.
-     * @psalm-param string|AbstractQuery::HYDRATE_*|null $hydrationMode The hydration mode to use.
+     * @psalm-param ArrayCollection<int, Parameter>|array<string, mixed>|null $parameters
+     * @psalm-param string|AbstractQuery::HYDRATE_*|null                      $hydrationMode The hydration mode to use.
      *
      * @return IterableResult
      */
@@ -1320,9 +1321,11 @@ abstract class AbstractQuery
     protected function getHydrationCacheId()
     {
         $parameters = [];
+        $types      = [];
 
         foreach ($this->getParameters() as $parameter) {
             $parameters[$parameter->getName()] = $this->processParameterValue($parameter->getValue());
+            $types[$parameter->getName()]      = $parameter->getType();
         }
 
         $sql = $this->getSQL();
@@ -1334,7 +1337,7 @@ abstract class AbstractQuery
         ksort($hints);
         assert($queryCacheProfile !== null);
 
-        return $queryCacheProfile->generateCacheKeys($sql, $parameters, $hints);
+        return $queryCacheProfile->generateCacheKeys($sql, $parameters, $types, $hints);
     }
 
     /**
