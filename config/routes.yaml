@@ -12,3 +12,11 @@ controllers_back:
 controller_security:
     resource: ../src/Controller/SecurityController.php
     type: attribute
+
+controller_mail:
+    resource: ../src/Controller/MailerController.php
+    type: attribute
+
+controller_reset_password:
+    resource: ../src/Controller/ResetPasswordController.php
+    type: attribute
