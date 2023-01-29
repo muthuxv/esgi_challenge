@@ -18,6 +18,8 @@
             <ul>
                 <li><a href="{{ path('front_default_index') }}">Accueil</a></li>
                 {% if (is_granted('ROLE_ADMIN')) %} <li><a href="{{ path('back_default_index') }}">Panel d'admin</a></li>{% endif %}
+                {% if (is_granted('ROLE_ADMIN')) %} <li><a href="{{ path('user_app_user_index') }}">Panel user</a></li>{% endif %}
+                {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_user_edit', {'id': user[0].id}) }}">Modifier son profil</a></li>{% endif %}
             </ul>
         </nav>
         {% block body %}{% endblock %}
