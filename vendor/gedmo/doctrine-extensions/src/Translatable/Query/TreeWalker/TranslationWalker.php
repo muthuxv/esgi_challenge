@@ -36,6 +36,8 @@ use Gedmo\Translatable\TranslatableListener;
  * of the fields.
  *
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
+ *
+ * @final since gedmo/doctrine-extensions 3.11
  */
 class TranslationWalker extends SqlWalker
 {
@@ -131,7 +133,7 @@ class TranslationWalker extends SqlWalker
     public function walkSelectStatement(SelectStatement $AST)
     {
         $result = parent::walkSelectStatement($AST);
-        if (!count($this->translatedComponents)) {
+        if ([] === $this->translatedComponents) {
             return $result;
         }
 

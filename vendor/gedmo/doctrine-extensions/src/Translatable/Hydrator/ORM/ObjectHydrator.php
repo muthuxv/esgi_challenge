@@ -19,6 +19,8 @@ use Gedmo\Translatable\TranslatableListener;
  * of the fields
  *
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
+ *
+ * @final since gedmo/doctrine-extensions 3.11
  */
 class ObjectHydrator extends BaseObjectHydrator
 {

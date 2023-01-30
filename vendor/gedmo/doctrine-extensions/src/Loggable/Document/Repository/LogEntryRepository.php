@@ -20,6 +20,8 @@ use Gedmo\Tool\Wrapper\MongoDocumentWrapper;
  * to interact with log entries.
  *
  * @author Gediminas Morkevicius <gediminas.morkevicius@gmail.com>
+ *
+ * @final since gedmo/doctrine-extensions 3.11
  */
 class LogEntryRepository extends DocumentRepository
 {
@@ -87,15 +89,16 @@ class LogEntryRepository extends DocumentRepository
         if ($logs instanceof Iterator) {
             $logs = $logs->toArray();
         }
-        if ($logs) {
-            $data = [];
-            while ($log = array_shift($logs)) {
-                $data = array_merge($data, $log->getData());
-            }
-            $this->fillDocument($document, $data);
-        } else {
+
+        if ([] === $logs) {
             throw new \Gedmo\Exception\UnexpectedValueException('Count not find any log entries under version: '.$version);
         }
+
+        $data = [];
+        while ($log = array_shift($logs)) {
+            $data = array_merge($data, $log->getData());
+        }
+        $this->fillDocument($document, $data);
     }
 
     /**
