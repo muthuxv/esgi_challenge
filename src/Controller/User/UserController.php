@@ -36,6 +36,7 @@ class UserController extends AbstractController
             );
 
             $user->setPassword($encodedPassword);
+            $user->setIsVerified(true);
 
             $userRepository->save($user, true);
 
@@ -68,6 +69,8 @@ class UserController extends AbstractController
                 $user,
                 $form->get('plainPassword')->getData()
             );
+
+            die($encodedPassword);
 
             $user->setPassword($encodedPassword);
 
