@@ -3,7 +3,7 @@
         'name' => 'symfony/website-skeleton',
         'pretty_version' => 'dev-develop',
         'version' => 'dev-develop',
-        'reference' => '8616cdeb2ddf26906ebc996a68d6e559b893209a',
+        'reference' => '6eae20162a217271ea024b8c20e10091475468c9',
         'type' => 'project',
         'install_path' => __DIR__ . '/../../',
         'aliases' => array(),
@@ -1325,7 +1325,7 @@
         'symfony/website-skeleton' => array(
             'pretty_version' => 'dev-develop',
             'version' => 'dev-develop',
-            'reference' => '8616cdeb2ddf26906ebc996a68d6e559b893209a',
+            'reference' => '6eae20162a217271ea024b8c20e10091475468c9',
             'type' => 'project',
             'install_path' => __DIR__ . '/../../',
             'aliases' => array(),
