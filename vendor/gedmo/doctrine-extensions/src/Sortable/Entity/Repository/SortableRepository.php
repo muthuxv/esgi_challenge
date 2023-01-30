@@ -18,6 +18,8 @@ use Gedmo\Sortable\SortableListener;
  * Sortable Repository
  *
  * @author Lukas Botsch <lukas.botsch@gmail.com>
+ *
+ * @final since gedmo/doctrine-extensions 3.11
  */
 class SortableRepository extends EntityRepository
 {
@@ -81,7 +83,7 @@ class SortableRepository extends EntityRepository
             }
             unset($groups[$name]);
         }
-        if (count($groups) > 0) {
+        if ([] !== $groups) {
             throw new \InvalidArgumentException('You need to specify values for the following groups to select by sortable groups: '.implode(', ', array_keys($groups)));
         }
 
