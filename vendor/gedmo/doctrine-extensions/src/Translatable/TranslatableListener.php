@@ -44,6 +44,8 @@ use Gedmo\Translatable\Mapping\Event\TranslatableAdapter;
  * @phpstan-method TranslatableConfiguration getConfiguration(ObjectManager $objectManager, $class)
  *
  * @method TranslatableAdapter getEventAdapter(EventArgs $args)
+ *
+ * @final since gedmo/doctrine-extensions 3.11
  */
 class TranslatableListener extends MappedEventSubscriber
 {
@@ -343,26 +345,24 @@ class TranslatableListener extends MappedEventSubscriber
     public function getTranslatableLocale($object, $meta, $om = null)
     {
         $locale = $this->locale;
-        if (isset(self::$configurations[$this->name][$meta->getName()]['locale'])) {
-            /** @var \ReflectionClass $class */
+        $configurationLocale = self::$configurations[$this->name][$meta->getName()]['locale'] ?? null;
+        if (null !== $configurationLocale) {
             $class = $meta->getReflectionClass();
-            $reflectionProperty = $class->getProperty(self::$configurations[$this->name][$meta->getName()]['locale']);
-            if (!$reflectionProperty) {
-                $column = self::$configurations[$this->name][$meta->getName()]['locale'];
-
-                throw new \Gedmo\Exception\RuntimeException("There is no locale or language property ({$column}) found on object: {$meta->getName()}");
+            if (!$class->hasProperty($configurationLocale)) {
+                throw new \Gedmo\Exception\RuntimeException("There is no locale or language property ({$configurationLocale}) found on object: {$meta->getName()}");
             }
+            $reflectionProperty = $class->getProperty($configurationLocale);
             $reflectionProperty->setAccessible(true);
             $value = $reflectionProperty->getValue($object);
             if (is_object($value) && method_exists($value, '__toString')) {
-                $value = (string) $value;
+                $value = $value->__toString();
             }
             if ($this->isValidLocale($value)) {
                 $locale = $value;
             }
         } elseif ($om instanceof DocumentManager) {
             [$mapping, $parentObject] = $om->getUnitOfWork()->getParentAssociation($object);
-            if (null != $parentObject) {
+            if (null !== $parentObject) {
                 $parentMeta = $om->getClassMetadata(get_class($parentObject));
                 $locale = $this->getTranslatableLocale($parentObject, $parentMeta, $om);
             }
@@ -441,6 +441,7 @@ class TranslatableListener extends MappedEventSubscriber
             if (isset($config['fields'])) {
                 $wrapped = AbstractWrapper::wrap($object, $om);
                 $transClass = $this->getTranslationClass($ea, $meta->getName());
+                \assert($wrapped instanceof AbstractWrapper);
                 $ea->removeAssociatedTranslations($wrapped, $transClass, $config['useObjectClass']);
             }
         }
@@ -459,7 +460,7 @@ class TranslatableListener extends MappedEventSubscriber
         $object = $ea->getObject();
         $meta = $om->getClassMetadata(get_class($object));
         // check if entity is tracked by translatable and without foreign key
-        if ($this->getConfiguration($om, $meta->getName()) && count($this->pendingTranslationInserts)) {
+        if ($this->getConfiguration($om, $meta->getName()) && [] !== $this->pendingTranslationInserts) {
             $oid = spl_object_id($object);
             if (array_key_exists($oid, $this->pendingTranslationInserts)) {
                 // load the pending translations without key
@@ -679,6 +680,8 @@ class TranslatableListener extends MappedEventSubscriber
 
             // check if translation already is created
             if (!$isInsert && !$translation) {
+                \assert($wrapped instanceof AbstractWrapper);
+
                 $translation = $ea->findTranslation(
                     $wrapped,
                     $locale,
