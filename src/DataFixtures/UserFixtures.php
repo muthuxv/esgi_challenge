@@ -17,6 +17,7 @@ class UserFixtures extends Fixture
             ->setEmail('user@user.fr')
             ->setRoles([])
             ->setPassword($pwd)
+            ->setIsVerified(true)
         ;
         $manager->persist($object);
 
@@ -24,6 +25,7 @@ class UserFixtures extends Fixture
             ->setEmail('coach@user.fr')
             ->setRoles(['ROLE_COACH'])
             ->setPassword($pwd)
+            ->setIsVerified(true)
         ;
         $manager->persist($object);
 
@@ -31,6 +33,7 @@ class UserFixtures extends Fixture
             ->setEmail('client@user.fr')
             ->setRoles(['ROLE_CLIENT'])
             ->setPassword($pwd)
+            ->setIsVerified(true)
         ;
         $manager->persist($object);
 
@@ -38,6 +41,7 @@ class UserFixtures extends Fixture
             ->setEmail('admin@user.fr')
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword($pwd)
+            ->setIsVerified(true)
         ;
         $manager->persist($object);
 
@@ -46,6 +50,7 @@ class UserFixtures extends Fixture
                 ->setEmail('user' . $i . '@user.fr')
                 ->setRoles([])
                 ->setPassword($pwd)
+                ->setIsVerified(true)
             ;
             $manager->persist($object);
         }

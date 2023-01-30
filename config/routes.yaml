@@ -26,3 +26,7 @@ controller_mail:
 controller_reset_password:
     resource: ../src/Controller/ResetPasswordController.php
     type: attribute
+
+controller_registration:
+    resource: ../src/Controller/RegistrationController.php
+    type: attribute
