@@ -35,9 +35,30 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\Column(type: 'boolean')]
     private $isVerified = false;
 
+    #[ORM\Column(length: 255)]
+    private ?string $lastname = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $firstname = null;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mission::class, orphanRemoval: true)]
+    private Collection $missions;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Hero $hero = null;
+
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user')]
+    private Collection $events;
+
+    #[ORM\OneToMany(mappedBy: 'user', targetEntity: EventPayment::class, orphanRemoval: true)]
+    private Collection $eventPayments;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER']; // default role
+        $this->missions = new ArrayCollection();
+        $this->events = new ArrayCollection();
+        $this->eventPayments = new ArrayCollection();
     }
 
     public function getId(): ?int
@@ -118,6 +139,134 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setIsVerified(bool $isVerified): self
     {
         $this->isVerified = $isVerified;
+
+        return $this;
+    }
+
+    public function getLastName(): ?string
+    {
+        return $this->lastname;
+    }
+
+    public function setLastName(string $lastname): self
+    {
+        $this->lastname = $lastname;
+
+        return $this;
+    }
+
+    public function getFirstName(): ?string
+    {
+        return $this->firstname;
+    }
+
+    public function setFirstName(string $firstname): self
+    {
+        $this->firstname = $firstname;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Mission>
+     */
+    public function getMissions(): Collection
+    {
+        return $this->missions;
+    }
+
+    public function addMission(Mission $mission): self
+    {
+        if (!$this->missions->contains($mission)) {
+            $this->missions->add($mission);
+            $mission->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMission(Mission $mission): self
+    {
+        if ($this->missions->removeElement($mission)) {
+            // set the owning side to null (unless already changed)
+            if ($mission->getUserId() === $this) {
+                $mission->setUserId(null);
+            }
+        }
+
+        return $this;
+    }
+
+    public function getHero(): ?Hero
+    {
+        return $this->hero;
+    }
+
+    public function setHero(Hero $hero): self
+    {
+        // set the owning side of the relation if necessary
+        if ($hero->getUserId() !== $this) {
+            $hero->setUserId($this);
+        }
+
+        $this->hero = $hero;
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, Event>
+     */
+    public function getEvents(): Collection
+    {
+        return $this->events;
+    }
+
+    public function addEvent(Event $event): self
+    {
+        if (!$this->events->contains($event)) {
+            $this->events->add($event);
+            $event->addUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEvent(Event $event): self
+    {
+        if ($this->events->removeElement($event)) {
+            $event->removeUserId($this);
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, EventPayment>
+     */
+    public function getEventPayments(): Collection
+    {
+        return $this->eventPayments;
+    }
+
+    public function addEventPayment(EventPayment $eventPayment): self
+    {
+        if (!$this->eventPayments->contains($eventPayment)) {
+            $this->eventPayments->add($eventPayment);
+            $eventPayment->setUserId($this);
+        }
+
+        return $this;
+    }
+
+    public function removeEventPayment(EventPayment $eventPayment): self
+    {
+        if ($this->eventPayments->removeElement($eventPayment)) {
+            // set the owning side to null (unless already changed)
+            if ($eventPayment->getUserId() === $this) {
+                $eventPayment->setUserId(null);
+            }
+        }
 
         return $this;
     }

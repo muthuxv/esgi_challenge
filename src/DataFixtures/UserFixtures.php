@@ -18,6 +18,8 @@ class UserFixtures extends Fixture
             ->setRoles([])
             ->setPassword($pwd)
             ->setIsVerified(true)
+            ->setLastName('Doe')
+            ->setFirstName('John')
         ;
         $manager->persist($object);
 
@@ -26,6 +28,8 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_COACH'])
             ->setPassword($pwd)
             ->setIsVerified(true)
+            ->setLastName('Landers')
+            ->setFirstName('Mark')
         ;
         $manager->persist($object);
 
@@ -34,6 +38,8 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_CLIENT'])
             ->setPassword($pwd)
             ->setIsVerified(true)
+            ->setLastName('Dupont')
+            ->setFirstName('Jean')
         ;
         $manager->persist($object);
 
@@ -42,6 +48,8 @@ class UserFixtures extends Fixture
             ->setRoles(['ROLE_ADMIN'])
             ->setPassword($pwd)
             ->setIsVerified(true)
+            ->setLastName('Admin')
+            ->setFirstName('Admin')
         ;
         $manager->persist($object);
 
@@ -51,6 +59,8 @@ class UserFixtures extends Fixture
                 ->setRoles([])
                 ->setPassword($pwd)
                 ->setIsVerified(true)
+                ->setLastName('nom' . $i . 'Doe')
+                ->setFirstName('prenom' . $i . 'John')
             ;
             $manager->persist($object);
         }
