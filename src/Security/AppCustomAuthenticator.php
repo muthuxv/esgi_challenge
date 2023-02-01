@@ -51,6 +51,18 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
     public function onAuthenticationSuccess(Request $request, TokenInterface $token, string $firewallName): ?Response
     {
+        $email = $request->request->get('email', '');
+  
+        $user = $this->userRepository->findOneBy(array('email' => $email)); // Find the user in the database based on the email address
+
+        if (implode($user->getRoles()) == "ROLE_ADMIN") {
+            return new RedirectResponse($this->urlGenerator->generate('back_default_index'));
+        } elseif (implode($user->getRoles()) == "ROLE_USER") {
+            return new RedirectResponse($this->urlGenerator->generate('front_default_index'));
+        } else {
+            return new RedirectResponse($this->urlGenerator->generate('front_default_index'));
+        }
+
         if ($targetPath = $this->getTargetPath($request->getSession(), $firewallName)) {
             return new RedirectResponse($targetPath);
         }
