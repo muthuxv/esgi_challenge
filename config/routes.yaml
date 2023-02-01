@@ -9,12 +9,6 @@ controllers_back:
     name_prefix: back_
     prefix: /admin/
 
-controllers_back_user:
-    resource: ../src/Controller/User
-    type: attribute
-    name_prefix: user_
-    prefix: /user/
-
 controller_security:
     resource: ../src/Controller/SecurityController.php
     type: attribute

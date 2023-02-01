@@ -13,7 +13,6 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
-#[IsGranted('ROLE_USER')]
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'default_index')]
@@ -31,13 +30,16 @@ class DefaultController extends AbstractController
         $form->handleRequest($request);
 
         if ($form->isSubmitted() && $form->isValid()) {
-            // Encode(hash) the plain password, and set it.
-            $encodedPassword = $passwordHasher->hashPassword(
-                $user,
-                $form->get('plainPassword')->getData()
-            );
 
-            $user->setPassword($encodedPassword);
+            if ($form->get('plainPassword')->getData() != '') {
+                // Encode(hash) the plain password, and set it.
+                $encodedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $form->get('plainPassword')->getData()
+                );
+
+                $user->setPassword($encodedPassword);
+            }
 
             $userRepository->save($user, true);
 
