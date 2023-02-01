@@ -59,8 +59,8 @@ class UserFixtures extends Fixture
                 ->setRoles([])
                 ->setPassword($pwd)
                 ->setIsVerified(true)
-                ->setLastName('nom' . $i . 'Doe')
-                ->setFirstName('prenom' . $i . 'John')
+                ->setLastName('nom ' . $i . '')
+                ->setFirstName('prenom' . $i . '')
             ;
             $manager->persist($object);
         }

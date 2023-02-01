@@ -31,13 +31,14 @@ security:
     # Easy way to control access for large sections of your site
     # Note: Only the *first* access control that matches will be used
     access_control:
-        - { path: ^/admin, roles: ROLE_COACH }
-        - { path: ^/user, roles: ROLE_ADMIN }
+        - { path: ^/admin, roles: ROLE_ADMIN }
+        - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/hero, roles: ROLE_HERO }
         - { path: ^/, roles: PUBLIC_ACCESS }
 
     role_hierarchy:
-        ROLE_COACH: ROLE_CLIENT
-        ROLE_ADMIN: ROLE_COACH
+        ROLE_ADMIN: ROLE_HERO
+        ROLE_HERO: ROLE_USER
 
 when@test:
     security:

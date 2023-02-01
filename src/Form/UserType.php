@@ -22,7 +22,7 @@ class UserType extends AbstractType
                 'choices' => array(
                     'user' => 'ROLE_USER',
                     'admin' => 'ROLE_ADMIN',
-                    'coach' => 'ROLE_COACH'
+                    'hero' => 'ROLE_HERO'
                 ),
                 'label' => 'Role :'
             ))

@@ -44,10 +44,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mission::class, orphanRemoval: true)]
     private Collection $missions;
 
-    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
-    private ?Hero $hero = null;
-
-    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user')]
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user_id')]
     private Collection $events;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: EventPayment::class, orphanRemoval: true)]

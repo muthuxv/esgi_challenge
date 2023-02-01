@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HeroRepository::class)]
-class Hero
+class Hero extends User
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -17,10 +17,6 @@ class Hero
 
     #[ORM\Column(length: 255)]
     private ?string $hero_name = null;
-
-    #[ORM\OneToOne(inversedBy: 'hero', cascade: ['persist', 'remove'])]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?User $user = null;
 
     #[ORM\Column(nullable: true)]
     private ?int $rank = null;
@@ -36,6 +32,9 @@ class Hero
 
     #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'hero_id')]
     private Collection $events;
+
+    #[ORM\Column(length: 255, nullable: true)]
+    private ?string $avatar = null;
 
     public function __construct()
     {
@@ -174,6 +173,18 @@ class Hero
         if ($this->events->removeElement($event)) {
             $event->removeHeroId($this);
         }
+
+        return $this;
+    }
+
+    public function getAvatar(): ?string
+    {
+        return $this->avatar;
+    }
+
+    public function setAvatar(?string $avatar): self
+    {
+        $this->avatar = $avatar;
 
         return $this;
     }
