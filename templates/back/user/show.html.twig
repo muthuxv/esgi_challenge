@@ -11,6 +11,14 @@
                 <th>Id</th>
                 <td>{{ user.id }}</td>
             </tr>
+             <tr>
+                <th>Nom</th>
+                <td>{{ user.lastname }}</td>
+            </tr>
+             <tr>
+                <th>Prénom</th>
+                <td>{{ user.firstname }}</td>
+            </tr>
             <tr>
                 <th>Email</th>
                 <td>{{ user.email }}</td>
@@ -22,9 +30,9 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_app_user_index') }}">back to list</a>
+    <a href="{{ path('back_user_index') }}">back to list</a>
 
-    <a href="{{ path('user_app_user_edit', {'id': user.id}) }}">edit</a>
+    <a href="{{ path('back_user_edit', {'id': user.id}) }}">edit</a>
 
-    {{ include('user/_delete_form.html.twig') }}
+    {{ include('back/user/_delete_form.html.twig') }}
 {% endblock %}

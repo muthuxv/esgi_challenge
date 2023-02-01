@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 
-<li><a href="{{ path('front_default_index') }}">Accueil</a></li>
+<li><a href="{{ path('back_default_index') }}">Accueil</a></li>
 
 <title>User index</title>
 
@@ -11,6 +11,8 @@
         <thead>
             <tr>
                 <th>Id</th>
+                <th>Nom</th>
+                <th>Prénom</th>
                 <th>Email</th>
                 <th>Roles</th>
                 <th>actions</th>
@@ -20,11 +22,13 @@
         {% for user in users %}
             <tr>
                 <td>{{ user.id }}</td>
+                <td>{{ user.lastname }}</td>
+                <td>{{ user.firstname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
                 <td>
-                    <a href="{{ path('user_app_user_show', {'id': user.id}) }}">show</a>
-                    <a href="{{ path('user_app_user_edit', {'id': user.id}) }}">edit</a>
+                    <a href="{{ path('back_user_show', {'id': user.id}) }}">show</a>
+                    <a href="{{ path('back_user_edit', {'id': user.id}) }}">edit</a>
                 </td>
             </tr>
         {% else %}
@@ -35,5 +39,5 @@
         </tbody>
     </table>
 
-    <a href="{{ path('user_app_user_new') }}">Create new</a>
+    <a href="{{ path('back_user_new') }}">Create new</a>
 {% endblock %}
