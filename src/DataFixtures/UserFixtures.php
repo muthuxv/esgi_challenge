@@ -15,31 +15,25 @@ class UserFixtures extends Fixture
 
         $object = (new User())
             ->setEmail('user@user.fr')
-            ->setRoles([])
+            ->setRoles(['ROLE_USER'])
             ->setPassword($pwd)
             ->setIsVerified(true)
             ->setLastName('Doe')
             ->setFirstName('John')
+            ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
+            ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))
         ;
         $manager->persist($object);
 
         $object = (new User())
-            ->setEmail('coach@user.fr')
-            ->setRoles(['ROLE_COACH'])
+            ->setEmail('hero@hero.fr')
+            ->setRoles(['ROLE_HERO'])
             ->setPassword($pwd)
             ->setIsVerified(true)
             ->setLastName('Landers')
             ->setFirstName('Mark')
-        ;
-        $manager->persist($object);
-
-        $object = (new User())
-            ->setEmail('client@user.fr')
-            ->setRoles(['ROLE_CLIENT'])
-            ->setPassword($pwd)
-            ->setIsVerified(true)
-            ->setLastName('Dupont')
-            ->setFirstName('Jean')
+            ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
+            ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))
         ;
         $manager->persist($object);
 
@@ -50,17 +44,21 @@ class UserFixtures extends Fixture
             ->setIsVerified(true)
             ->setLastName('Admin')
             ->setFirstName('Admin')
+            ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
+            ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))
         ;
         $manager->persist($object);
 
-        for ($i=0; $i<50; $i++) {
+        for ($i=0; $i<10; $i++) {
             $object = (new User())
                 ->setEmail('user' . $i . '@user.fr')
-                ->setRoles([])
+                ->setRoles(['ROLE_USER'])
                 ->setPassword($pwd)
                 ->setIsVerified(true)
                 ->setLastName('nom ' . $i . '')
                 ->setFirstName('prenom' . $i . '')
+                ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
+                ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))
             ;
             $manager->persist($object);
         }
