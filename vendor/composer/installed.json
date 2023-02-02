@@ -5235,17 +5235,17 @@
         },
         {
             "name": "symfony/dependency-injection",
-            "version": "v6.1.11",
-            "version_normalized": "6.1.11.0",
+            "version": "v6.1.12",
+            "version_normalized": "6.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/dependency-injection.git",
-                "reference": "6ff7b7d4ae33764c3fa100463e431465a0a1551c"
+                "reference": "360c9d0948e1fe675336346d5862e8e55b378d90"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/6ff7b7d4ae33764c3fa100463e431465a0a1551c",
-                "reference": "6ff7b7d4ae33764c3fa100463e431465a0a1551c",
+                "url": "https://api.github.com/repos/symfony/dependency-injection/zipball/360c9d0948e1fe675336346d5862e8e55b378d90",
+                "reference": "360c9d0948e1fe675336346d5862e8e55b378d90",
                 "shasum": ""
             },
             "require": {
@@ -5277,7 +5277,7 @@
                 "symfony/proxy-manager-bridge": "Generate service proxies to lazy load them",
                 "symfony/yaml": ""
             },
-            "time": "2023-01-23T15:49:58+00:00",
+            "time": "2023-01-30T15:43:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -5305,7 +5305,7 @@
             "description": "Allows you to standardize and centralize the way objects are constructed in your application",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/dependency-injection/tree/v6.1.11"
+                "source": "https://github.com/symfony/dependency-injection/tree/v6.1.12"
             },
             "funding": [
                 {
@@ -6505,17 +6505,17 @@
         },
         {
             "name": "symfony/http-client",
-            "version": "v6.1.11",
-            "version_normalized": "6.1.11.0",
+            "version": "v6.1.12",
+            "version_normalized": "6.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-client.git",
-                "reference": "36ed2c206eab2ad25d13da0d37fa3255167c078f"
+                "reference": "96b94205f960fefe351d3b30645cfe1664b7f208"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-client/zipball/36ed2c206eab2ad25d13da0d37fa3255167c078f",
-                "reference": "36ed2c206eab2ad25d13da0d37fa3255167c078f",
+                "url": "https://api.github.com/repos/symfony/http-client/zipball/96b94205f960fefe351d3b30645cfe1664b7f208",
+                "reference": "96b94205f960fefe351d3b30645cfe1664b7f208",
                 "shasum": ""
             },
             "require": {
@@ -6544,7 +6544,7 @@
                 "symfony/process": "^5.4|^6.0",
                 "symfony/stopwatch": "^5.4|^6.0"
             },
-            "time": "2023-01-13T08:35:02+00:00",
+            "time": "2023-01-30T15:43:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -6572,7 +6572,7 @@
             "description": "Provides powerful methods to fetch HTTP resources synchronously or asynchronously",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-client/tree/v6.1.11"
+                "source": "https://github.com/symfony/http-client/tree/v6.1.12"
             },
             "funding": [
                 {
@@ -6676,17 +6676,17 @@
         },
         {
             "name": "symfony/http-foundation",
-            "version": "v6.1.11",
-            "version_normalized": "6.1.11.0",
+            "version": "v6.1.12",
+            "version_normalized": "6.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-foundation.git",
-                "reference": "3b85cae04762d583e11f353d2ccf6fa2622163af"
+                "reference": "bd1bcfb0eba14de22c4d086c5023e608f37366ed"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/3b85cae04762d583e11f353d2ccf6fa2622163af",
-                "reference": "3b85cae04762d583e11f353d2ccf6fa2622163af",
+                "url": "https://api.github.com/repos/symfony/http-foundation/zipball/bd1bcfb0eba14de22c4d086c5023e608f37366ed",
+                "reference": "bd1bcfb0eba14de22c4d086c5023e608f37366ed",
                 "shasum": ""
             },
             "require": {
@@ -6706,7 +6706,7 @@
             "suggest": {
                 "symfony/mime": "To use the file extension guesser"
             },
-            "time": "2023-01-01T08:36:55+00:00",
+            "time": "2023-01-30T15:43:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -6734,7 +6734,7 @@
             "description": "Defines an object-oriented layer for the HTTP specification",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-foundation/tree/v6.1.11"
+                "source": "https://github.com/symfony/http-foundation/tree/v6.1.12"
             },
             "funding": [
                 {
@@ -6754,17 +6754,17 @@
         },
         {
             "name": "symfony/http-kernel",
-            "version": "v6.1.11",
-            "version_normalized": "6.1.11.0",
+            "version": "v6.1.12",
+            "version_normalized": "6.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/http-kernel.git",
-                "reference": "949057183c1d1c142d8bc356a25317077d05b266"
+                "reference": "7a4a69dee1b0db04bdc12e86d4cd0dbf6daa390c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/949057183c1d1c142d8bc356a25317077d05b266",
-                "reference": "949057183c1d1c142d8bc356a25317077d05b266",
+                "url": "https://api.github.com/repos/symfony/http-kernel/zipball/7a4a69dee1b0db04bdc12e86d4cd0dbf6daa390c",
+                "reference": "7a4a69dee1b0db04bdc12e86d4cd0dbf6daa390c",
                 "shasum": ""
             },
             "require": {
@@ -6819,7 +6819,7 @@
                 "symfony/console": "",
                 "symfony/dependency-injection": ""
             },
-            "time": "2023-01-24T15:23:56+00:00",
+            "time": "2023-02-01T08:26:56+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -6847,7 +6847,7 @@
             "description": "Provides a structured process for converting a Request into a Response",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/http-kernel/tree/v6.1.11"
+                "source": "https://github.com/symfony/http-kernel/tree/v6.1.12"
             },
             "funding": [
                 {
@@ -8690,17 +8690,17 @@
         },
         {
             "name": "symfony/security-bundle",
-            "version": "v6.1.11",
-            "version_normalized": "6.1.11.0",
+            "version": "v6.1.12",
+            "version_normalized": "6.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-bundle.git",
-                "reference": "601d2f61f67bff51b2a5a6ca40c62dfdaae25339"
+                "reference": "5c790f769c0cdfeebc237573b929ce6c121eb657"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/601d2f61f67bff51b2a5a6ca40c62dfdaae25339",
-                "reference": "601d2f61f67bff51b2a5a6ca40c62dfdaae25339",
+                "url": "https://api.github.com/repos/symfony/security-bundle/zipball/5c790f769c0cdfeebc237573b929ce6c121eb657",
+                "reference": "5c790f769c0cdfeebc237573b929ce6c121eb657",
                 "shasum": ""
             },
             "require": {
@@ -8715,7 +8715,7 @@
                 "symfony/password-hasher": "^5.4|^6.0",
                 "symfony/security-core": "^5.4|^6.0",
                 "symfony/security-csrf": "^5.4|^6.0",
-                "symfony/security-http": "^5.4|^6.0"
+                "symfony/security-http": "^5.4.20|~6.0.20|~6.1.12|^6.2.6"
             },
             "conflict": {
                 "symfony/browser-kit": "<5.4",
@@ -8745,7 +8745,7 @@
                 "symfony/yaml": "^5.4|^6.0",
                 "twig/twig": "^2.13|^3.0.4"
             },
-            "time": "2023-01-13T08:35:02+00:00",
+            "time": "2023-01-30T15:43:30+00:00",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -8773,7 +8773,7 @@
             "description": "Provides a tight integration of the Security component into the Symfony full-stack framework",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-bundle/tree/v6.1.11"
+                "source": "https://github.com/symfony/security-bundle/tree/v6.1.12"
             },
             "funding": [
                 {
@@ -8961,17 +8961,17 @@
         },
         {
             "name": "symfony/security-http",
-            "version": "v6.1.11",
-            "version_normalized": "6.1.11.0",
+            "version": "v6.1.12",
+            "version_normalized": "6.1.12.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/symfony/security-http.git",
-                "reference": "d77cdbbd9fb74016d42f084c33251836060807bc"
+                "reference": "e671c9748c439492c4a2d07862ee63a9a6fbf5c1"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/symfony/security-http/zipball/d77cdbbd9fb74016d42f084c33251836060807bc",
-                "reference": "d77cdbbd9fb74016d42f084c33251836060807bc",
+                "url": "https://api.github.com/repos/symfony/security-http/zipball/e671c9748c439492c4a2d07862ee63a9a6fbf5c1",
+                "reference": "e671c9748c439492c4a2d07862ee63a9a6fbf5c1",
                 "shasum": ""
             },
             "require": {
@@ -8999,7 +8999,7 @@
                 "symfony/routing": "For using the HttpUtils class to create sub-requests, redirect the user, and match URLs",
                 "symfony/security-csrf": "For using tokens to protect authentication/logout attempts"
             },
-            "time": "2023-01-24T13:11:40+00:00",
+            "time": "2023-01-30T15:43:30+00:00",
             "type": "library",
             "installation-source": "dist",
             "autoload": {
@@ -9027,7 +9027,7 @@
             "description": "Symfony Security Component - HTTP Integration",
             "homepage": "https://symfony.com",
             "support": {
-                "source": "https://github.com/symfony/security-http/tree/v6.1.11"
+                "source": "https://github.com/symfony/security-http/tree/v6.1.12"
             },
             "funding": [
                 {
@@ -10457,39 +10457,39 @@
         },
         {
             "name": "symfonycasts/reset-password-bundle",
-            "version": "v1.14.1",
-            "version_normalized": "1.14.1.0",
+            "version": "v1.16.0",
+            "version_normalized": "1.16.0.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/SymfonyCasts/reset-password-bundle.git",
-                "reference": "d906b72cff9a0683075041776a9c5e874df1918b"
+                "reference": "05216bfd80d4019a155d326501f00bf92b9cd439"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/SymfonyCasts/reset-password-bundle/zipball/d906b72cff9a0683075041776a9c5e874df1918b",
-                "reference": "d906b72cff9a0683075041776a9c5e874df1918b",
+                "url": "https://api.github.com/repos/SymfonyCasts/reset-password-bundle/zipball/05216bfd80d4019a155d326501f00bf92b9cd439",
+                "reference": "05216bfd80d4019a155d326501f00bf92b9cd439",
                 "shasum": ""
             },
             "require": {
+                "ext-json": "*",
                 "php": ">=7.2.5",
-                "symfony/config": "^4.4 | ^5.0 | ^6.0",
-                "symfony/dependency-injection": "^4.4 | ^5.0 | ^6.0",
+                "symfony/config": "^5.4 | ^6.0",
+                "symfony/dependency-injection": "^5.4 | ^6.0",
                 "symfony/deprecation-contracts": "^2.2 | ^3.0",
-                "symfony/http-kernel": "^4.4 | ^5.0 | ^6.0"
+                "symfony/http-kernel": "^5.4 | ^6.0"
             },
             "conflict": {
                 "doctrine/orm": "<2.7",
-                "symfony/framework-bundle": "<4.4",
-                "symfony/http-foundation": "<4.4"
+                "php": ">=8.1 <8.1.10"
             },
             "require-dev": {
                 "doctrine/doctrine-bundle": "^2.0.3",
                 "doctrine/orm": "^2.7",
-                "symfony/framework-bundle": "^4.4 | ^5.0 | ^6.0",
-                "symfony/phpunit-bridge": "^5.0 | ^6.0",
+                "symfony/framework-bundle": "^5.4 | ^6.0",
+                "symfony/phpunit-bridge": "^5.4 | ^6.0",
                 "vimeo/psalm": "^4.3"
             },
-            "time": "2022-08-03T17:23:36+00:00",
+            "time": "2022-10-04T08:38:58+00:00",
             "type": "symfony-bundle",
             "installation-source": "dist",
             "autoload": {
@@ -10504,7 +10504,7 @@
             "description": "Symfony bundle that adds password reset functionality.",
             "support": {
                 "issues": "https://github.com/SymfonyCasts/reset-password-bundle/issues",
-                "source": "https://github.com/SymfonyCasts/reset-password-bundle/tree/v1.14.1"
+                "source": "https://github.com/SymfonyCasts/reset-password-bundle/tree/v1.16.0"
             },
             "install-path": "../symfonycasts/reset-password-bundle"
         },
