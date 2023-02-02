@@ -44,11 +44,14 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: Mission::class, orphanRemoval: true)]
     private Collection $missions;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'user_id')]
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'users')]
     private Collection $events;
 
     #[ORM\OneToMany(mappedBy: 'user', targetEntity: EventPayment::class, orphanRemoval: true)]
     private Collection $eventPayments;
+
+    #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
+    private ?Hero $hero = null;
 
     public function __construct()
     {
@@ -174,7 +177,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->missions->contains($mission)) {
             $this->missions->add($mission);
-            $mission->setUserId($this);
+            $mission->setUser($this);
         }
 
         return $this;
@@ -184,8 +187,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->missions->removeElement($mission)) {
             // set the owning side to null (unless already changed)
-            if ($mission->getUserId() === $this) {
-                $mission->setUserId(null);
+            if ($mission->getUser() === $this) {
+                $mission->setUser(null);
             }
         }
 
@@ -200,8 +203,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function setHero(Hero $hero): self
     {
         // set the owning side of the relation if necessary
-        if ($hero->getUserId() !== $this) {
-            $hero->setUserId($this);
+        if ($hero->getUser() !== $this) {
+            $hero->setUser($this);
         }
 
         $this->hero = $hero;
@@ -221,7 +224,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->events->contains($event)) {
             $this->events->add($event);
-            $event->addUserId($this);
+            $event->addUser($this);
         }
 
         return $this;
@@ -230,7 +233,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     public function removeEvent(Event $event): self
     {
         if ($this->events->removeElement($event)) {
-            $event->removeUserId($this);
+            $event->removeUser($this);
         }
 
         return $this;
@@ -248,7 +251,7 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if (!$this->eventPayments->contains($eventPayment)) {
             $this->eventPayments->add($eventPayment);
-            $eventPayment->setUserId($this);
+            $eventPayment->setUser($this);
         }
 
         return $this;
@@ -258,8 +261,8 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     {
         if ($this->eventPayments->removeElement($eventPayment)) {
             // set the owning side to null (unless already changed)
-            if ($eventPayment->getUserId() === $this) {
-                $eventPayment->setUserId(null);
+            if ($eventPayment->getUser() === $this) {
+                $eventPayment->setUser(null);
             }
         }
 
