@@ -16,6 +16,7 @@ class AbilityFixtures extends Fixture
         for ($i=0; $i<10; $i++) {
             $object = (new Ability())
                 ->setName($faker->name)
+                ->setDescription($faker->text)
             ;
 
             $manager->persist($object);

@@ -9,53 +9,35 @@ use App\Entity\MissionType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
 use Doctrine\Common\DataFixtures\DependentFixtureInterface;
+use Faker\Factory;
 
 class MissionFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        $user = $manager->getRepository(User::class)->findAll();
-        $hero = $manager->getRepository(Hero::class)->findAll();
-        $missionType = $manager->getRepository(MissionType::class)->findAll();
+        $faker = Factory::create('fr_FR');
 
-        $object = (new Mission())
-            ->setUser($user)
-            ->setMissionType($missionType)
-            ->setHero($hero)
-            ->setName('Mission 1')
-            ->setDescription('Description 1')
-            -setLocation('Paris')
-            -setResult('Sauver le chat')
-            ->setStatus('En cours')
-            ->setCreatedAt(new \DateTimeImmutable('2021-01-01'))
-            ->setUpdatedAt(new \DateTimeImmutable('2021-01-01'));
-        $manager->persist($object);
+        $users = $manager->getRepository(User::class)->findAll();
+        $heroes = $manager->getRepository(Hero::class)->findAll();
+        $missionTypes = $manager->getRepository(MissionType::class)->findAll();
 
-        $object = (new Mission())
-            ->setUser($user)
-            ->setMissionType($missionType)
-            ->setHero($hero)
-            ->setName('Mission 2')
-            ->setDescription('Description 2')
-            -setLocation('Londres')
-            -setResult('Sauver le chien')
-            ->setStatus('En cours')
-            ->setCreatedAt(new \DateTimeImmutable('2021-01-01'))
-            ->setUpdatedAt(new \DateTimeImmutable('2021-01-01'));
-        $manager->persist($object);
+        for ($i=0; $i<10; $i++) {
+            $object = (new Mission())
+                ->setUser($faker->randomElement($users))
+                ->setHero($faker->randomElement($heroes))
+                ->setMissionType($faker->randomElement($missionTypes))
+                ->setName($faker->word)
+                ->setDescription($faker->text)
+                ->setLocation($faker->address)
+                ->setResult($faker->text)
+                ->setStatus($faker->randomElement(['pending', 'in_progress', 'accepted', 'refused', 'completed']))
+                ->setCreatedAt(new \DateTimeImmutable())
+                ->setUpdatedAt(new \DateTimeImmutable())
+                ->setDateEnd(new \DateTimeImmutable())
+            ;
 
-        $object = (new Mission())
-            ->setUser($user)
-            ->setMissionType($missionType)
-            ->setHero($hero)
-            ->setName('Mission 3')
-            ->setDescription('Description 3')
-            -setLocation('Lyon')
-            -setResult('Sauver le lapin')
-            ->setStatus('En cours')
-            ->setCreatedAt(new \DateTimeImmutable('2021-01-01'))
-            ->setUpdatedAt(new \DateTimeImmutable('2021-01-01'));
-        $manager->persist($object);
+            $manager->persist($object);
+        }
 
         $manager->flush();
     }
@@ -63,9 +45,10 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
+            MissionTypeFixtures::class,
             HeroFixtures::class,
-            UserFixtures::class,
-            MissionTypeFixtures::class
+            UserFixtures::class
+            
         ];
     }
 }

@@ -41,8 +41,8 @@ class Event
 
     public function __construct()
     {
-        $this->user_id = new ArrayCollection();
-        $this->hero_id = new ArrayCollection();
+        $this->users = new ArrayCollection();
+        $this->heroes = new ArrayCollection();
         $this->eventPayments = new ArrayCollection();
     }
 

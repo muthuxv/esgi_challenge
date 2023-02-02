@@ -3,61 +3,45 @@
 namespace App\DataFixtures;
 
 use App\Entity\Hero;
+use App\Entity\Ability;
+use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
-class HeroFixtures extends Fixture
+
+class HeroFixtures extends Fixture implements DependentFixtureInterface
 {
     public function load(ObjectManager $manager): void
     {
-        // pwd = test
-        $pwd = '$2y$13$r/sNDkWI9w4h0XHSIYqYJusHu3JYZTFwEOxTCkXG31rL9Dy1Tncba';
+        //faker
+        $faker = Factory::create('fr_FR');
 
-        $object = (new Hero())
-            ->setEmail('hero1@hero.fr')
-            ->setRoles(['ROLE_HERO'])
-            ->setPassword($pwd)
-            ->setIsVerified(true)
-            ->setLastName('Landers')
-            ->setFirstName('Mark')
-            ->setHeroName('Hero 1')
-            ->setRank(1)
-            ->setAvailability(true)
-            ->setAvatar('hero1.png')
-            ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
-            ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'));
-        $manager->persist($object);
+        $abilities = $manager->getRepository(Ability::class)->findAll();
+        $users = $manager->getRepository(User::class)->findAll();
 
-        $object = (new Hero())
-            ->setEmail('hero2@hero.fr')
-            ->setRoles(['ROLE_HERO'])
-            ->setPassword($pwd)
-            ->setIsVerified(true)
-            ->setLastName('Landers')
-            ->setFirstName('Mark')
-            ->setHeroName('Hero 2')
-            ->setRank(2)
-            ->setAvailability(true)
-            ->setAvatar('hero2.png')
-            ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
-            ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'));
-        $manager->persist($object);
-
-        $object = (new Hero())
-            ->setEmail('hero3@hero.fr')
-            ->setRoles(['ROLE_HERO'])
-            ->setPassword($pwd)
-            ->setIsVerified(true)
-            ->setLastName('Landers')
-            ->setFirstName('Mark')
-            ->setHeroName('Hero 3')
-            ->setRank(3)
-            ->setAvailability(true)
-            ->setAvatar('hero3.png')
-            ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
-            ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'));
-        $manager->persist($object);
+        for ($i=0; $i<10; $i++) {
+            $object = (new Hero())
+                ->setHeroName($faker->word)
+                ->setRank($faker->numberBetween(1, 10))
+                ->setIsAvailable(1)
+                ->addAbility($faker->randomElement($abilities))
+                ->setAvatar($faker->imageUrl(200, 200))
+                ->setUser($faker->unique()->randomElement($users))
+            ;
+            $manager->persist($object);
+        }
 
         $manager->flush();
     }
+
+    public function getDependencies()
+    {
+        return [
+            AbilityFixtures::class,
+            UserFixtures::class
+        ];
+    }
+
 }
