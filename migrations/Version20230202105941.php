@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230131151955 extends AbstractMigration
+final class Version20230202105941 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -29,38 +29,41 @@ final class Version20230131151955 extends AbstractMigration
         $this->addSql('CREATE SEQUENCE mission_type_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE reset_password_request_id_seq INCREMENT BY 1 MINVALUE 1 START 1');
         $this->addSql('CREATE SEQUENCE "user_id_seq" INCREMENT BY 1 MINVALUE 1 START 1');
-        $this->addSql('CREATE TABLE ability (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE TABLE event (id INT NOT NULL, name VARCHAR(255) NOT NULL, date VARCHAR(255) NOT NULL, price DOUBLE PRECISION DEFAULT NULL, location VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE ability (id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE event (id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, date VARCHAR(255) NOT NULL, price DOUBLE PRECISION DEFAULT NULL, location VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE event_user (event_id INT NOT NULL, user_id INT NOT NULL, PRIMARY KEY(event_id, user_id))');
         $this->addSql('CREATE INDEX IDX_92589AE271F7E88B ON event_user (event_id)');
         $this->addSql('CREATE INDEX IDX_92589AE2A76ED395 ON event_user (user_id)');
         $this->addSql('CREATE TABLE event_hero (event_id INT NOT NULL, hero_id INT NOT NULL, PRIMARY KEY(event_id, hero_id))');
         $this->addSql('CREATE INDEX IDX_4E05222D71F7E88B ON event_hero (event_id)');
         $this->addSql('CREATE INDEX IDX_4E05222D45B0BCD ON event_hero (hero_id)');
-        $this->addSql('CREATE TABLE event_payment (id INT NOT NULL, event_id_id INT NOT NULL, user_id_id INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_E87F2DA23E5F2F7B ON event_payment (event_id_id)');
-        $this->addSql('CREATE INDEX IDX_E87F2DA29D86650F ON event_payment (user_id_id)');
-        $this->addSql('CREATE TABLE hero (id INT NOT NULL, user_id INT NOT NULL, hero_name VARCHAR(255) NOT NULL, rank INT DEFAULT NULL, availability BOOLEAN NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE event_payment (id INT NOT NULL, event_id INT NOT NULL, user_id INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_E87F2DA271F7E88B ON event_payment (event_id)');
+        $this->addSql('CREATE INDEX IDX_E87F2DA2A76ED395 ON event_payment (user_id)');
+        $this->addSql('CREATE TABLE hero (id INT NOT NULL, user_id INT NOT NULL, hero_name VARCHAR(255) NOT NULL, rank INT DEFAULT NULL, is_available BOOLEAN NOT NULL, avatar VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_51CE6E86A76ED395 ON hero (user_id)');
         $this->addSql('CREATE TABLE hero_ability (hero_id INT NOT NULL, ability_id INT NOT NULL, PRIMARY KEY(hero_id, ability_id))');
         $this->addSql('CREATE INDEX IDX_21CB2D1B45B0BCD ON hero_ability (hero_id)');
         $this->addSql('CREATE INDEX IDX_21CB2D1B8016D8B2 ON hero_ability (ability_id)');
-        $this->addSql('CREATE TABLE mission (id INT NOT NULL, user_id_id INT NOT NULL, mission_type_id_id INT NOT NULL, hero_id_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, rue VARCHAR(255) NOT NULL, ville VARCHAR(255) NOT NULL, cp VARCHAR(255) NOT NULL, result VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_9067F23C9D86650F ON mission (user_id_id)');
-        $this->addSql('CREATE INDEX IDX_9067F23C3348343B ON mission (mission_type_id_id)');
-        $this->addSql('CREATE INDEX IDX_9067F23CE07B9190 ON mission (hero_id_id)');
+        $this->addSql('CREATE TABLE mission (id INT NOT NULL, user_id INT NOT NULL, hero_id INT DEFAULT NULL, mission_type_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, result VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_end TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_9067F23CA76ED395 ON mission (user_id)');
+        $this->addSql('CREATE INDEX IDX_9067F23C45B0BCD ON mission (hero_id)');
+        $this->addSql('CREATE INDEX IDX_9067F23C547018DE ON mission (mission_type_id)');
         $this->addSql('COMMENT ON COLUMN mission.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN mission.updated_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE mission_history (id INT NOT NULL, mission_id_id INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, status VARCHAR(255) NOT NULL, update_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, update_by INT NOT NULL, PRIMARY KEY(id))');
-        $this->addSql('CREATE INDEX IDX_B686E406EFD2C16A ON mission_history (mission_id_id)');
-        $this->addSql('COMMENT ON COLUMN mission_history.update_at IS \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN mission.date_end IS \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('CREATE TABLE mission_history (id INT NOT NULL, mission_id INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, status VARCHAR(255) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_by INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE INDEX IDX_B686E406BE6CAE90 ON mission_history (mission_id)');
+        $this->addSql('COMMENT ON COLUMN mission_history.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE mission_type (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE reset_password_request (id INT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_7CE748AA76ED395 ON reset_password_request (user_id)');
         $this->addSql('COMMENT ON COLUMN reset_password_request.requested_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN reset_password_request.expires_at IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified BOOLEAN NOT NULL, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE "user" (id INT NOT NULL, email VARCHAR(180) NOT NULL, roles JSON NOT NULL, password VARCHAR(255) NOT NULL, is_verified BOOLEAN NOT NULL, lastname VARCHAR(255) NOT NULL, firstname VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_8D93D649E7927C74 ON "user" (email)');
+        $this->addSql('COMMENT ON COLUMN "user".created_at IS \'(DC2Type:datetime_immutable)\'');
+        $this->addSql('COMMENT ON COLUMN "user".updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE messenger_messages (id BIGSERIAL NOT NULL, body TEXT NOT NULL, headers TEXT NOT NULL, queue_name VARCHAR(190) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, available_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, delivered_at TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_75EA56E0FB7336F0 ON messenger_messages (queue_name)');
         $this->addSql('CREATE INDEX IDX_75EA56E0E3BD61CE ON messenger_messages (available_at)');
@@ -77,15 +80,15 @@ final class Version20230131151955 extends AbstractMigration
         $this->addSql('ALTER TABLE event_user ADD CONSTRAINT FK_92589AE2A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE event_hero ADD CONSTRAINT FK_4E05222D71F7E88B FOREIGN KEY (event_id) REFERENCES event (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE event_hero ADD CONSTRAINT FK_4E05222D45B0BCD FOREIGN KEY (hero_id) REFERENCES hero (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE event_payment ADD CONSTRAINT FK_E87F2DA23E5F2F7B FOREIGN KEY (event_id_id) REFERENCES event (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE event_payment ADD CONSTRAINT FK_E87F2DA29D86650F FOREIGN KEY (user_id_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE event_payment ADD CONSTRAINT FK_E87F2DA271F7E88B FOREIGN KEY (event_id) REFERENCES event (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE event_payment ADD CONSTRAINT FK_E87F2DA2A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE hero ADD CONSTRAINT FK_51CE6E86A76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE hero_ability ADD CONSTRAINT FK_21CB2D1B45B0BCD FOREIGN KEY (hero_id) REFERENCES hero (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE hero_ability ADD CONSTRAINT FK_21CB2D1B8016D8B2 FOREIGN KEY (ability_id) REFERENCES ability (id) ON DELETE CASCADE NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23C9D86650F FOREIGN KEY (user_id_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23C3348343B FOREIGN KEY (mission_type_id_id) REFERENCES mission_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23CE07B9190 FOREIGN KEY (hero_id_id) REFERENCES hero (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
-        $this->addSql('ALTER TABLE mission_history ADD CONSTRAINT FK_B686E406EFD2C16A FOREIGN KEY (mission_id_id) REFERENCES mission (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23CA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23C45B0BCD FOREIGN KEY (hero_id) REFERENCES hero (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23C547018DE FOREIGN KEY (mission_type_id) REFERENCES mission_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mission_history ADD CONSTRAINT FK_B686E406BE6CAE90 FOREIGN KEY (mission_id) REFERENCES mission (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -106,15 +109,15 @@ final class Version20230131151955 extends AbstractMigration
         $this->addSql('ALTER TABLE event_user DROP CONSTRAINT FK_92589AE2A76ED395');
         $this->addSql('ALTER TABLE event_hero DROP CONSTRAINT FK_4E05222D71F7E88B');
         $this->addSql('ALTER TABLE event_hero DROP CONSTRAINT FK_4E05222D45B0BCD');
-        $this->addSql('ALTER TABLE event_payment DROP CONSTRAINT FK_E87F2DA23E5F2F7B');
-        $this->addSql('ALTER TABLE event_payment DROP CONSTRAINT FK_E87F2DA29D86650F');
+        $this->addSql('ALTER TABLE event_payment DROP CONSTRAINT FK_E87F2DA271F7E88B');
+        $this->addSql('ALTER TABLE event_payment DROP CONSTRAINT FK_E87F2DA2A76ED395');
         $this->addSql('ALTER TABLE hero DROP CONSTRAINT FK_51CE6E86A76ED395');
         $this->addSql('ALTER TABLE hero_ability DROP CONSTRAINT FK_21CB2D1B45B0BCD');
         $this->addSql('ALTER TABLE hero_ability DROP CONSTRAINT FK_21CB2D1B8016D8B2');
-        $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23C9D86650F');
-        $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23C3348343B');
-        $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23CE07B9190');
-        $this->addSql('ALTER TABLE mission_history DROP CONSTRAINT FK_B686E406EFD2C16A');
+        $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23CA76ED395');
+        $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23C45B0BCD');
+        $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23C547018DE');
+        $this->addSql('ALTER TABLE mission_history DROP CONSTRAINT FK_B686E406BE6CAE90');
         $this->addSql('ALTER TABLE reset_password_request DROP CONSTRAINT FK_7CE748AA76ED395');
         $this->addSql('DROP TABLE ability');
         $this->addSql('DROP TABLE event');
