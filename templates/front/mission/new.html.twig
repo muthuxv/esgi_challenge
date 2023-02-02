@@ -1,0 +1,11 @@
+<!DOCTYPE html>
+
+<title>Création d'une mission</title>
+
+{% block body %}
+    <h1>Création d'un mission</h1>
+
+    {{ include('front/mission/_form.html.twig') }}
+
+    <a href="{{ path('front_mission_index') }}">Retour</a>
+{% endblock %}
