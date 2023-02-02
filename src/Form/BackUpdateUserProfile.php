@@ -10,9 +10,8 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Length;
-use Symfony\Component\Validator\Constraints\NotBlank;
 
-class UserType extends AbstractType
+class BackUpdateUserProfile extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
@@ -34,9 +33,6 @@ class UserType extends AbstractType
             ))
             ->add('plainPassword', PasswordType::class, [
                 'constraints' => [
-                    new NotBlank([
-                        'message' => 'Mettre un mot de passe svp',
-                    ]),
                     new Length([
                         'min' => 6,
                         'minMessage' => 'Ton mot de passe devrait avoir au moins {{ limit }} caractères',
@@ -45,6 +41,7 @@ class UserType extends AbstractType
                     ]),
                 ],
                 'label' => 'Nouveau mot de passe',
+                'required'   => false,
                 // Instead of being set onto the object directly,
                 // this is read and encoded in the controller
                 'mapped' => false,

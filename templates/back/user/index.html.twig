@@ -2,10 +2,10 @@
 
 <li><a href="{{ path('back_default_index') }}">Accueil</a></li>
 
-<title>User index</title>
+<title>La liste des utilisateurs</title>
 
 {% block body %}
-    <h1>User index</h1>
+    <h1>La liste des utilisateurs</h1>
 
     <table class="table">
         <thead>
@@ -33,7 +33,7 @@
             </tr>
         {% else %}
             <tr>
-                <td colspan="5">no records found</td>
+                <td colspan="5">pas d'enregistrements trouvés</td>
             </tr>
         {% endfor %}
         </tbody>
