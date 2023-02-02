@@ -28,10 +28,10 @@ class Event
     private ?string $location = null;
 
     #[ORM\ManyToMany(targetEntity: User::class, inversedBy: 'events')]
-    private Collection $user_id;
+    private Collection $users;
 
     #[ORM\ManyToMany(targetEntity: Hero::class, inversedBy: 'events')]
-    private Collection $hero_id;
+    private Collection $heroes;
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventPayment::class, orphanRemoval: true)]
     private Collection $eventPayments;
@@ -99,23 +99,23 @@ class Event
     /**
      * @return Collection<int, User>
      */
-    public function getUserId(): Collection
+    public function getUsers(): Collection
     {
-        return $this->user_id;
+        return $this->users;
     }
 
-    public function addUserId(User $userId): self
+    public function addUser(User $user): self
     {
-        if (!$this->user_id->contains($userId)) {
-            $this->user_id->add($userId);
+        if (!$this->users->contains($user)) {
+            $this->users->add($user);
         }
 
         return $this;
     }
 
-    public function removeUserId(User $userId): self
+    public function removeUser(User $user): self
     {
-        $this->user_id->removeElement($userId);
+        $this->users->removeElement($user);
 
         return $this;
     }
@@ -123,23 +123,23 @@ class Event
     /**
      * @return Collection<int, Hero>
      */
-    public function getHeroId(): Collection
+    public function getHeroes(): Collection
     {
-        return $this->hero_id;
+        return $this->heroes;
     }
 
-    public function addHeroId(Hero $heroId): self
+    public function addHero(Hero $hero): self
     {
-        if (!$this->hero_id->contains($heroId)) {
-            $this->hero_id->add($heroId);
+        if (!$this->heroes->contains($hero)) {
+            $this->heroes->add($hero);
         }
 
         return $this;
     }
 
-    public function removeHeroId(Hero $heroId): self
+    public function removeHero(Hero $hero): self
     {
-        $this->hero_id->removeElement($heroId);
+        $this->heroes->removeElement($hero);
 
         return $this;
     }
@@ -156,7 +156,7 @@ class Event
     {
         if (!$this->eventPayments->contains($eventPayment)) {
             $this->eventPayments->add($eventPayment);
-            $eventPayment->setEventId($this);
+            $eventPayment->setEvent($this);
         }
 
         return $this;
@@ -166,8 +166,8 @@ class Event
     {
         if ($this->eventPayments->removeElement($eventPayment)) {
             // set the owning side to null (unless already changed)
-            if ($eventPayment->getEventId() === $this) {
-                $eventPayment->setEventId(null);
+            if ($eventPayment->getEvent() === $this) {
+                $eventPayment->setEvent(null);
             }
         }
 
