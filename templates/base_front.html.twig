@@ -17,6 +17,7 @@
         <nav>
             <ul>
                 {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_user_edit', {'id': user[0].id}) }}">Modifier son profil</a></li>{% endif %}
+                {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Panel des missions</a></li>{% endif %}
             </ul>
         </nav>
         {% block body %}{% endblock %}
