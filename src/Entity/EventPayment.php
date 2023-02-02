@@ -26,24 +26,24 @@ class EventPayment
         return $this->id;
     }
 
-    public function getEventId(): ?Event
+    public function getEvent(): ?Event
     {
         return $this->event;
     }
 
-    public function setEventId(?Event $event): self
+    public function setEvent(?Event $event): self
     {
         $this->event = $event;
 
         return $this;
     }
 
-    public function getUserId(): ?User
+    public function getUser(): ?User
     {
         return $this->user;
     }
 
-    public function setUserId(?User $user): self
+    public function setUser(?User $user): self
     {
         $this->user_id = $user;
 
