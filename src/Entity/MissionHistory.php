@@ -34,12 +34,12 @@ class MissionHistory
         return $this->id;
     }
 
-    public function getMissionId(): ?Mission
+    public function getMission(): ?Mission
     {
         return $this->mission;
     }
 
-    public function setMissionId(?Mission $mission): self
+    public function setMission(?Mission $mission): self
     {
         $this->mission = $mission;
 

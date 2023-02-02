@@ -18,7 +18,7 @@ class Ability
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\ManyToMany(targetEntity: Hero::class, mappedBy: 'ability')]
+    #[ORM\ManyToMany(targetEntity: Hero::class, mappedBy: 'abilities')]
     private Collection $heroes;
 
     public function __construct()
@@ -55,7 +55,7 @@ class Ability
     {
         if (!$this->heroes->contains($hero)) {
             $this->heroes->add($hero);
-            $hero->addAbilityId($this);
+            $hero->addAbility($this);
         }
 
         return $this;
@@ -64,7 +64,7 @@ class Ability
     public function removeHero(Hero $hero): self
     {
         if ($this->heroes->removeElement($hero)) {
-            $hero->removeAbilityId($this);
+            $hero->removeAbility($this);
         }
 
         return $this;

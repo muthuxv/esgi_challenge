@@ -8,7 +8,7 @@ use Doctrine\Common\Collections\Collection;
 use Doctrine\ORM\Mapping as ORM;
 
 #[ORM\Entity(repositoryClass: HeroRepository::class)]
-class Hero extends User
+class Hero
 {
     #[ORM\Id]
     #[ORM\GeneratedValue]
@@ -22,23 +22,27 @@ class Hero extends User
     private ?int $rank = null;
 
     #[ORM\Column]
-    private ?bool $availability = null;
+    private ?bool $isAvailable = true;
 
     #[ORM\ManyToMany(targetEntity: Ability::class, inversedBy: 'heroes')]
-    private Collection $ability_id;
+    private Collection $abilities;
 
-    #[ORM\OneToMany(mappedBy: 'hero_id', targetEntity: Mission::class)]
+    #[ORM\OneToMany(mappedBy: 'hero', targetEntity: Mission::class)]
     private Collection $missions;
 
-    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'hero_id')]
+    #[ORM\ManyToMany(targetEntity: Event::class, mappedBy: 'heroes')]
     private Collection $events;
 
     #[ORM\Column(length: 255, nullable: true)]
     private ?string $avatar = null;
 
+    #[ORM\OneToOne(inversedBy: 'hero', cascade: ['persist', 'remove'])]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?User $user = null;
+
     public function __construct()
     {
-        $this->ability_id = new ArrayCollection();
+        $this->abilities = new ArrayCollection();
         $this->missions = new ArrayCollection();
         $this->events = new ArrayCollection();
     }
@@ -60,18 +64,6 @@ class Hero extends User
         return $this;
     }
 
-    public function getUserId(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUserId(User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
     public function getRank(): ?int
     {
         return $this->rank;
@@ -84,14 +76,14 @@ class Hero extends User
         return $this;
     }
 
-    public function isAvailability(): ?bool
+    public function isAvailable(): ?bool
     {
-        return $this->availability;
+        return $this->isAvailable;
     }
 
-    public function setAvailability(bool $availability): self
+    public function setIsAvailable(bool $isAvailable): self
     {
-        $this->availability = $availability;
+        $this->isAvailable = $isAvailable;
 
         return $this;
     }
@@ -99,23 +91,23 @@ class Hero extends User
     /**
      * @return Collection<int, Ability>
      */
-    public function getAbilityId(): Collection
+    public function getAbilities(): Collection
     {
-        return $this->ability_id;
+        return $this->abilities;
     }
 
-    public function addAbilityId(Ability $abilityId): self
+    public function addAbility(Ability $ability): self
     {
-        if (!$this->ability_id->contains($abilityId)) {
-            $this->ability_id->add($abilityId);
+        if (!$this->abilities->contains($ability)) {
+            $this->abilities->add($ability);
         }
 
         return $this;
     }
 
-    public function removeAbilityId(Ability $abilityId): self
+    public function removeAbility(Ability $ability): self
     {
-        $this->ability_id->removeElement($abilityId);
+        $this->abilities->removeElement($ability);
 
         return $this;
     }
@@ -132,7 +124,7 @@ class Hero extends User
     {
         if (!$this->missions->contains($mission)) {
             $this->missions->add($mission);
-            $mission->setHeroId($this);
+            $mission->setHero($this);
         }
 
         return $this;
@@ -142,8 +134,8 @@ class Hero extends User
     {
         if ($this->missions->removeElement($mission)) {
             // set the owning side to null (unless already changed)
-            if ($mission->getHeroId() === $this) {
-                $mission->setHeroId(null);
+            if ($mission->getHero() === $this) {
+                $mission->setHero(null);
             }
         }
 
@@ -162,7 +154,7 @@ class Hero extends User
     {
         if (!$this->events->contains($event)) {
             $this->events->add($event);
-            $event->addHeroId($this);
+            $event->addHero($this);
         }
 
         return $this;
@@ -171,7 +163,7 @@ class Hero extends User
     public function removeEvent(Event $event): self
     {
         if ($this->events->removeElement($event)) {
-            $event->removeHeroId($this);
+            $event->removeHero($this);
         }
 
         return $this;
@@ -185,6 +177,18 @@ class Hero extends User
     public function setAvatar(?string $avatar): self
     {
         $this->avatar = $avatar;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(User $user): self
+    {
+        $this->user = $user;
 
         return $this;
     }

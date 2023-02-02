@@ -43,12 +43,7 @@ class Mission
     private ?\DateTimeImmutable $updated_at = null;
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
-    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
-
-    #[ORM\ManyToOne(inversedBy: 'missions')]
-    #[ORM\JoinColumn(nullable: false)]
-    private ?MissionType $mission_type = null;
 
     #[ORM\OneToMany(mappedBy: 'mission', targetEntity: MissionHistory::class, orphanRemoval: true)]
     private Collection $missionHistories;
@@ -56,6 +51,10 @@ class Mission
     #[ORM\ManyToOne(inversedBy: 'missions')]
     #[ORM\JoinColumn(nullable: false)]
     private ?Hero $hero = null;
+
+    #[ORM\ManyToOne(inversedBy: 'missions')]
+    #[ORM\JoinColumn(nullable: false)]
+    private ?MissionType $missionType = null;
 
     public function __construct()
     {
@@ -175,30 +174,6 @@ class Mission
         return $this;
     }
 
-    public function getUserId(): ?User
-    {
-        return $this->user;
-    }
-
-    public function setUserId(?User $user): self
-    {
-        $this->user = $user;
-
-        return $this;
-    }
-
-    public function getMissionTypeId(): ?MissionType
-    {
-        return $this->mission_type;
-    }
-
-    public function setMissionTypeId(?MissionType $mission_type): self
-    {
-        $this->mission_type = $mission_type;
-
-        return $this;
-    }
-
     /**
      * @return Collection<int, MissionHistory>
      */
@@ -211,7 +186,7 @@ class Mission
     {
         if (!$this->missionHistories->contains($missionHistory)) {
             $this->missionHistories->add($missionHistory);
-            $missionHistory->setMissionId($this);
+            $missionHistory->setMission($this);
         }
 
         return $this;
@@ -221,22 +196,46 @@ class Mission
     {
         if ($this->missionHistories->removeElement($missionHistory)) {
             // set the owning side to null (unless already changed)
-            if ($missionHistory->getMissionId() === $this) {
-                $missionHistory->setMissionId(null);
+            if ($missionHistory->getMission() === $this) {
+                $missionHistory->setMission(null);
             }
         }
 
         return $this;
     }
 
-    public function getHeroId(): ?Hero
+    public function getHero(): ?Hero
     {
         return $this->hero;
     }
 
-    public function setHeroId(?Hero $hero): self
+    public function setHero(?Hero $hero): self
     {
         $this->hero = $hero;
+
+        return $this;
+    }
+
+    public function getUser(): ?User
+    {
+        return $this->user;
+    }
+
+    public function setUser(?User $user): self
+    {
+        $this->user = $user;
+
+        return $this;
+    }
+
+    public function getMissionType(): ?MissionType
+    {
+        return $this->missionType;
+    }
+
+    public function setMissionType(?MissionType $missionType): self
+    {
+        $this->missionType = $missionType;
 
         return $this;
     }
