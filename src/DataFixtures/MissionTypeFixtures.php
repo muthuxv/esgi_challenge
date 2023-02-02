@@ -5,22 +5,21 @@ namespace App\DataFixtures;
 use App\Entity\MissionType;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class MissionTypeFixtures extends Fixture
 {
     public function load(ObjectManager $manager): void
     {
-        $object = (new MissionType())
-            ->setName('Type 1');
-        $manager->persist($object);
+        $faker = Factory::create('fr_FR');
 
-        $object = (new MissionType())
-            ->setName('Type 2');
-        $manager->persist($object);
+        for ($i=0; $i<10; $i++) {
+            $object = (new MissionType())
+                ->setName($faker->name)
+            ;
 
-        $object = (new MissionType())
-            ->setName('Type 3');
-        $manager->persist($object);
+            $manager->persist($object);
+        }
 
         $manager->flush();
     }

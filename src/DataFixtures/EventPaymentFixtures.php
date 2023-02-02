@@ -28,10 +28,6 @@ class EventPaymentFixtures extends Fixture implements DependentFixtureInterface
                 $object->setUser($faker->randomElement($users));
             }
 
-            // $object = (new EventPayment())
-            //     ->setEvent($faker->randomElement($events))
-            //     ->setUser($faker->randomElement($users));
-
             $manager->persist($object);
         }
 

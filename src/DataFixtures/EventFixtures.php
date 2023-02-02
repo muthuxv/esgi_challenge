@@ -2,12 +2,13 @@
 
 namespace App\DataFixtures;
 
+use App\Entity\User;
 use App\Entity\Event;
-use App\Entity\EventPayment;
+use App\Entity\Hero;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
-use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 use Faker\Factory;
+use Doctrine\Common\DataFixtures\DependentFixtureInterface;
 
 class EventFixtures extends Fixture implements DependentFixtureInterface
 {
@@ -15,12 +16,18 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
     {
         $faker = Factory::create('fr_FR');
 
+        $users = $manager->getRepository(User::class)->findAll();
+        $heroes = $manager->getRepository(Hero::class)->findAll();
+
         for ($i=0; $i<10; $i++) {
             $object = (new Event())
                 ->setName($faker->name)
-                ->setDescription($faker->paragraph)
-                ->setDate($faker->dateTimeBetween('-1 years', 'now'))
+                ->setDescription($faker->text)
+                ->setDate('2021-01-01')
                 ->setLocation($faker->city)
+                ->setPrice($faker->numberBetween(1, 100))
+                ->addUser($faker->unique()->randomElement($users))
+                ->addHero($faker->unique()->randomElement($heroes))
             ;
     
             $manager->persist($object);
@@ -32,7 +39,9 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
     public function getDependencies()
     {
         return [
-            EventPaymentFixtures::class
+            UserFixtures::class,
+            HeroFixtures::class
+            
         ];
     }
 }

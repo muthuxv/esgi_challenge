@@ -36,19 +36,23 @@ class Mission
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date_end = null;
+
     #[ORM\ManyToOne(inversedBy: 'missions')]
+    #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
     #[ORM\OneToMany(mappedBy: 'mission', targetEntity: MissionHistory::class, orphanRemoval: true)]
     private Collection $missionHistories;
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\JoinColumn(nullable: true)]
     private ?Hero $hero = null;
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
     #[ORM\JoinColumn(nullable: false)]
-    private ?MissionType $missionType = null;
+    private ?MissionType $mission_type = null;
 
     public function __construct()
     {
@@ -140,6 +144,18 @@ class Mission
     public function setUpdatedAt(\DateTimeImmutable $updated_at): self
     {
         $this->updated_at = $updated_at;
+
+        return $this;
+    }
+
+    public function getDateEnd(): ?\DateTimeImmutable
+    {
+        return $this->date_end;
+    }
+
+    public function setDateEnd(\DateTimeImmutable $date_end): self
+    {
+        $this->date_end = $date_end;
 
         return $this;
     }
