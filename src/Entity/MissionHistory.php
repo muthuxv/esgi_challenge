@@ -27,7 +27,7 @@ class MissionHistory
     private ?\DateTimeImmutable $update_at = null;
 
     #[ORM\Column]
-    private ?int $update_by = null;
+    private ?User $user = null;
 
     public function getId(): ?int
     {
@@ -82,14 +82,14 @@ class MissionHistory
         return $this;
     }
 
-    public function getUpdateBy(): ?int
+    public function getUpdateBy(): ?User
     {
-        return $this->update_by;
+        return $this->user;
     }
 
-    public function setUpdateBy(int $update_by): self
+    public function setUpdateBy(?User $user): self
     {
-        $this->update_by = $update_by;
+        $this->user = $user;
 
         return $this;
     }
