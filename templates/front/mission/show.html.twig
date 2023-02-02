@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+
+<title>Mission</title>
+
+{% block body %}
+    <h1>Mission</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mission.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ mission.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ mission.description }}</td>
+            </tr>
+            <tr>
+                <th>Rue</th>
+                <td>{{ mission.rue }}</td>
+            </tr>
+            <tr>
+                <th>Ville</th>
+                <td>{{ mission.ville }}</td>
+            </tr>
+            <tr>
+                <th>Cp</th>
+                <td>{{ mission.cp }}</td>
+            </tr>
+            <tr>
+                <th>Result</th>
+                <td>{{ mission.result }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ mission.status }}</td>
+            </tr>
+            <tr>
+                <th>Created_at</th>
+                <td>{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ mission.updatedAt ? mission.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('front_mission_index') }}">back to list</a>
+
+    {{ include('front/mission/_delete_form.html.twig') }}
+{% endblock %}
