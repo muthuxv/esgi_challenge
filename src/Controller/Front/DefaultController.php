@@ -12,6 +12,7 @@ use App\Form\UpdateUserProfile;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use DateTimeImmutable;
 
 class DefaultController extends AbstractController
 {
@@ -40,6 +41,8 @@ class DefaultController extends AbstractController
 
                 $user->setPassword($encodedPassword);
             }
+
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
 
             $userRepository->save($user, true);
 

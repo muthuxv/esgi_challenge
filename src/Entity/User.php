@@ -67,6 +67,12 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
         $this->eventPayments = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id;
+    }
+
+
     public function getId(): ?int
     {
         return $this->id;

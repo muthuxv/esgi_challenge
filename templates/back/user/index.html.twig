@@ -15,6 +15,9 @@
                 <th>Prénom</th>
                 <th>Email</th>
                 <th>Roles</th>
+                <th>Créé à</th>
+                <th>Modifié à</th>
+                <th>Vérifié</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,6 +29,9 @@
                 <td>{{ user.firstname }}</td>
                 <td>{{ user.email }}</td>
                 <td>{{ user.roles ? user.roles|json_encode : '' }}</td>
+                <td>{{ user.createdAt|date('d-m-Y') }}</td>
+                <td>{{ user.updatedAt|date('d-m-Y') }}</td>
+                <td>{{ user.isVerified ? 'Oui' : 'Non'}}</td>
                 <td>
                     <a href="{{ path('back_user_show', {'id': user.id}) }}">show</a>
                     <a href="{{ path('back_user_edit', {'id': user.id}) }}">edit</a>

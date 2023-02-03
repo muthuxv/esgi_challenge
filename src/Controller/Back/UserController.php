@@ -12,6 +12,7 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use DateTimeImmutable;
 
 #[Route('/user', name: 'user_')]
 class UserController extends AbstractController
@@ -40,6 +41,8 @@ class UserController extends AbstractController
 
             $user->setPassword($encodedPassword);
             $user->setIsVerified(true);
+            $user->setCreatedAt(new DateTimeImmutable('now'));
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
 
             $userRepository->save($user, true);
 
@@ -77,6 +80,8 @@ class UserController extends AbstractController
 
                 $user->setPassword($encodedPassword);
             }
+            
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
 
             $userRepository->save($user, true);
 
