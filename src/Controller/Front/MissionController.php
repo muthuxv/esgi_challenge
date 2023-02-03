@@ -10,7 +10,6 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
-use App\Entity\Hero;
 use DateTimeImmutable;
 use Symfony\Component\Security\Core\User\UserInterface;
 
@@ -21,7 +20,7 @@ class MissionController extends AbstractController
     public function index(MissionRepository $missionRepository, UserInterface $user): Response
     {
         return $this->render('front/mission/index.html.twig', [
-            'missions' => $missionRepository->findBy(array('user' => $user->getId())),
+            'missions' => $missionRepository->findMissionsByUserId($user->getId()),
         ]);
     }
 
@@ -37,9 +36,9 @@ class MissionController extends AbstractController
             $mission->setStatus('En attente');
             $mission->setCreatedAt(new DateTimeImmutable('now'));
             $mission->setUpdatedAt(new DateTimeImmutable('now'));
+            $mission->setDateEnd(null);
             $mission->setUser($this->getUser());
-            // Corriger le sethero
-            $mission->setHero();
+            $mission->setHero(null);
 
             $missionRepository->save($mission, true);
 
