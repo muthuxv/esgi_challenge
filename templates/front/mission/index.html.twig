@@ -9,15 +9,16 @@
         <thead>
             <tr>
                 <th>Id</th>
-                <th>Name</th>
+                <th>Nom</th>
+                <th>Type</th>
                 <th>Description</th>
-                <th>Rue</th>
-                <th>Ville</th>
-                <th>Cp</th>
+                <th>Location</th>
                 <th>Result</th>
                 <th>Status</th>
-                <th>Created_at</th>
-                <th>Updated_at</th>
+                <th>Héro</th>
+                <th>Crée à</th>
+                <th>Modifié à</th>
+                <th>Date de fin</th>
                 <th>actions</th>
             </tr>
         </thead>
@@ -26,14 +27,15 @@
             <tr>
                 <td>{{ mission.id }}</td>
                 <td>{{ mission.name }}</td>
+                <td>{{ mission.mission_type }}</td>
                 <td>{{ mission.description }}</td>
-                <td>{{ mission.rue }}</td>
-                <td>{{ mission.ville }}</td>
-                <td>{{ mission.cp }}</td>
+                <td>{{ mission.location }}</td>
                 <td>{{ mission.result }}</td>
                 <td>{{ mission.status }}</td>
-                <td>{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                <td>{{ mission.updatedAt ? mission.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.hero ? mission.hero : 'Pas de héro assigné' }}</td>
+                <td>{{ mission.created_at ? mission.created_at|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.updated_at ? mission.updated_at|date('Y-m-d H:i:s') : '' }}</td>
+                <td>{{ mission.date_end ? mission.date_end|date('Y-m-d H:i:s') : '' }}</td>
                 <td>
                     <a href="{{ path('front_mission_show', {'id': mission.id}) }}">show</a>
                 </td>

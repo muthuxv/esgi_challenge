@@ -36,7 +36,7 @@ class Mission
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_end = null;
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
@@ -153,7 +153,7 @@ class Mission
         return $this->date_end;
     }
 
-    public function setDateEnd(\DateTimeImmutable $date_end): self
+    public function setDateEnd(?\DateTimeImmutable $date_end): self
     {
         $this->date_end = $date_end;
 
