@@ -17,9 +17,7 @@ class MissionType extends AbstractType
         $builder
             ->add('name')
             ->add('description')
-            ->add('rue')
-            ->add('ville')
-            ->add('cp')
+            ->add('location')
             ->add('result')
             ->add('missionType', EntityType::class, [
                 'class' => MT::class,

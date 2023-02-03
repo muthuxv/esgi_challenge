@@ -16,41 +16,45 @@
                 <td>{{ mission.name }}</td>
             </tr>
             <tr>
+                <th>Type</th>
+                <td>{{ mission.missionType.name }}</td>
+            </tr>
+            <tr>
                 <th>Description</th>
                 <td>{{ mission.description }}</td>
             </tr>
             <tr>
-                <th>Rue</th>
-                <td>{{ mission.rue }}</td>
-            </tr>
-            <tr>
-                <th>Ville</th>
-                <td>{{ mission.ville }}</td>
-            </tr>
-            <tr>
-                <th>Cp</th>
-                <td>{{ mission.cp }}</td>
+                <th>Location</th>
+                <td>{{ mission.location }}</td>
             </tr>
             <tr>
                 <th>Result</th>
                 <td>{{ mission.result }}</td>
+            </tr>
+             <tr>
+                <th>Héro</th>
+                <td>{{ mission.hero and mission.hero.heroName ? mission.hero.heroName : 'Pas de héro assigné' }}</td>
             </tr>
             <tr>
                 <th>Status</th>
                 <td>{{ mission.status }}</td>
             </tr>
             <tr>
-                <th>Created_at</th>
+                <th>Crée à</th>
                 <td>{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
             <tr>
-                <th>Updated_at</th>
+                <th>Modifié à</th>
                 <td>{{ mission.updatedAt ? mission.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Date de fin</th>
+                <td>{{ mission.dateEnd ? mission.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
             </tr>
         </tbody>
     </table>
 
-    <a href="{{ path('front_mission_index') }}">back to list</a>
+    <a href="{{ path('front_mission_index') }}">Retour</a>
 
     {{ include('front/mission/_delete_form.html.twig') }}
 {% endblock %}

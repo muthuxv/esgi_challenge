@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use DateTimeImmutable;
 
 class RegistrationController extends AbstractController
 {
@@ -43,6 +44,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            $user->setCreatedAt(new DateTimeImmutable('now'));
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
 
             $entityManager->persist($user);
             $entityManager->flush();
