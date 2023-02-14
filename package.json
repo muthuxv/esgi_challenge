@@ -5,7 +5,7 @@
         "@symfony/webpack-encore": "^4.0.0",
         "autoprefixer": "^10.4.13",
         "core-js": "^3.23.0",
-        "postcss": "^8.4.20",
+        "postcss": "^8.4.21",
         "postcss-loader": "^7.0.2",
         "regenerator-runtime": "^0.13.9",
         "tailwindcss": "^3.2.4",
@@ -20,5 +20,9 @@
         "dev": "encore dev",
         "watch": "encore dev --watch",
         "build": "encore production --progress"
+    },
+    "dependencies": {
+        "daisyui": "^2.50.0",
+        "flowbite": "^1.6.3"
     }
 }
