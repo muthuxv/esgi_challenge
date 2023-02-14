@@ -50,7 +50,7 @@ class DefaultController extends AbstractController
         }
 
         return $this->renderForm('front/default/update_user_profile.html.twig', [
-            'user' => $user,
+            'user' => $userRepository->findBy(array('id' => $user->getId())),
             'form' => $form,
         ]);
     }
