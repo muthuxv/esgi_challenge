@@ -14,12 +14,48 @@
         {% endblock %}
     </head>
     <body>
-        <nav>
-            <ul>
-                {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_user_edit', {'id': user[0].id}) }}">Modifier son profil</a></li>{% endif %}
-                {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Panel des missions</a></li>{% endif %}
-            </ul>
-        </nav>
+        <div class="navbar bg-neutral text-neutral-content">
+            <div class="navbar-start">
+                <div class="dropdown">
+                <label tabindex="0" class="btn btn-ghost lg:hidden">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
+                </label>
+                    <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                        <li><a class="text-neutral-500"href="/">Accueil</a></li>
+                        {% if (is_granted('ROLE_USER')) %} <li><a class="text-neutral-500" href="{{ path('front_mission_index') }}">Mes missions</a></li>{% endif %}
+                    </ul>
+                </div>
+                <a class="btn btn-ghost normal-case text-xl">Héro</a>
+            </div>
+            <div class="navbar-center hidden lg:flex">
+                <ul class="menu menu-horizontal px-1">
+                    <li><a href="/">Accueil</a></li>
+                    {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Mes missions</a></li>{% endif %}
+                </ul>
+            </div>
+            {% if (is_granted('ROLE_USER')) %}
+                <div class="navbar-end">
+                    <div class="flex-none">
+                        <div class="dropdown dropdown-end">
+                            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
+                                <div class="w-10 rounded-full">
+                                <img src="/images/stock/photo-1534528741775-53994a69daeb.jpg" />
+                                </div>
+                            </label>
+                            <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
+                                <li>
+                                    <a class="text-neutral-500" href="{{ path('front_user_edit', {'id': user[0].id}) }}"class="justify-between">
+                                        Profile
+                                    </a>
+                                </li>
+                                <li><a href="/logout" class="text-neutral-500">Logout</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        </div>
+
         {% block body %}{% endblock %}
     </body>
 </html>

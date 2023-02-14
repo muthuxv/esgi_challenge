@@ -1,3 +1,5 @@
-body {
-    background-color: rgb(90, 168, 219);
-}
+/* /assets/styles/app.css */
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;

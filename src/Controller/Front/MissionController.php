@@ -12,20 +12,22 @@ use Symfony\Component\Routing\Annotation\Route;
 use App\Entity\User;
 use DateTimeImmutable;
 use Symfony\Component\Security\Core\User\UserInterface;
+use App\Repository\UserRepository;
 
 #[Route('/mission', name: 'mission_')]
 class MissionController extends AbstractController
 {
     #[Route('/', name: 'index', methods: ['GET'])]
-    public function index(MissionRepository $missionRepository, UserInterface $user): Response
+    public function index(MissionRepository $missionRepository, UserRepository $userRepository, UserInterface $user): Response
     {
         return $this->render('front/mission/index.html.twig', [
             'missions' => $missionRepository->findMissionsByUserId($user->getId()),
+            'user' => $userRepository->findBy(array('id' => $user->getId())),
         ]);
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, MissionRepository $missionRepository): Response
+    public function new(Request $request, MissionRepository $missionRepository, UserRepository $userRepository, UserInterface $user): Response
     {
         $mission = new Mission();
         $form = $this->createForm(MissionType::class, $mission);
@@ -48,14 +50,16 @@ class MissionController extends AbstractController
         return $this->renderForm('front/mission/new.html.twig', [
             'mission' => $mission,
             'form' => $form,
+            'user' => $userRepository->findBy(array('id' => $user->getId())),
         ]);
     }
 
     #[Route('/{id}', name: 'show', methods: ['GET'])]
-    public function show(Mission $mission): Response
+    public function show(Mission $mission, UserRepository $userRepository, UserInterface $user): Response
     {
         return $this->render('front/mission/show.html.twig', [
             'mission' => $mission,
+            'user' => $userRepository->findBy(array('id' => $user->getId())),
         ]);
     }
 
