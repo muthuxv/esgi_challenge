@@ -1,3 +1,9 @@
-body {
-    background-color: rgb(90, 168, 219);
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+    html {
+        font-family: 'Montserrat', sans-serif;
+    }
 }

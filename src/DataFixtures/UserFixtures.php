@@ -55,7 +55,7 @@ class UserFixtures extends Fixture
                 ->setRoles(['ROLE_USER'])
                 ->setPassword($pwd)
                 ->setIsVerified(true)
-                ->setLastName('nom ' . $i . '')
+                ->setLastName('nom' . $i . '')
                 ->setFirstName('prenom' . $i . '')
                 ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
                 ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))

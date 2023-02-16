@@ -1,0 +1,43 @@
+{% extends 'base_hero.html.twig' %}
+
+{% block title %}Dashboard - {{ hero.name }}!{% endblock %}
+
+{% block body %}
+<h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-5">Bienvenue {{ hero.name }}! ✅</h1>
+
+<div class="grid grid-cols-3 gap-4 mb-4">
+   <div class="flex items-center justify-center">
+      <div class="stats shadow w-3/4 h-full">
+         <div class="stat">
+            <div class="stat-title">Rang</div>
+            <div class="stat-value m-auto">{{hero.rank}}</div>
+         </div>
+      </div>
+   </div>
+   <div class="flex items-center justify-center">
+      <div class="stats shadow w-3/4 h-full">
+         <div class="stat">
+            <div class="stat-title">Mission en cours</div>
+            <div class="stat-value m-auto"></div>
+         </div>
+      </div>
+   </div>
+   <div class="flex items-center justify-center">
+      <div class="stats shadow w-3/4 h-full">
+         <div class="stat">
+            <div class="stat-title">Mission accomplis</div>
+            <div class="stat-value m-auto">{{hero.numbercompletedmissions}}</div>
+         </div>
+      </div>
+   </div>
+</div>
+<div class="flex items-center justify-center h-96 mb-4 rounded bg-gray-50">
+      <div class="stats shadow w-full h-full">
+         <div class="flex flex-col w-full lg:flex-row">
+            <div class="grid flex-grow h-full card bg-base-300 rounded-box place-items-center">content</div> 
+            <div class="divider lg:divider-horizontal"></div> 
+            <div class="grid flex-grow h-full card bg-base-300 rounded-box place-items-center">content</div>
+         </div>
+      </div>
+</div>
+{% endblock %}

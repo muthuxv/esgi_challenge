@@ -9,6 +9,12 @@ controllers_back:
     name_prefix: back_
     prefix: /admin/
 
+controllers_hero:
+    resource: ../src/Controller/Hero
+    type: attribute
+    name_prefix: hero_
+    prefix: /hero/
+
 controller_security:
     resource: ../src/Controller/SecurityController.php
     type: attribute

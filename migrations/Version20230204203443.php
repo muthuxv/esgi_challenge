@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230202105941 extends AbstractMigration
+final class Version20230204203443 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -45,7 +45,7 @@ final class Version20230202105941 extends AbstractMigration
         $this->addSql('CREATE TABLE hero_ability (hero_id INT NOT NULL, ability_id INT NOT NULL, PRIMARY KEY(hero_id, ability_id))');
         $this->addSql('CREATE INDEX IDX_21CB2D1B45B0BCD ON hero_ability (hero_id)');
         $this->addSql('CREATE INDEX IDX_21CB2D1B8016D8B2 ON hero_ability (ability_id)');
-        $this->addSql('CREATE TABLE mission (id INT NOT NULL, user_id INT NOT NULL, hero_id INT DEFAULT NULL, mission_type_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, result VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_end TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE mission (id INT NOT NULL, user_id INT NOT NULL, hero_id INT DEFAULT NULL, mission_type_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, result VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_end TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9067F23CA76ED395 ON mission (user_id)');
         $this->addSql('CREATE INDEX IDX_9067F23C45B0BCD ON mission (hero_id)');
         $this->addSql('CREATE INDEX IDX_9067F23C547018DE ON mission (mission_type_id)');

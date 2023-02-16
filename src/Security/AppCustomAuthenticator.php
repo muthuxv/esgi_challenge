@@ -57,8 +57,8 @@ class AppCustomAuthenticator extends AbstractLoginFormAuthenticator
 
         if (implode($user->getRoles()) == "ROLE_ADMIN") {
             return new RedirectResponse($this->urlGenerator->generate('back_default_index'));
-        } elseif (implode($user->getRoles()) == "ROLE_USER") {
-            return new RedirectResponse($this->urlGenerator->generate('front_default_index'));
+        } elseif (implode($user->getRoles()) == "ROLE_HERO") {
+            return new RedirectResponse($this->urlGenerator->generate('hero_default_index'));
         } else {
             return new RedirectResponse($this->urlGenerator->generate('front_default_index'));
         }
