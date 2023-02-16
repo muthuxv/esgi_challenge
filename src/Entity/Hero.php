@@ -48,6 +48,11 @@ class Hero
         $this->events = new ArrayCollection();
     }
 
+    public function __toString()
+    {
+        return $this->id;
+    }
+
     public function getId(): ?int
     {
         return $this->id;

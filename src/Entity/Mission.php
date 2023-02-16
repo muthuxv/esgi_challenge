@@ -153,7 +153,7 @@ class Mission
         return $this->date_end;
     }
 
-    public function setDateEnd(\DateTimeImmutable $date_end): self
+    public function setDateEnd(?\DateTimeImmutable $date_end): self
     {
         $this->date_end = $date_end;
 
