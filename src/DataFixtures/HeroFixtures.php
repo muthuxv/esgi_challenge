@@ -23,7 +23,7 @@ class HeroFixtures extends Fixture implements DependentFixtureInterface
 
         for ($i=0; $i<10; $i++) {
             $object = (new Hero())
-                ->setHeroName($faker->word)
+                ->setName($faker->word)
                 ->setRank($faker->numberBetween(1, 10))
                 ->setIsAvailable(1)
                 ->addAbility($faker->randomElement($abilities))

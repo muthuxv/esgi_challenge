@@ -18,7 +18,7 @@ class MissionType
     #[ORM\Column(length: 255)]
     private ?string $name = null;
 
-    #[ORM\OneToMany(mappedBy: 'missionType', targetEntity: Mission::class)]
+    #[ORM\OneToMany(mappedBy: 'mission_type', targetEntity: Mission::class)]
     private Collection $missions;
 
     public function __construct()

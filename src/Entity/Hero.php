@@ -2,6 +2,7 @@
 
 namespace App\Entity;
 
+use App\Entity\Mission;
 use App\Repository\HeroRepository;
 use Doctrine\Common\Collections\ArrayCollection;
 use Doctrine\Common\Collections\Collection;
@@ -52,12 +53,12 @@ class Hero
         return $this->id;
     }
 
-    public function getHeroName(): ?string
+    public function getName(): ?string
     {
         return $this->hero_name;
     }
 
-    public function setHeroName(string $hero_name): self
+    public function setName(string $hero_name): self
     {
         $this->hero_name = $hero_name;
 
@@ -142,6 +143,18 @@ class Hero
         return $this;
     }
 
+    //get completed missions
+    public function getNumberCompletedMissions(): int
+    {
+        $completedMissions = 0;
+        foreach ($this->getMissions() as $mission) {
+            if ($mission->getStatus() === 'completed') {
+                $completedMissions++;
+            }
+        }
+
+        return $completedMissions;
+    }
     /**
      * @return Collection<int, Event>
      */

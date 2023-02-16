@@ -36,7 +36,7 @@ class Mission
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\Column]
+    #[ORM\Column(nullable: true)]
     private ?\DateTimeImmutable $date_end = null;
 
     #[ORM\ManyToOne(inversedBy: 'missions')]
