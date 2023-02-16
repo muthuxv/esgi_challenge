@@ -10,6 +10,7 @@ use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class UpdateUserProfile extends AbstractType
 {
@@ -18,11 +19,15 @@ class UpdateUserProfile extends AbstractType
         $builder
             ->add('firstname', null, [
                 'label' => 'Prénom',
+                'required'   => false,
             ])
             ->add('lastname', null, [
                 'label' => 'Nom',
+                'required'   => false,
             ])
-            ->add('email')
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse email',
+            ])
             ->add('plainPassword', PasswordType::class, [
                 'constraints' => [
                     new Length([

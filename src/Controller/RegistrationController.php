@@ -18,6 +18,7 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Http\Authentication\UserAuthenticatorInterface;
 use Symfony\Contracts\Translation\TranslatorInterface;
 use SymfonyCasts\Bundle\VerifyEmail\Exception\VerifyEmailExceptionInterface;
+use DateTimeImmutable;
 
 class RegistrationController extends AbstractController
 {
@@ -31,6 +32,10 @@ class RegistrationController extends AbstractController
     #[Route('/register', name: 'app_register')]
     public function register(Request $request, UserPasswordHasherInterface $userPasswordHasher, UserAuthenticatorInterface $userAuthenticator, AppCustomAuthenticator $authenticator, EntityManagerInterface $entityManager): Response
     {
+        if ($this->getUser()) {
+            return $this->redirectToRoute('front_default_index');
+        }
+        
         $user = new User();
         $form = $this->createForm(RegistrationFormType::class, $user);
         $form->handleRequest($request);
@@ -43,6 +48,9 @@ class RegistrationController extends AbstractController
                     $form->get('plainPassword')->getData()
                 )
             );
+
+            $user->setCreatedAt(new DateTimeImmutable('now'));
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
 
             $entityManager->persist($user);
             $entityManager->flush();

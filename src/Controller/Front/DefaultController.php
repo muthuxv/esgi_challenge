@@ -12,6 +12,7 @@ use App\Form\UpdateUserProfile;
 use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use DateTimeImmutable;
 
 class DefaultController extends AbstractController
 {
@@ -41,13 +42,15 @@ class DefaultController extends AbstractController
                 $user->setPassword($encodedPassword);
             }
 
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
+
             $userRepository->save($user, true);
 
             return $this->redirectToRoute('front_default_index', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('front/default/update_user_profile.html.twig', [
-            'user' => $user,
+            'user' => $userRepository->findBy(array('id' => $user->getId())),
             'form' => $form,
         ]);
     }
