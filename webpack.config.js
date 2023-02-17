@@ -21,6 +21,11 @@ Encore
      * and one CSS file (e.g. app.css) if your JavaScript imports CSS.
      */
     .addEntry('app', './assets/app.js')
+    .copyFiles({
+        from: './assets/images',
+        to: 'images/[path][name].[ext]',
+        pattern: /\.(png|jpg|jpeg)$/
+    })
 
     // When enabled, Webpack "splits" your files into smaller pieces for greater optimization.
     .splitEntryChunks()
@@ -28,6 +33,7 @@ Encore
     // will require an extra script tag for runtime.js
     // but, you probably want this, unless you're building a single-page app
     .enableSingleRuntimeChunk()
+    .enablePostCssLoader()
 
     /*
      * FEATURE CONFIG
@@ -52,6 +58,8 @@ Encore
         config.useBuiltIns = 'usage';
         config.corejs = '3.23';
     })
+
+    .enablePostCssLoader() // enables PostCSS support
 
     // enables Sass/SCSS support
     //.enableSassLoader()

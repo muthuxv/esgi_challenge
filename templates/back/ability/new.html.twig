@@ -1,0 +1,11 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Création d'un abilité{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">Création d'un abilité</h1>
+
+    {{ include('back/ability/_form.html.twig') }}
+
+    <a href="{{ path('back_ability_index') }}">Retour</a>
+{% endblock %}
