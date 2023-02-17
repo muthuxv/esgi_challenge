@@ -1,11 +1,11 @@
-<!DOCTYPE html>
+{% extends 'base_back.html.twig' %}
 
-<title>Créer un utilisateur</title>
+{% block title %}Créer un utilisateur{% endblock %}
 
 {% block body %}
-    <h1>Créer un utilisateur</h1>
+    <h1 class="text-3xl text-black pb-6">Créer un utilisateur</h1>
 
     {{ include('back/user/_form.html.twig') }}
 
-    <a href="{{ path('back_user_index') }}">back to list</a>
+    <a href="{{ path('back_user_index') }}">Retour</a>
 {% endblock %}

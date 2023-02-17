@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230202105941 extends AbstractMigration
+final class Version20230217163603 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -45,15 +45,16 @@ final class Version20230202105941 extends AbstractMigration
         $this->addSql('CREATE TABLE hero_ability (hero_id INT NOT NULL, ability_id INT NOT NULL, PRIMARY KEY(hero_id, ability_id))');
         $this->addSql('CREATE INDEX IDX_21CB2D1B45B0BCD ON hero_ability (hero_id)');
         $this->addSql('CREATE INDEX IDX_21CB2D1B8016D8B2 ON hero_ability (ability_id)');
-        $this->addSql('CREATE TABLE mission (id INT NOT NULL, user_id INT NOT NULL, hero_id INT DEFAULT NULL, mission_type_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, result VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_end TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE mission (id INT NOT NULL, user_id INT NOT NULL, hero_id INT DEFAULT NULL, mission_type_id INT NOT NULL, name VARCHAR(255) NOT NULL, description VARCHAR(255) NOT NULL, location VARCHAR(255) NOT NULL, result VARCHAR(255) NOT NULL, status VARCHAR(255) NOT NULL, created_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, date_end TIMESTAMP(0) WITHOUT TIME ZONE DEFAULT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_9067F23CA76ED395 ON mission (user_id)');
         $this->addSql('CREATE INDEX IDX_9067F23C45B0BCD ON mission (hero_id)');
         $this->addSql('CREATE INDEX IDX_9067F23C547018DE ON mission (mission_type_id)');
         $this->addSql('COMMENT ON COLUMN mission.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN mission.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN mission.date_end IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE mission_history (id INT NOT NULL, mission_id INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, status VARCHAR(255) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, updated_by INT NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE mission_history (id INT NOT NULL, mission_id INT NOT NULL, updated_by_id INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, status VARCHAR(255) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B686E406BE6CAE90 ON mission_history (mission_id)');
+        $this->addSql('CREATE UNIQUE INDEX UNIQ_B686E406896DBBDE ON mission_history (updated_by_id)');
         $this->addSql('COMMENT ON COLUMN mission_history.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE mission_type (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE reset_password_request (id INT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
@@ -89,6 +90,7 @@ final class Version20230202105941 extends AbstractMigration
         $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23C45B0BCD FOREIGN KEY (hero_id) REFERENCES hero (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mission ADD CONSTRAINT FK_9067F23C547018DE FOREIGN KEY (mission_type_id) REFERENCES mission_type (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE mission_history ADD CONSTRAINT FK_B686E406BE6CAE90 FOREIGN KEY (mission_id) REFERENCES mission (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
+        $this->addSql('ALTER TABLE mission_history ADD CONSTRAINT FK_B686E406896DBBDE FOREIGN KEY (updated_by_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
         $this->addSql('ALTER TABLE reset_password_request ADD CONSTRAINT FK_7CE748AA76ED395 FOREIGN KEY (user_id) REFERENCES "user" (id) NOT DEFERRABLE INITIALLY IMMEDIATE');
     }
 
@@ -118,6 +120,7 @@ final class Version20230202105941 extends AbstractMigration
         $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23C45B0BCD');
         $this->addSql('ALTER TABLE mission DROP CONSTRAINT FK_9067F23C547018DE');
         $this->addSql('ALTER TABLE mission_history DROP CONSTRAINT FK_B686E406BE6CAE90');
+        $this->addSql('ALTER TABLE mission_history DROP CONSTRAINT FK_B686E406896DBBDE');
         $this->addSql('ALTER TABLE reset_password_request DROP CONSTRAINT FK_7CE748AA76ED395');
         $this->addSql('DROP TABLE ability');
         $this->addSql('DROP TABLE event');

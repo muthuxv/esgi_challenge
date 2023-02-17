@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+
+<title>MissionHistory</title>
+
+{% block body %}
+    <h1>MissionHistory</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mission_history.id }}</td>
+            </tr>
+            <tr>
+                <th>Comment</th>
+                <td>{{ mission_history.comment }}</td>
+            </tr>
+            <tr>
+                <th>Status</th>
+                <td>{{ mission_history.status }}</td>
+            </tr>
+            <tr>
+                <th>Updated_at</th>
+                <td>{{ mission_history.updatedAt ? mission_history.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+            </tr>
+            <tr>
+                <th>Updated_by</th>
+                <td>{{ mission_history.updatedBy }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_mission_history_index') }}">back to list</a>
+
+    <a href="{{ path('back_mission_history_edit', {'id': mission_history.id}) }}">edit</a>
+
+    {{ include('back/mission_history/_delete_form.html.twig') }}
+{% endblock %}

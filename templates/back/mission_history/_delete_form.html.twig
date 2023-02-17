@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('back_mission_history_delete', {'id': mission_history.id}) }}" onsubmit="return confirm('Êtes-vous vraiment sûr de vouloir supprimer cet historique de mission ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mission_history.id) }}">
+    <button class="btn">Supprimer</button>
+</form>
