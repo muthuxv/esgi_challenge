@@ -43,9 +43,7 @@
                                     <td class="px-6 py-4">{{ mission.updated_at ? mission.updated_at|date('Y-m-d H:i:s') : '' }}</td>
                                     <td class="px-6 py-4">{{ mission.date_end ? mission.date_end|date('Y-m-d H:i:s') : '' }}</td>
                                     <td class="px-6 py-4">
-                                        <div class="flex justify-end gap-4">
-                                            {{ include('front/mission/_delete_form.html.twig') }}
-                                        </div>
+                                        {{ include('front/mission/_delete_form.html.twig') }}
                                     </td>
                                 </tr>
                             {% else %}

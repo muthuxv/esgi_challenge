@@ -1,0 +1,49 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Historique des missions{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">L'historique des missions</h1>
+
+    <div class="w-full mt-12">
+        <div class="flex flex-wrap -mx-3">
+            <div class="flex-none w-full max-w-full px-3">
+                <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border shadow-lg">
+                    <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                        <h6>La liste des abilités</h6>
+                    </div>
+
+                    <!-- component -->
+                    <div class="overflow-x-auto rounded-lg border border-gray-200 shadow-md m-5">
+                        <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+                            <thead class="bg-gray-50">
+                                <tr>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Mission</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Commentaire</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Status</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Modifié à</th>
+                                    <th scope="col" class="px-6 py-4 font-medium text-gray-900">Modifié par</th>
+                                </tr>
+                            </thead>
+                            <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                                {% for mission_history in mission_histories %}
+                                    <tr class="hover:bg-gray-50">
+                                        <td class="px-6 py-4">{{ mission_history.mission }}</td>
+                                        <td class="px-6 py-4">{{ mission_history.comment }}</td>
+                                        <td class="px-6 py-4">{{ mission_history.status }}</td>
+                                        <td class="px-6 py-4">{{ mission_history.updated_at ? mission_history.updated_at|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td class="px-6 py-4">{{ mission_history.updated_by }}</td>
+                                    </tr>
+                                {% else %}
+                                    <tr>
+                                        <td colspan="11">Pas encore d'historique</td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+{% endblock %}

@@ -30,7 +30,7 @@
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
                     <li><a href="/">Accueil</a></li>
-                    {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Mes missions</a></li>{% endif %}
+                    {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
                 </ul>
             </div>
             {% if (is_granted('ROLE_USER')) %}
@@ -45,10 +45,10 @@
                             <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
                                 <li>
                                     <a class="text-neutral-500" href="{{ path('front_user_edit', {'id': user[0].id}) }}"class="justify-between">
-                                        Profile
+                                        Mon profil
                                     </a>
                                 </li>
-                                <li><a href="/logout" class="text-neutral-500">Logout</a></li>
+                                <li><a href="/logout" class="text-neutral-500">Déconnexion</a></li>
                             </ul>
                         </div>
                     </div>

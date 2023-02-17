@@ -39,6 +39,18 @@ class MissionHistoryRepository extends ServiceEntityRepository
         }
     }
 
+
+    public function findMissionHistoryWithUser()
+    {
+        return $this->createQueryBuilder('mh')
+            ->select('mh.comment', 'mh.status', 'mh.updated_at', 'm.name as mission', 'u.firstname as updated_by')
+            ->leftJoin('mh.mission', 'm')
+            ->leftJoin('mh.updated_by', 'u')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
 //    /**
 //     * @return MissionHistory[] Returns an array of MissionHistory objects
 //     */

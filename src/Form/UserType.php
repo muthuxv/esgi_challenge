@@ -11,6 +11,7 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
+use Symfony\Component\Form\Extension\Core\Type\EmailType;
 
 class UserType extends AbstractType
 {
@@ -23,7 +24,9 @@ class UserType extends AbstractType
             ->add('lastname', null, [
                 'label' => 'Nom',
             ])
-            ->add('email')
+            ->add('email', EmailType::class, [
+                'label' => 'Adresse email',
+            ])
             ->add('roles', ChoiceType::class, array(
                 'choices' => array(
                     'user' => 'ROLE_USER',
