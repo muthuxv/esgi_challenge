@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+
+<title>Edit Mission</title>
+
+{% block body %}
+    <h1>Edit Mission</h1>
+
+    {{ include('front/mission/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('front_mission_index') }}">back to list</a>
+
+    {{ include('front/mission/_delete_form.html.twig') }}
+{% endblock %}

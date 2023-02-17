@@ -1,0 +1,11 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Modifier un utilisateur{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">Modifier un utilisateur</h1>
+
+    {{ include('back/user/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('back_user_index') }}">Retour</a>
+{% endblock %}

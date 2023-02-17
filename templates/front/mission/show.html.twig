@@ -1,0 +1,56 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Mission{% endblock %}
+
+{% block body %}
+    <div class="flex flex-wrap -mx-3">
+        <div class="flex-none w-full max-w-full px-3">
+            <div class="relative flex flex-col min-w-0 mb-6 break-words bg-white border-0 border-transparent border-solid shadow-soft-xl rounded-2xl bg-clip-border">
+                <div class="p-6 pb-0 mb-0 bg-white border-b-0 border-b-solid rounded-t-2xl border-b-transparent">
+                    <h6>Mes demandes de mission</h6>
+                </div>
+
+                <!-- component -->
+                <div class="overflow-hidden rounded-lg border border-gray-200 shadow-md m-5">
+                    <table class="w-full border-collapse bg-white text-left text-sm text-gray-500">
+                        <thead class="bg-gray-50">
+                        <tr>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Nom</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Type</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Description</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Localisation</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Résultat</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Status</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Héro</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Crée à</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Modifié à</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">Date de fin</th>
+                            <th scope="col" class="px-6 py-4 font-medium text-gray-900">actions</th>
+                        </tr>
+                        </thead>
+                        <tbody class="divide-y divide-gray-100 border-t border-gray-100">
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">{{ mission.name }}</td>
+                                <td class="px-6 py-4">{{ mission.missionType.name }}</td>
+                                <td class="px-6 py-4">{{ mission.description }}</td>
+                                <td class="px-6 py-4">{{ mission.location }}</td>
+                                <td class="px-6 py-4">{{ mission.result }}</td>
+                                <td class="px-6 py-4">{{ mission.status }}</td>
+                                <td class="px-6 py-4">{{ mission.hero and mission.hero.heroName ? mission.hero.heroName : 'Pas de héro assigné' }}</td>
+                                <td class="px-6 py-4">{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td class="px-6 py-4">{{ mission.updatedAt ? mission.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
+                                <td class="px-6 py-4">{{ mission.dateEnd ? mission.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                                <td class="px-6 py-4">
+                                    <div class="flex justify-end gap-4">
+                                        {{ include('front/mission/_delete_form.html.twig') }}
+                                    </div>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+                <a href="{{ path('front_mission_index') }}">Retour</a>
+            </div>
+        </div>
+    </div>
+{% endblock %}

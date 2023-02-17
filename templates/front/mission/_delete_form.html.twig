@@ -1,0 +1,4 @@
+<form method="post" action="{{ path('front_mission_delete', {'id': mission.id}) }}" onsubmit="return confirm('Êtes-vous vraiment sûr de vouloir supprimer cette demande de mission ?');">
+    <input type="hidden" name="_token" value="{{ csrf_token('delete' ~ mission.id) }}">
+    <button class="btn">Delete</button>
+</form>
