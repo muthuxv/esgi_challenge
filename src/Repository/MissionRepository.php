@@ -42,13 +42,13 @@ class MissionRepository extends ServiceEntityRepository
     public function findMissionsByUserId(int $userId)
     {
         return $this->createQueryBuilder('m')
-        ->select('m.id', 'm.name', 'm.description', 'm.location', 'm.result', 'm.status', 'm.created_at', 'm.updated_at', 'm.date_end', 'mt.name as mission_type', 'h.hero_name as hero')
-        ->leftJoin('m.mission_type', 'mt')
-        ->leftJoin('m.hero', 'h')
-        ->where('m.user = :user')
-        ->setParameter('user', $userId)
-        ->getQuery()
-        ->getResult();
+            ->select('m.id', 'm.name', 'm.description', 'm.location', 'm.result', 'm.status', 'm.created_at', 'm.updated_at', 'm.date_end', 'mt.name as mission_type', 'h.hero_name as hero')
+            ->leftJoin('m.mission_type', 'mt')
+            ->leftJoin('m.hero', 'h')
+            ->where('m.user = :user')
+            ->setParameter('user', $userId)
+            ->getQuery()
+            ->getResult();
         ;
     }
 
