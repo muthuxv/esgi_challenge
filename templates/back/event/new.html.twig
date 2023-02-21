@@ -1,0 +1,11 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Création d'un évènement{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">Création d'un évènement</h1>
+
+    {{ include('back/event/_form.html.twig') }}
+
+    <a href="{{ path('back_event_index') }}">back to list</a>
+{% endblock %}

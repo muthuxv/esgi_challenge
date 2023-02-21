@@ -6,16 +6,18 @@ use App\Entity\Ability;
 use Symfony\Component\Form\AbstractType;
 use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class AbilityType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, [
+            ->add('name', TextType::class, [
                 'label' => 'Le nom de l\'abilité',
             ])
-            ->add('description', null, [
+            ->add('description', TextareaType::class, [
                 'label' => 'La description',
             ])
         ;
