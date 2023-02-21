@@ -13,14 +13,16 @@ use Symfony\Component\HttpFoundation\Request;
 use App\Entity\User;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use DateTimeImmutable;
+use App\Repository\EventRepository;
 
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'default_index')]
-    public function index(UserRepository $userRepository, UserInterface $user): Response
+    public function index(UserRepository $userRepository, UserInterface $user, EventRepository $eventRepository): Response
     {
         return $this->render('front/default/index.html.twig', [
             'user' => $userRepository->findBy(array('id' => $user->getId())),
+            'events' => $eventRepository->findAllByDateAndLimit(),
         ]);
     }
 

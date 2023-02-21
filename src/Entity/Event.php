@@ -21,8 +21,8 @@ class Event
     #[ORM\Column(length: 255)]
     private ?string $description = null;
 
-    #[ORM\Column(length: 255)]
-    private ?string $date = null;
+    #[ORM\Column]
+    private ?\DateTimeImmutable $date = null;
 
     #[ORM\Column(nullable: true)]
     private ?float $price = null;
@@ -38,6 +38,15 @@ class Event
 
     #[ORM\OneToMany(mappedBy: 'event', targetEntity: EventPayment::class, orphanRemoval: true)]
     private Collection $eventPayments;
+
+    #[ORM\Column(length: 255)]
+    private ?string $filename = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $created_at = null;
+
+    #[ORM\Column]
+    private ?\DateTimeImmutable $updated_at = null;
 
     public function __construct()
     {
@@ -75,12 +84,12 @@ class Event
         return $this;
     }
 
-    public function getDate(): ?string
+    public function getDate(): ?\DateTimeImmutable
     {
         return $this->date;
     }
 
-    public function setDate(string $date): self
+    public function setDate(\DateTimeImmutable $date): self
     {
         $this->date = $date;
 
@@ -185,6 +194,42 @@ class Event
                 $eventPayment->setEvent(null);
             }
         }
+
+        return $this;
+    }
+
+    public function getFilename(): ?string
+    {
+        return $this->filename;
+    }
+
+    public function setFilename(string $filename): self
+    {
+        $this->filename = $filename;
+
+        return $this;
+    }
+
+    public function getCreatedAt(): ?\DateTimeImmutable
+    {
+        return $this->created_at;
+    }
+
+    public function setCreatedAt(\DateTimeImmutable $created_at): self
+    {
+        $this->created_at = $created_at;
+
+        return $this;
+    }
+
+    public function getUpdatedAt(): ?\DateTimeImmutable
+    {
+        return $this->updated_at;
+    }
+
+    public function setUpdatedAt(\DateTimeImmutable $updated_at): self
+    {
+        $this->updated_at = $updated_at;
 
         return $this;
     }

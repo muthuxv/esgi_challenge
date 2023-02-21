@@ -12,16 +12,17 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UserType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname', null, [
+            ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
             ])
-            ->add('lastname', null, [
+            ->add('lastname', TextType::class, [
                 'label' => 'Nom',
             ])
             ->add('email', EmailType::class, [
@@ -55,16 +56,17 @@ class UserType extends AbstractType
         ;
 
         $builder->get('roles')
-        ->addModelTransformer(new CallbackTransformer(
-            function ($rolesArray) {
-                // transform the array to a string
-                return count($rolesArray)? $rolesArray[0]: null;
-            },
-            function ($rolesString) {
-                // transform the string back to an array
-                return [$rolesString];
-            }
-        ));
+            ->addModelTransformer(new CallbackTransformer(
+                function ($rolesArray) {
+                    // transform the array to a string
+                    return count($rolesArray)? $rolesArray[0]: null;
+                },
+                function ($rolesString) {
+                    // transform the string back to an array
+                    return [$rolesString];
+                }
+            ))
+        ;
     }
 
     public function configureOptions(OptionsResolver $resolver): void
