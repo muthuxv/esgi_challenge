@@ -59,12 +59,16 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
     #[ORM\OneToOne(mappedBy: 'user', cascade: ['persist', 'remove'])]
     private ?Hero $hero = null;
 
+    #[ORM\OneToMany(mappedBy: 'updated_by', targetEntity: MissionHistory::class)]
+    private Collection $missionHistories;
+
     public function __construct()
     {
         $this->roles = ['ROLE_USER']; // default role
         $this->missions = new ArrayCollection();
         $this->events = new ArrayCollection();
         $this->eventPayments = new ArrayCollection();
+        $this->missionHistories = new ArrayCollection();
     }
 
     public function __toString()
@@ -299,6 +303,36 @@ class User implements UserInterface, PasswordAuthenticatedUserInterface
             // set the owning side to null (unless already changed)
             if ($eventPayment->getUser() === $this) {
                 $eventPayment->setUser(null);
+            }
+        }
+
+        return $this;
+    }
+
+    /**
+     * @return Collection<int, MissionHistory>
+     */
+    public function getMissionHistories(): Collection
+    {
+        return $this->missionHistories;
+    }
+
+    public function addMissionHistory(MissionHistory $missionHistory): self
+    {
+        if (!$this->missionHistories->contains($missionHistory)) {
+            $this->missionHistories->add($missionHistory);
+            $missionHistory->setUpdatedBy($this);
+        }
+
+        return $this;
+    }
+
+    public function removeMissionHistory(MissionHistory $missionHistory): self
+    {
+        if ($this->missionHistories->removeElement($missionHistory)) {
+            // set the owning side to null (unless already changed)
+            if ($missionHistory->getUpdatedBy() === $this) {
+                $missionHistory->setUpdatedBy(null);
             }
         }
 

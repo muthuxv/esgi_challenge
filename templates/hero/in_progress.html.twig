@@ -1,55 +1,70 @@
 {% extends 'base_hero.html.twig' %}
 
-{% block title %}{{ mission.name }}{% endblock %}
+{% block title %}Mission en cours{% endblock %}
+
 {% block body %}
+
 <section class="container mx-auto">
+    {% if in_progress %}
     <div class="overflow-hidden bg-white shadow sm:rounded-lg ">
         <div class="px-4 py-5 sm:px-6">
-            <h3 class="text-lg font-medium leading-6 text-gray-900">{{ mission.name }} </h3>
-            <p class="mt-1 max-w-2xl text-sm text-gray-500">{{ mission.missiontype.name }}</p>
+            <h3 class="text-lg font-medium leading-6 text-gray-900">{{ in_progress.name }} </h3>
+            <p class="mt-1 max-w-2xl text-sm text-gray-500">{{ in_progress.missiontype.name }}</p>
         </div>
         <div class="border-t border-gray-200">
             <dl>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Demandé par</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ mission.user.firstname }} {{ mission.user.lastname }}</dd>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ in_progress.user.firstname }} {{ in_progress.user.lastname }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Description</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ mission.description }}</dd>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ in_progress.description }}</dd>
             </div>
             <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Emplacement</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ mission.location }}</dd>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ in_progress.location }}</dd>
             </div>
             <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
                 <dt class="text-sm font-medium text-gray-500">Résultat attendu</dt>
-                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ mission.result }}</dd>
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ in_progress.result }}</dd>
+            </div>
+            <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                <div class="flex">
+                <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0"><a class="btn btn-outline btn-accent" href="{{ path('hero_update_mission', {'id': in_progress.id}) }}">Mettre à jour</a></dd>
+                </div>
             </div>
             </dl>
         </div>
     </div>
+    {% else %}
+    <div class="px-4 py-5 sm:px-6">
+        <p class="text-sm text-gray-500">Vous n'avez aucune mission en cours pour le moment.</p>
+    </div>
+    {% endif %}
 </section>
 
+{% if in_progress is not null %}
 <section class="container mx-auto mt-10">
     <div class="overflow-hidden bg-white shadow sm:rounded-lg ">
         <div class="px-4 py-5 sm:px-6">
             <h3 class="text-lg font-medium leading-6 text-gray-900">Historique de la mission</h3>
         </div>
     <div class="px-4 py-5 sm:px-6">
-    {% if mission.missionhistories|length == 0 %}
+    {% if in_progress.missionhistories is null %}
         <p class="text-sm text-gray-500">Aucune mise à jour pour le moment.</p>
     {% else %}
     <ol class="relative border-l border-gray-200 dark:border-gray-700">
-    {% for history in mission.missionhistories %}                
+    {% for history in in_progress.missionhistories %}                
         <li class="mb-10 ml-4">
             <div class="absolute w-3 h-3 bg-gray-200 rounded-full mt-1.5 -left-1.5 border border-white dark:border-gray-900 dark:bg-gray-700"></div>
             <time class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">{{ history.updatedat|date("d-m-Y") }} à {{ history.updatedat|date("H:m:s") }}</time>
-            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">{{ history.status }}</h3>
+            <h3 class="text-lg font-semibold text-gray-900 dark:text-white">Mise à jour</h3>
+            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{ history.status }}</p>
             {% if history.comment %}
-            <p class="text-base font-normal text-gray-500 dark:text-gray-400">{{ history.comment }}</p>
+            <p class="mb-4 text-base font-normal text-gray-500 dark:text-gray-400">{{ history.comment }}</p>
             {% endif %}
-            <p class="mt-4 mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Mis à jour par 
+            <p class="mb-1 text-sm font-normal leading-none text-gray-400 dark:text-gray-500">Mis à jour par 
                 <span class="text-gray-500">
                 {% if history.updatedby.hero is null %}
                 {{ history.updatedby.firstname }} {{ history.updatedby.lastname }}
@@ -63,7 +78,10 @@
     {% endfor %}
     </ol>
     {% endif %}
+    
     </div>
     </div>
 </section>
+{% endif %}
+
 {% endblock %}

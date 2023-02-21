@@ -19,27 +19,52 @@ use Symfony\Component\Security\Core\User\UserInterface;
 class HeroController extends AbstractController
 {
     #[Route('/', name: 'default_index')]
-    public function index(UserInterface $user, ): Response
+    public function index(UserInterface $user, MissionRepository $missionRepository): Response
     {
         $hero = $user->getHero();
 
+        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress']);
+        $in_progress = $in_progress ? $in_progress[0] : null;
+
         return $this->render('hero/index.html.twig', [
-            'hero' => $hero,
+            'hero' => $hero, 'in_progress' => $in_progress
         ]);
     }
 
-    #[Route('/missions', name: 'missions')]
-    public function missions(UserInterface $user, MissionRepository $missionRepository): Response
+    #[Route('/missions/in_progress', name: 'mission_in_progress')]
+    public function missionInProgress(UserInterface $user, MissionRepository $missionRepository): Response
+    {
+        $hero = $user->getHero();
+
+        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress']);
+        $in_progress = $in_progress ? $in_progress[0] : null;
+
+        return $this->render('hero/in_progress.html.twig', [
+            'hero' => $hero, 'in_progress' => $in_progress
+        ]);
+    }
+
+    #[Route('/missions/assigned', name: 'mission_assigned')]
+    public function missionAssigned(UserInterface $user, MissionRepository $missionRepository): Response
+    {
+        $hero = $user->getHero();
+
+        $assigned = $missionRepository->findBy(['hero' => $hero, 'status' => 'assigned']);
+
+        return $this->render('hero/assigned.html.twig', [
+            'hero' => $hero, 'assigned' => $assigned
+        ]);
+    }
+
+    #[Route('/missions/completed', name: 'mission_completed')]
+    public function missionCompleted(UserInterface $user, MissionRepository $missionRepository): Response
     {
         $hero = $user->getHero();
 
         $completed = $missionRepository->findBy(['hero' => $hero, 'status' => 'completed']);
-        $assigned = $missionRepository->findBy(['hero' => $hero, 'status' => 'assigned']);
-        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress']);
 
-        return $this->render('hero/missions.html.twig', [
-            'hero' => $hero, 'completed' => $completed,
-            'assigned' => $assigned, 'in_progress' => $in_progress
+        return $this->render('hero/completed.html.twig', [
+            'hero' => $hero, 'completed' => $completed
         ]);
     }
 
@@ -70,13 +95,25 @@ class HeroController extends AbstractController
         //check if this mission is assigned to this hero
         if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
             $this->addFlash('error', 'This mission is not assigned to you.');
-            return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('hero_mission_assigned', [], Response::HTTP_SEE_OTHER);
         }
 
         //if not already in progress
         if ($missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress'])) {
             $this->addFlash('error', 'You already have a mission in progress.');
-            return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
+        }
+
+        //check if this mission is already in progress
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
+            $this->addFlash('error', 'This mission is already in progress.');
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
+        }
+
+        //check if this mission is already completed
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'completed']) !== null) {
+            $this->addFlash('error', 'This mission is already completed.');
+            return $this->redirectToRoute('hero_mission_completed', [], Response::HTTP_SEE_OTHER);
         }
 
         $mission = $missionRepository->find($id);
@@ -89,13 +126,20 @@ class HeroController extends AbstractController
         $missionhistory->setMission($mission);
         $missionhistory->setStatus($mission->getStatus());
         $missionhistory->setUpdatedAt(new \DateTimeImmutable('now'));
-        $missionhistory->setUpdatedBy($hero->getId());
+        $missionhistory->setUpdatedBy($user);
 
         $hero->setIsAvailable(false);
 
         $missionRepository->save($mission, true);
         $missionHistoryRepository->save($missionhistory, true);
         $heroRepository->save($hero, true);
+
+        //set all the other missions to pending
+        $missions = $missionRepository->findBy(['hero' => $hero, 'status' => 'assigned']);
+        foreach ($missions as $mission) {
+            $mission->setStatus('pending');
+            $mission->setUpdatedAt(new \DateTimeImmutable('now'));
+        }
 
         return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
     }
@@ -108,6 +152,24 @@ class HeroController extends AbstractController
 
         $mission = $missionRepository->find($id);
 
+        //check if this mission is assigned to this hero
+        if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
+            $this->addFlash('error', 'This mission is not assigned to you.');
+            return $this->redirectToRoute('hero_mission_assigned', [], Response::HTTP_SEE_OTHER);
+        }
+
+        //check if this mission is already in progress
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
+            $this->addFlash('error', 'This mission is already in progress.');
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
+        }
+
+        //check if this mission is already completed
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'completed']) !== null) {
+            $this->addFlash('error', 'This mission is already completed.');
+            return $this->redirectToRoute('hero_mission_completed', [], Response::HTTP_SEE_OTHER);
+        }
+
         $mission->setStatus('pending');
         $mission->setHero(null);
         $mission->setUpdatedAt(new \DateTimeImmutable('now'));
@@ -117,12 +179,12 @@ class HeroController extends AbstractController
         $missionhistory->setMission($mission);
         $missionhistory->setStatus('rejected');
         $missionhistory->setUpdatedAt(new \DateTimeImmutable('now'));
-        $missionhistory->setUpdatedBy($hero->getId());
+        $missionhistory->setUpdatedBy($user);
 
         $missionRepository->save($mission, true);
         $missionHistoryRepository->save($missionhistory, true);
 
-        return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
     }
 
     //update mission
@@ -131,6 +193,19 @@ class HeroController extends AbstractController
     {
         $hero = $user->getHero();
         $mission = $missionRepository->find($id);
+
+        //check if this mission is assigned to this hero
+        if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
+            $this->addFlash('error', 'This mission is not assigned to you.');
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
+        }
+
+        //check if this mission is already completed
+        if ($mission->getStatus() == 'completed') {
+            $this->addFlash('error', 'This mission is already completed.');
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
+        }
+
         $missionhistory = new MissionHistory();
         $form = $this->createForm(MissionHistoryType::class, $missionhistory);
         $form->handleRequest($request);
@@ -139,7 +214,7 @@ class HeroController extends AbstractController
 
             $missionhistory->setMission($mission);
             $missionhistory->setUpdatedAt(new DateTimeImmutable('now'));
-            $missionhistory->setUpdatedBy($hero->getId());
+            $missionhistory->setUpdatedBy($user);
 
             $mission->setStatus($missionhistory->getStatus());
             $mission->setUpdatedAt(new DateTimeImmutable('now'));
@@ -153,7 +228,7 @@ class HeroController extends AbstractController
             $missionRepository->save($mission, true);
             $heroRepository->save($hero, true);
 
-            return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         return $this->renderForm('hero/update_mission.html.twig', [

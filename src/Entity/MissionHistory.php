@@ -26,8 +26,7 @@ class MissionHistory
     #[ORM\Column]
     private ?\DateTimeImmutable $updated_at = null;
 
-    #[ORM\OneToOne(inversedBy: 'missionHistories')]
-    #[ORM\JoinColumn(nullable: false)]
+    #[ORM\ManyToOne(inversedBy: 'missionHistories')]
     private ?User $updated_by = null;
 
     public function getId(): ?int

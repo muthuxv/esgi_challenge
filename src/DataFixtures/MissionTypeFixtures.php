@@ -13,11 +13,12 @@ class MissionTypeFixtures extends Fixture
     {
         $faker = Factory::create('fr_FR');
 
-        for ($i=0; $i<10; $i++) {
-            $object = (new MissionType())
-                ->setName($faker->name)
-            ;
+        $types = ['Assassinat', 'Sauvetage', 'Espionnage', 'Récupération', 'Protection', 'Autre'];
 
+        foreach ($types as $type) {
+            $object = (new MissionType())
+                ->setName($type)
+            ;
             $manager->persist($object);
         }
 
