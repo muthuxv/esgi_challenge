@@ -11,17 +11,18 @@ use Symfony\Component\Form\CallbackTransformer;
 use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class UpdateUserProfile extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('firstname', null, [
+            ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
                 'required'   => false,
             ])
-            ->add('lastname', null, [
+            ->add('lastname', TextType::class, [
                 'label' => 'Nom',
                 'required'   => false,
             ])

@@ -44,6 +44,10 @@
                 <i class="fas fa-align-left mr-3"></i>
                 L'historique des missions
             </a>
+            <a href="{{ path('back_event_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
+                <i class="fas fa-sticky-note mr-3"></i>
+                Les Évènements
+            </a>
         </nav>
     </aside>
 
@@ -90,6 +94,10 @@
                 <a href="{{ path('back_mission_history_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                     <i class="fas fa-align-left mr-3"></i>
                     L'historique des missions
+                </a>
+                <a href="{{ path('back_event_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Les Évènements
                 </a>
                 <a href="{{ path('back_edit', {'id': user_admin[0].id}) }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
                     <i class="fas fa-user mr-3"></i>

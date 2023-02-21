@@ -37,9 +37,9 @@
                                 <td class="px-6 py-4">{{ mission.result }}</td>
                                 <td class="px-6 py-4">{{ mission.status }}</td>
                                 <td class="px-6 py-4">{{ mission.hero and mission.hero.heroName ? mission.hero.heroName : 'Pas de héro assigné' }}</td>
-                                <td class="px-6 py-4">{{ mission.createdAt ? mission.createdAt|date('Y-m-d H:i:s') : '' }}</td>
-                                <td class="px-6 py-4">{{ mission.updatedAt ? mission.updatedAt|date('Y-m-d H:i:s') : '' }}</td>
-                                <td class="px-6 py-4">{{ mission.dateEnd ? mission.dateEnd|date('Y-m-d H:i:s') : '' }}</td>
+                                <td class="px-6 py-4">{{ mission.createdAt ? mission.createdAt|date('d-m-Y H:i:s') : '' }}</td>
+                                <td class="px-6 py-4">{{ mission.updatedAt ? mission.updatedAt|date('d-m-Y H:i:s') : '' }}</td>
+                                <td class="px-6 py-4">{{ mission.dateEnd ? mission.dateEnd|date('d-m-Y H:i:s') : '' }}</td>
                                 <td class="px-6 py-4">
                                     <div class="flex justify-end gap-4">
                                         {{ include('front/mission/_delete_form.html.twig') }}
