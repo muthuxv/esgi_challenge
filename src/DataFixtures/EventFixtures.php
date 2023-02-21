@@ -23,11 +23,14 @@ class EventFixtures extends Fixture implements DependentFixtureInterface
             $object = (new Event())
                 ->setName($faker->name)
                 ->setDescription($faker->text)
-                ->setDate('2021-01-01')
+                ->setDate(new \DateTimeImmutable('2020-01-01'))
                 ->setLocation($faker->city)
                 ->setPrice($faker->numberBetween(1, 100))
                 ->addUser($faker->unique()->randomElement($users))
                 ->addHero($faker->unique()->randomElement($heroes))
+                ->setFilename($faker->imageUrl(360, 360, 'animals', true, 'dogs', true))
+                ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
+                ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))
             ;
     
             $manager->persist($object);

@@ -35,8 +35,8 @@
                                         <td class="px-6 py-4">{{ user.firstname }}</td>
                                         <td class="px-6 py-4">{{ user.email }}</td>
                                         <td class="px-6 py-4">{{ user.roles ? user.roles|json_encode : '' }}</td>
-                                        <td class="px-6 py-4">{{ user.createdAt|date('d-m-Y') }}</td>
-                                        <td class="px-6 py-4">{{ user.updatedAt|date('d-m-Y') }}</td>
+                                        <td class="px-6 py-4">{{ user.createdAt|date('d-m-Y H:i:s') }}</td>
+                                        <td class="px-6 py-4">{{ user.updatedAt|date('d-m-Y H:i:s') }}</td>
                                         <td class="px-6 py-4">{{ user.isVerified ? 'Oui' : 'Non'}}</td>
                                         <td class="px-6 py-4">
                                             <a href="{{ path('back_user_edit', {'id': user.id}) }}">Modifier</a>

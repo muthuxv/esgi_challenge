@@ -31,7 +31,7 @@
                                         <td class="px-6 py-4">{{ mission_history.mission }}</td>
                                         <td class="px-6 py-4">{{ mission_history.comment }}</td>
                                         <td class="px-6 py-4">{{ mission_history.status }}</td>
-                                        <td class="px-6 py-4">{{ mission_history.updated_at ? mission_history.updated_at|date('Y-m-d H:i:s') : '' }}</td>
+                                        <td class="px-6 py-4">{{ mission_history.updated_at ? mission_history.updated_at|date('d-m-Y H:i:s') : '' }}</td>
                                         <td class="px-6 py-4">{{ mission_history.updated_by }}</td>
                                     </tr>
                                 {% else %}

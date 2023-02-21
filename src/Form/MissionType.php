@@ -9,25 +9,27 @@ use Symfony\Component\Form\FormBuilderInterface;
 use Symfony\Component\OptionsResolver\OptionsResolver;
 use Symfony\Component\Form\Extension\Core\Type\ChoiceType;
 use Symfony\Bridge\Doctrine\Form\Type\EntityType;
+use Symfony\Component\Form\Extension\Core\Type\TextareaType;
+use Symfony\Component\Form\Extension\Core\Type\TextType;
 
 class MissionType extends AbstractType
 {
     public function buildForm(FormBuilderInterface $builder, array $options): void
     {
         $builder
-            ->add('name', null, [
+            ->add('name', TextType::class, [
                 'label' => 'Nom de la mission',
                 'required'   => true,
             ])
-            ->add('description', null, [
+            ->add('description', TextareaType::class, [
                 'label' => 'Description',
                 'required'   => true,
             ])
-            ->add('location', null, [
+            ->add('location', TextType::class, [
                 'label' => 'Emplacement de votre mission',
                 'required'   => true,
             ])
-            ->add('result', null, [
+            ->add('result', TextType::class, [
                 'label' => 'Résultat de la mission',
                 'required'   => true,
             ])

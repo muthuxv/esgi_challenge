@@ -1,0 +1,11 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Modifier un évènement{% endblock %}
+
+{% block body %}
+    <h1>Modifier un évènement</h1>
+
+    {{ include('back/event/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <a href="{{ path('back_event_index') }}">Retour</a>
+{% endblock %}
