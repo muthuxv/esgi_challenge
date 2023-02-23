@@ -1,0 +1,9 @@
+{% extends 'base_hero.html.twig' %}
+
+{% block title %}Mon profil{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 mb-8">Modifier votre profil</h1>
+
+    {{ include('hero/_profile_form.html.twig') }}
+{% endblock %}

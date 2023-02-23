@@ -1,4 +1,9 @@
+<div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
 {{ form_start(form) }}
-    {{ form_widget(form) }}
-    <button class="btn">{{ button_label|default('Save') }}</button>
+    {{ form_row(form.status, {'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}, 
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}} ) }}
+    {{ form_row(form.comment, {'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}} ) }}
+    <button class="btn btn-outline btn-accent mt-4">{{ button_label|default('Save') }}</button>
 {{ form_end(form) }}
+</div>

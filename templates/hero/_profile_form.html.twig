@@ -1,0 +1,57 @@
+<div class="flex flex-col md:flex-row">
+    <div class="leftcontent">
+        <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
+            <h1 class="text-2xl font-bold tracking-tight text-gray-900">Informations Héro</h1>
+            <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+                <div class="avatar mb-4 rounded-lg w-28 h-28 sm:mb-0 xl:mb-4 2xl:mb-0">
+                    <div class="w-24 mask mask-squircle">
+                         <img src="{{ asset('uploads/avatar/' ~ hero.avatar) }}" alt="avatar" class="w-20 h-20 rounded-full">
+                    </div>
+                </div>
+                {{ form_start(heroForm, {'attr': {'class':'w-full'}}) }}
+                    {{ form_row(heroForm.name, {'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}, 
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}}) }}
+                    {{ form_widget(heroForm.avatar, {'attr': {'class':'file-input file-input-bordered file-input-success w-full max-w-xs mt-4'}}) }}
+
+                    <button class="btn btn-outline btn-accent">{{ button_label|default('Save') }}</button>
+                {{ form_end(heroForm) }}
+            </div>
+        </div>
+        <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
+        <h1 class="text-2xl font-bold tracking-tight text-gray-900">Informations personnelles</h1>
+            <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+                {{ form_start(userForm) }}
+                    {{ form_row(userForm.firstname,{'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'}, 
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}} ) }}
+                    {{ form_row(userForm.lastname,{'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}} ) }}
+                    {{ form_row(userForm.email,{'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}} ) }}
+                    {{ form_row(userForm.plainPassword,{'attr': {'class':'bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5'},
+                    'label_attr': {'class': 'block mb-2 text-sm font-medium text-gray-900 dark:text-white'}} ) }}                    
+                    <button class="btn btn-outline btn-accent mt-4">{{ button_label|default('Save') }}</button>
+                {{ form_end(userForm) }}
+            </div>
+        </div>
+    </div>
+
+    <div class="rightcontent ml-0 md:ml-10 md:w-72">
+        <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
+            <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+                {{ form_start(abilitiesForm) }}
+                    <h1 class="text-2xl font-bold tracking-tight text-gray-900">{{ form_label(abilitiesForm.abilities) }}</h1>
+                    <div class="h-64 overflow-auto">
+                    {% for ability in abilitiesForm.abilities %}
+                        <label class="flex mb-1">
+                        {{ form_widget(ability, {'attr': {'class': 'checkbox checkbox-accent'}}) }}
+                        <span class="label-text ml-1">{{ ability.vars.label }}</span>
+                        </label>
+                    {% endfor %}
+                    </div>
+                    <button class="btn btn-outline btn-accent mt-4">{{ button_label|default('Save') }}</button>
+                {{ form_end(abilitiesForm) }}
+            </div>
+        </div>
+    </div>
+</div>
+

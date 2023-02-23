@@ -28,6 +28,7 @@ class UpdateUserProfile extends AbstractType
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
+                'disabled' => true,
             ])
             ->add('plainPassword', PasswordType::class, [
                 'constraints' => [

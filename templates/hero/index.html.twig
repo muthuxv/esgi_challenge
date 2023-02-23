@@ -3,7 +3,7 @@
 {% block title %}Dashboard - {{ hero.name }}!{% endblock %}
 
 {% block body %}
-<h1 class="text-3xl font-bold tracking-tight text-gray-900">Bienvenue {{ hero.name }}! ✅</h1>
+<h1 class="text-3xl font-bold tracking-tight text-gray-900">Bienvenue {{ hero.name }} ! ✅</h1>
 
 <section class="bg-white">
   <div class="mx-auto max-w-screen-xl px-4 py-12 sm:px-6 md:py-16 lg:px-8">
@@ -30,7 +30,7 @@
 
         <div class="flex flex-col rounded-lg border border-gray-100 px-4 py-8 text-center shadow">
           <dt class="text-lg font-medium text-gray-500">Missions accomplies</dt>
-          <dd class="text-4xl font-extrabold text-gray-900 md:text-5xl">{{ hero.numbercompletedmissions }}</dd>
+          <dd class="text-4xl font-extrabold text-gray-900 md:text-5xl">{{ count_completed }}</dd>
         </div>
       </dl>
   </div>
@@ -43,7 +43,7 @@
       </div>
       <div class="grid xs:grid-cols-1 xs:grid-rows-3 justifiy-center place-items-center lg:grid-cols-3 lg:grid-rows-1">
          <div class="sm:col-span-1">
-            <div class="sm:col-span-1 mb-1">
+            <div class="sm:col-span-1 mb-4">
                <dt class="text-sm font-medium text-gray-500">NOM HERO</dt>
                <dd class="mt-1 text-5xl text-gray-900 font-bold tracking-wide">{{ hero.name }}</dd>
             </div>
@@ -56,7 +56,7 @@
             <div class="flex flex-col flex-grow card rounded place-items-center">
                <div class="avatar mt-4">
                   <div class="w-24 rounded-full ring ring-accent gradient ring-offset-base-100 ring-offset-2">
-                     <img src="https://i.pinimg.com/originals/9a/dc/0a/9adc0a65a1f20e91161a695c7f590397.png" />
+                     <img src="{{ asset('uploads/avatar/' ~ hero.avatar) }}" />
                   </div>
                </div>
                <div class="divider text-center">
