@@ -50,6 +50,7 @@ class UpdateUserProfile extends AbstractType
                         'message' => 'L\'adresse email "{{ value }}" n\'est pas valide.'
                     ]),
                 ],
+                'disabled' => true,
             ])
             ->add('plainPassword', PasswordType::class, [
                 'constraints' => [

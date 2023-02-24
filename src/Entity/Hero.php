@@ -19,9 +19,6 @@ class Hero
     #[ORM\Column(length: 255)]
     private ?string $hero_name = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $rank = null;
-
     #[ORM\Column]
     private ?bool $isAvailable = true;
 
@@ -40,6 +37,9 @@ class Hero
     #[ORM\OneToOne(inversedBy: 'hero', cascade: ['persist', 'remove'])]
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
+
+    #[ORM\Column(length: 255)]
+    private ?string $rank = null;
 
     public function __construct()
     {
@@ -70,19 +70,7 @@ class Hero
         return $this;
     }
 
-    public function getRank(): ?int
-    {
-        return $this->rank;
-    }
-
-    public function setRank(?int $rank): self
-    {
-        $this->rank = $rank;
-
-        return $this;
-    }
-
-    public function isAvailable(): ?bool
+    public function getIsAvailable(): ?bool
     {
         return $this->isAvailable;
     }
@@ -148,18 +136,6 @@ class Hero
         return $this;
     }
 
-    //get completed missions
-    public function getNumberCompletedMissions(): int
-    {
-        $completedMissions = 0;
-        foreach ($this->getMissions() as $mission) {
-            if ($mission->getStatus() === 'completed') {
-                $completedMissions++;
-            }
-        }
-
-        return $completedMissions;
-    }
     /**
      * @return Collection<int, Event>
      */
@@ -207,6 +183,41 @@ class Hero
     public function setUser(User $user): self
     {
         $this->user = $user;
+
+        return $this;
+    }
+
+    public function getRank(): ?string
+    {
+        return $this->rank;
+    }
+
+    public function setRank(string $rank): self
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
+    //update rank of hero when he complete a mission
+    public function updateRank(): self
+    {
+        $missions = $this->getMissions();
+        $count = 0;
+        foreach ($missions as $mission) {
+            if ($mission->getIsCompleted()) {
+                $count++;
+            }
+        }
+        if ($count >= 10) {
+            $this->setRank('S');
+        } elseif ($count >= 5) {
+            $this->setRank('A');
+        } elseif ($count >= 1) {
+            $this->setRank('B');
+        } else {
+            $this->setRank('C');
+        }
 
         return $this;
     }

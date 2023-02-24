@@ -7,27 +7,44 @@ use App\Entity\Mission;
 use App\Repository\MissionRepository;
 use App\Repository\MissionHistoryRepository;
 use App\Repository\HeroRepository;
+use App\Repository\UserRepository;
 use App\Form\MissionHistoryType;
+use App\Form\UpdateAbilitiesType;
+use App\Form\UpdateHeroProfileType;
+use App\Form\UpdateUserProfile;
+use App\Form\UpdateUserType;
 use DateTimeImmutable;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Response;
 use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\Security\Core\User\UserInterface;
+use Symfony\Component\HttpFoundation\File\UploadedFile;
+use Symfony\Component\Filesystem\Filesystem;
+use Symfony\Component\HttpFoundation\File\Exception\FileException;
+use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 
 
 class HeroController extends AbstractController
 {
     #[Route('/', name: 'default_index')]
-    public function index(UserInterface $user, MissionRepository $missionRepository): Response
+    public function index(UserInterface $user, MissionRepository $missionRepository, HeroRepository $heroRepository): Response
     {
+        //check if hero logged in
+        if (!$user) {
+            $this->addFlash('error', 'Vous devez être connecté pour accéder à cette page.');
+            return $this->redirectToRoute('app_login', [], Response::HTTP_SEE_OTHER);
+        }
+
         $hero = $user->getHero();
 
         $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress']);
         $in_progress = $in_progress ? $in_progress[0] : null;
 
+        $count_completed = $heroRepository->getCompletedMissions($hero);
+
         return $this->render('hero/index.html.twig', [
-            'hero' => $hero, 'in_progress' => $in_progress
+            'hero' => $hero, 'in_progress' => $in_progress, 'count_completed' => $count_completed
         ]);
     }
 
@@ -75,8 +92,8 @@ class HeroController extends AbstractController
 
         //check if this mission is assigned to this hero
         if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
-            $this->addFlash('error', 'This mission is not assigned to you.');
-            return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
+            $this->addFlash('error', 'Cette mission ne vous est pas assignée.');
+            return $this->redirectToRoute('hero_default_index', [], Response::HTTP_SEE_OTHER);
         }
 
         $mission = $missionRepository->find($id);
@@ -94,25 +111,25 @@ class HeroController extends AbstractController
 
         //check if this mission is assigned to this hero
         if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
-            $this->addFlash('error', 'This mission is not assigned to you.');
+            $this->addFlash('error', 'Cette mission ne vous est pas assignée.');
             return $this->redirectToRoute('hero_mission_assigned', [], Response::HTTP_SEE_OTHER);
         }
 
         //if not already in progress
         if ($missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress'])) {
-            $this->addFlash('error', 'You already have a mission in progress.');
+            $this->addFlash('error', 'Vous avez déjà une mission en cours.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already in progress
         if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
-            $this->addFlash('error', 'This mission is already in progress.');
+            $this->addFlash('error', 'Cette mission est déjà en cours.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already completed
         if ($missionRepository->findOneBy(['id' => $id, 'status' => 'completed']) !== null) {
-            $this->addFlash('error', 'This mission is already completed.');
+            $this->addFlash('error', 'Cette mission est déjà terminée.');
             return $this->redirectToRoute('hero_mission_completed', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -141,7 +158,7 @@ class HeroController extends AbstractController
             $mission->setUpdatedAt(new \DateTimeImmutable('now'));
         }
 
-        return $this->redirectToRoute('hero_missions', [], Response::HTTP_SEE_OTHER);
+        return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
     }
 
     //decline mission
@@ -154,20 +171,20 @@ class HeroController extends AbstractController
 
         //check if this mission is assigned to this hero
         if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
-            $this->addFlash('error', 'This mission is not assigned to you.');
+            $this->addFlash('error', 'Cette mission ne vous est pas assignée.');
             return $this->redirectToRoute('hero_mission_assigned', [], Response::HTTP_SEE_OTHER);
-        }
-
-        //check if this mission is already in progress
-        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
-            $this->addFlash('error', 'This mission is already in progress.');
-            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already completed
         if ($missionRepository->findOneBy(['id' => $id, 'status' => 'completed']) !== null) {
-            $this->addFlash('error', 'This mission is already completed.');
+            $this->addFlash('error', 'Cette mission est déjà terminée.');
             return $this->redirectToRoute('hero_mission_completed', [], Response::HTTP_SEE_OTHER);
+        }
+
+        //check if this mission is already in progress
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
+            $this->addFlash('error', 'Cette mission est déjà en cours.');
+            return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         $mission->setStatus('pending');
@@ -196,13 +213,13 @@ class HeroController extends AbstractController
 
         //check if this mission is assigned to this hero
         if ($missionRepository->findOneBy(['id' => $id, 'hero' => $hero]) === null) {
-            $this->addFlash('error', 'This mission is not assigned to you.');
+            $this->addFlash('error', 'Cette mission ne vous est pas assignée.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already completed
         if ($mission->getStatus() == 'completed') {
-            $this->addFlash('error', 'This mission is already completed.');
+            $this->addFlash('error', 'Cette mission est déjà terminée.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -228,6 +245,9 @@ class HeroController extends AbstractController
             $missionRepository->save($mission, true);
             $heroRepository->save($hero, true);
 
+            //update rank
+            $heroRepository->updateRank($hero);
+
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
@@ -235,6 +255,79 @@ class HeroController extends AbstractController
             'hero' => $hero,
             'mission' => $mission,
             'form' => $form,
+        ]);
+    }
+
+    //edit profile
+    #[Route('/profile', name: 'edit_profile', methods: ['GET', 'POST'])]
+    public function editProfile(Request $request, UserInterface $user, HeroRepository $heroRepository, UserRepository $userRepository, Filesystem $filesystem, UserPasswordHasherInterface $passwordHasher): Response
+    {
+
+        $hero = $user->getHero();
+
+        $heroForm = $this->createForm(UpdateHeroProfileType::class, $hero);
+        $heroForm->handleRequest($request);
+
+        $abilitiesForm = $this->createForm(UpdateAbilitiesType::class, $hero);
+        $abilitiesForm->handleRequest($request);
+
+        $userForm = $this->createForm(UpdateUserProfile::class, $user);
+        $userForm->handleRequest($request);
+
+
+        if ($heroForm->isSubmitted() && $heroForm->isValid()) {
+            $avatar= $heroForm['avatar']->getData();
+            if ($avatar) {
+                $filesystem->remove($this->getParameter('kernel.project_dir').'/public/uploads/avatar/' . $hero->getAvatar());
+                $originalAvatar = pathinfo($avatar->getClientOriginalName(), PATHINFO_FILENAME);
+                $newAvatar = $originalAvatar.'-'.uniqid().'.'.$avatar->guessExtension();
+    
+                try {
+                    $avatar->move(
+                        $this->getParameter('kernel.project_dir').'/public/uploads/avatar',
+                        $newAvatar
+                    );
+                } catch (FileException $e) {
+                    // ... handle exception if something goes wrong
+                }
+    
+                $hero->setAvatar($newAvatar);
+            }
+            
+            $heroRepository->save($hero, true);
+            $this->addFlash('success', 'Votre profil héro a bien été mis à jour.');
+            return $this->redirectToRoute('hero_edit_profile', [], Response::HTTP_SEE_OTHER);
+        }
+
+        if ($abilitiesForm->isSubmitted() && $abilitiesForm->isValid()) {
+            $heroRepository->save($hero, true);
+            $this->addFlash('success', 'Vos pouvoirs ont bien été mises à jour.');
+            return $this->redirectToRoute('hero_edit_profile', [], Response::HTTP_SEE_OTHER);
+        }
+
+        if ($userForm->isSubmitted() && $userForm->isValid()) {
+            if ($userForm->get('plainPassword')->getData() != '') {
+                // Encode(hash) the plain password, and set it.
+                $encodedPassword = $passwordHasher->hashPassword(
+                    $user,
+                    $userForm->get('plainPassword')->getData()
+                );
+
+                $user->setPassword($encodedPassword);
+            }
+
+            $user->setUpdatedAt(new DateTimeImmutable('now'));
+
+            $userRepository->save($user, true);
+            $this->addFlash('success', 'Votre profil a bien été mis à jour.');
+            return $this->redirectToRoute('hero_edit_profile', [], Response::HTTP_SEE_OTHER);
+        }
+
+        return $this->renderForm('hero/profile.html.twig', [
+            'hero' => $hero,
+            'userForm' => $userForm,
+            'heroForm' => $heroForm,
+            'abilitiesForm' => $abilitiesForm,
         ]);
     }
 }
