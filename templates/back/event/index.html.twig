@@ -41,7 +41,6 @@
                                         <td class="px-6 py-4">{{ event.createdAt|date('d-m-Y H:i:s') }}</td>
                                         <td class="px-6 py-4">{{ event.updatedAt|date('d-m-Y H:i:s') }}</td>
                                         <td class="px-6 py-4">
-                                            <a href="{{ path('back_event_show', {'id': event.id}) }}">Voir</a>
                                             <a href="{{ path('back_event_edit', {'id': event.id}) }}">Modifier</a>
                                             {{ include('back/event/_delete_form.html.twig') }}
                                         </td>
@@ -55,7 +54,7 @@
                         </table>
                     </div>
                 </div>
-                <div class="max-w-sm w-64 rounded overflow-hidden shadow-lg">
+                <div class="max-w-sm w-64 bg-white rounded-2xl overflow-hidden shadow-lg">
                     <div class="px-6 py-4">
                         <a href="{{ path('back_event_new') }}" class="no-underline hover:underline ...">Créer un évènement</a>
                     </div>

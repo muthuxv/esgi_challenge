@@ -12,6 +12,7 @@ use Symfony\Component\Form\Extension\Core\Type\PasswordType;
 use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
+use Symfony\Component\Validator\Constraints\Email;
 
 class BackUpdateUserProfile extends AbstractType
 {
@@ -20,12 +21,33 @@ class BackUpdateUserProfile extends AbstractType
         $builder
             ->add('firstname', TextType::class, [
                 'label' => 'Prénom',
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le prénom doit comporter au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le prénom ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                ],
             ])
             ->add('lastname', TextType::class, [
                 'label' => 'Nom',
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
+                'constraints' => [
+                    new Email([
+                        'message' => 'L\'adresse email "{{ value }}" n\'est pas valide.'
+                    ]),
+                ],
             ])
             ->add('roles', ChoiceType::class, array(
                 'choices' => array(

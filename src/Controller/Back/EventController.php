@@ -69,6 +69,7 @@ class EventController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Event $event, UserRepository $userRepository, UserInterface $user): Response
     {
@@ -77,6 +78,7 @@ class EventController extends AbstractController
             'user_admin' => $userRepository->findBy(array('id' => $user->getId())),
         ]);
     }
+    */
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Event $event, EventRepository $eventRepository, UserRepository $userRepository, UserInterface $user, Filesystem $filesystem): Response
