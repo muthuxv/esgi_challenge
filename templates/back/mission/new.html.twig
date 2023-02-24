@@ -1,0 +1,11 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Création d'une mission{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">Création d'une mission</h1>
+
+    {{ include('back/mission/_form.html.twig') }}
+
+    <a href="{{ path('back_mission_index') }}">Retour</a>
+{% endblock %}
