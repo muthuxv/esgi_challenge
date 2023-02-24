@@ -12,7 +12,6 @@ use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\Security\Core\User\UserInterface;
 use App\Repository\UserRepository;
 use Symfony\Component\HttpFoundation\File\UploadedFile;
-use App\Form\UpdateEventType;
 use Symfony\Component\Filesystem\Filesystem;
 use DateTimeImmutable;
 

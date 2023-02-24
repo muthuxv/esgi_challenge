@@ -1,0 +1,16 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Création d'un type de mission{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">Création d'un type de mission</h1>
+
+    {{ include('back/mission_type/_form.html.twig') }}
+
+    <br>
+    <div class="max-w-sm w-24 bg-white shadow sm:rounded-md overflow-hidden">
+        <div class="px-6 py-4">
+            <a href="{{ path('back_mission_type_index') }}" class="no-underline hover:underline ...">Retour</a>
+        </div>
+    </div>
+{% endblock %}

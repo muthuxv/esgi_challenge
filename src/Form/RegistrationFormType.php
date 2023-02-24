@@ -13,6 +13,7 @@ use Symfony\Component\Validator\Constraints\Length;
 use Symfony\Component\Validator\Constraints\NotBlank;
 use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\EmailType;
+use Symfony\Component\Validator\Constraints\Email;
 
 class RegistrationFormType extends AbstractType
 {
@@ -25,6 +26,14 @@ class RegistrationFormType extends AbstractType
                     'class' => 'bg-gray-50 border border-gray-300 text-gray-900 sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500',
                     'placeholder' => 'Ton prénom',
                 ],
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le prénom de la mission doit comporter au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le prénom de la mission ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                ],
                 'required' => true,
             ])
             ->add('lastname', TextType::class, [
@@ -34,6 +43,14 @@ class RegistrationFormType extends AbstractType
                     'placeholder' => 'Ton nom de famille',
                 ],
                 'required' => true,
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                ],
             ])
             ->add('email', EmailType::class, [
                 'label' => 'Adresse email',
@@ -42,9 +59,14 @@ class RegistrationFormType extends AbstractType
                     'placeholder' => 'name@company.com',
                 ],
                 'required' => true,
+                'constraints' => [
+                    new Email([
+                        'message' => 'L\'adresse email "{{ value }}" n\'est pas valide.'
+                    ]),
+                ],
             ])
             ->add('agreeTerms', CheckboxType::class, [
-                'label' => 'I accept the Terms and Conditions',
+                'label' => 'J\'accepte les termes et les conditions ',
                 'required' => true,
                 'attr' => [
                     'class' => 'w-4 h-4 border border-gray-300 rounded bg-gray-50 focus:ring-3 focus:ring-primary-300 dark:bg-gray-700 dark:border-gray-600 dark:focus:ring-primary-600 dark:ring-offset-gray-800',
@@ -69,11 +91,11 @@ class RegistrationFormType extends AbstractType
                 ],
                 'constraints' => [
                     new NotBlank([
-                        'message' => 'Please enter a password',
+                        'message' => 'Mettre un mot de passe svp',
                     ]),
                     new Length([
                         'min' => 6,
-                        'minMessage' => 'Your password should be at least {{ limit }} characters',
+                        'minMessage' => 'Ton mot de passe devrait avoir au moins {{ limit }} caractères',
                         // max length allowed by Symfony for security reasons
                         'max' => 4096,
                     ]),

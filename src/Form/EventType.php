@@ -13,6 +13,9 @@ use Symfony\Component\Form\Extension\Core\Type\TextType;
 use Symfony\Component\Form\Extension\Core\Type\DateTimeType;
 use Symfony\Component\Form\Extension\Core\Type\TextareaType;
 use Symfony\Component\Validator\Constraints\File;
+use Symfony\Component\Validator\Constraints\Length;
+use Symfony\Component\Validator\Constraints\Date;
+use Symfony\Component\Validator\Constraints\GreaterThanOrEqual;
 
 class EventType extends AbstractType
 {
@@ -20,20 +23,48 @@ class EventType extends AbstractType
     {
         $builder
             ->add('name', TextType::class, [
-                'label' => 'Nom'
+                'label' => 'Nom',
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'Le nom doit comporter au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'Le nom ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                ],
             ])
             ->add('description', TextareaType::class, [
-                'label' => 'Description'
+                'label' => 'Description',
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'La description doit comporter au moins {{ limit }} caractères'
+                    ]),
+                ],
             ])
             ->add('date', DateTimeType::class, [
-                'widget' => 'choice',
-                'input'  => 'datetime_immutable'
+                'widget' => 'single_text',
+                'input'  => 'datetime_immutable',
+                'constraints' => [
+                    new GreaterThanOrEqual([
+                        'value' => 'today',
+                        'message' => 'La date doit être supérieure ou égale à aujourd\'hui.'
+                    ]),
+                ],
             ])
             ->add('price', NumberType::class, [
                 'label' => 'Prix',
             ])
             ->add('location', TextType::class, [
                 'label' => 'L\'emplacement de l\'évènement',
+                'constraints' => [
+                    new Length([
+                        'min' => 2,
+                        'minMessage' => 'L\'emplacement de l\'évènement doit comporter au moins {{ limit }} caractères',
+                        'max' => 50,
+                        'maxMessage' => 'L\'emplacement de l\'évènement ne peut pas dépasser {{ limit }} caractères'
+                    ]),
+                ],
             ])
             ->add('filename', FileType::class, [
                 'label' => 'Image',
