@@ -1,0 +1,11 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Modifier une mission{% endblock %}
+
+{% block body %}
+    <h1>Edit Mission</h1>
+
+    {{ include('back/mission/_form.html.twig', {'button_label': 'Update'}) }}
+
+    <a href="{{ path('back_mission_index') }}">Retour</a>
+{% endblock %}
