@@ -45,7 +45,7 @@ class EventController extends AbstractController
     
                 try {
                     $imageFile->move(
-                        $this->getParameter('kernel.project_dir').'/public/uploads',
+                        $this->getParameter('kernel.project_dir').'/public/uploads/events',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -90,13 +90,13 @@ class EventController extends AbstractController
             $imageFile = $form['filename']->getData();
 
             if ($imageFile) {
-                $filesystem->remove($this->getParameter('kernel.project_dir').'/public/uploads/' . $event->getFilename());
+                $filesystem->remove($this->getParameter('kernel.project_dir').'/public/uploads/events/' . $event->getFilename());
                 $originalFilename = pathinfo($imageFile->getClientOriginalName(), PATHINFO_FILENAME);
                 $newFilename = $originalFilename.'-'.uniqid().'.'.$imageFile->guessExtension();
     
                 try {
                     $imageFile->move(
-                        $this->getParameter('kernel.project_dir').'/public/uploads',
+                        $this->getParameter('kernel.project_dir').'/public/uploads/events',
                         $newFilename
                     );
                 } catch (FileException $e) {
@@ -123,7 +123,7 @@ class EventController extends AbstractController
     public function delete(Request $request, Event $event, EventRepository $eventRepository, Filesystem $filesystem): Response
     {
         if ($this->isCsrfTokenValid('delete'.$event->getId(), $request->request->get('_token'))) {
-            $filesystem->remove($this->getParameter('kernel.project_dir').'/public/uploads/' . $event->getFilename());
+            $filesystem->remove($this->getParameter('kernel.project_dir').'/public/uploads/events/' . $event->getFilename());
             $eventRepository->remove($event, true);
         }
 
