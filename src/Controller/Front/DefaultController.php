@@ -81,7 +81,7 @@ class DefaultController extends AbstractController
     }
 
     //liste des heroes par ordre de rang
-    #[Route('/heroes', name: 'heroes')]
+    #[Route('/list-heroes', name: 'heroes')]
     public function heroes(HeroRepository $heroRepository, UserInterface $user, UserRepository $userRepository): Response
     {
         $heroes = $heroRepository->findAll();
