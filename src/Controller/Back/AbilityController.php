@@ -44,6 +44,7 @@ class AbilityController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(Ability $ability): Response
     {
@@ -51,6 +52,7 @@ class AbilityController extends AbstractController
             'ability' => $ability,
         ]);
     }
+    */
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, Ability $ability, AbilityRepository $abilityRepository, UserRepository $userRepository, UserInterface $user): Response

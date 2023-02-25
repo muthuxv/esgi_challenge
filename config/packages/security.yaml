@@ -33,6 +33,7 @@ security:
     access_control:
         - { path: ^/admin, roles: ROLE_ADMIN }
         - { path: ^/user, roles: ROLE_USER }
+        - { path: ^/mission, roles: ROLE_USER }
         - { path: ^/hero, roles: ROLE_HERO }
         - { path: ^/, roles: PUBLIC_ACCESS }
 

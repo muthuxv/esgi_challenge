@@ -1,9 +1,9 @@
 <h1>Ici, HeroCall</h1>
 
-<p>Pour modifier votre mot de passe, veuillez suivre le lien suivant : </p>
+<p>Pour réinitialiser votre mot de passe, cliquez sur lien:</p>
 
 <a href="{{ url('app_reset_password', {token: resetToken.token}) }}">{{ url('app_reset_password', {token: resetToken.token}) }}</a>
 
 <p>Ce lien expirera dans {{ resetToken.expirationMessageKey|trans(resetToken.expirationMessageData, 'ResetPasswordBundle') }}.</p>
 
-<p>Merci.</p>
+<p>Cordialement, Herocall</p>

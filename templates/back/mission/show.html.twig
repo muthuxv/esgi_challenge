@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+
+<title>Mission</title>
+
+{% block body %}
+    <h1>Mission</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ mission.id }}</td>
+            </tr>
+            <tr>
+                <th>Nom</th>
+                <td>{{ mission.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ mission.description }}</td>
+            </tr>
+            <tr>
+                <th>Localisation</th>
+                <td>{{ mission.location }}</td>
+            </tr>
+            <tr>
+                <th>Résultat</th>
+                <td>{{ mission.result }}</td>
+            </tr>
+            <tr>
+                <th>Type de mission</th>
+                <td>{{ mission.missionType }}</td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_mission_index') }}">back to list</a>
+
+    <a href="{{ path('back_ability_edit', {'id': mission.id}) }}">edit</a>
+
+    {{ include('back/mission/_delete_form.html.twig') }}
+{% endblock %}
