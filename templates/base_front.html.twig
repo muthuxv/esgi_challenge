@@ -3,69 +3,113 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>{% block title %}Welcome!{% endblock %}</title>
-        <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
-        {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
-        {% block stylesheets %}
-            {{ encore_entry_link_tags('app') }}
-        {% endblock %}
+        <title>Administration</title>
+        <link rel="icon" href="{{ asset('build/images/hero-call-logo.png') }}">
+        <meta name="author" content="David Grzyb">
+        <meta
+        name="description" content="">
 
-        {% block javascripts %}
-            {{ encore_entry_script_tags('app') }}
-        {% endblock %}
+        <!-- Tailwind -->
+        <link href="https://cdnjs.cloudflare.com/ajax/libs/tailwindcss/2.2.19/tailwind.min.css" rel="stylesheet">
+        <style>
+            @import url('https://fonts.googleapis.com/css?family=Karla:400, 700 &display=swap');
+            .font-family-karla {
+                font-family: karla;
+            }
+            .bg-sidebar {
+                background: #3d68ff;
+            }
+            .cta-btn {
+                color: #3d68ff;
+            }
+            .upgrade-btn {
+                background: #1947ee;
+            }
+            .upgrade-btn:hover {
+                background: #0038fd;
+            }
+            .active-nav-link {
+                background: #1947ee;
+            }
+            .nav-item:hover {
+                background: #1947ee;
+            }
+            .account-link:hover {
+                background: #3d68ff;
+            }
+        </style>
     </head>
     <body>
-        <div class="navbar bg-blue-200 text-black">
-            <div class="navbar-start">
-                <div class="dropdown">
-                <label tabindex="0" class="btn btn-ghost lg:hidden">
-                    <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
-                </label>
-                    <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/">Accueil</a></li>{% endif %}
-                        {% if (is_granted('ROLE_USER')) %} <li><a class="text-neutral-500" href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
-                        {% if (is_granted('ROLE_ADMIN')) %} <li><a class="text-neutral-500" href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
-                        {% if (is_granted('ROLE_HERO')) %} <li><a class="text-neutral-500" href="{{ path('hero_default_index') }}">Dashboard</a></li>{% endif %}
-                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/heroes">Heros</a></li>{% endif %}
-                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/events">Évènements</a></li>{% endif %}
-                    </ul>
-                </div>
+        <nav class="relative px-4 py-4 flex justify-between items-center bg-blue-200 text-black">
+            <a class="text-3xl font-bold leading-none" href="#">
                 <img src="{{ asset('build/images/hero-call-logo.png') }}" class="h-8 mr-3" alt="Hero Call Logo" />
+            </a>
+            <div class="lg:hidden">
+                <button class="navbar-burger flex items-center text-blue-600 p-3">
+                    <svg class="block h-4 w-4 fill-current" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg">
+                        <title>Mobile menu</title>
+                        <path d="M0 3h20v2H0V3zm0 6h20v2H0V9zm0 6h20v2H0v-2z"></path>
+                    </svg>
+                </button>
             </div>
-            <div class="navbar-center hidden lg:flex">
-                <ul class="menu menu-horizontal px-1">
-                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/">Accueil</a></li>{% endif %}
-                    {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
-                    {% if (is_granted('ROLE_ADMIN')) %} <li><a href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
-                    {% if (is_granted('ROLE_HERO')) %} <li><a href="{{ path('hero_default_index') }}">Dashboard</a></li>{% endif %}
-                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/heroes">Heros</a></li>{% endif %}
-                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/events">Évènements</a></li>{% endif %}
-                </ul>
-            </div>
-                <div class="navbar-end">
-                {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}
-                    <div class="flex-none">
-                        <div class="dropdown dropdown-end">
-                            <label tabindex="0" class="btn btn-ghost btn-circle avatar">
-                                <div class="w-10 rounded-full">
-                                <img src="{{ asset('uploads/user.png') }}" />
-                                </div>
-                            </label>
-                            <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                                <li>
-                                    <a class="text-neutral-500" href="{{ path('front_user_edit', {'id': user[0].id}) }}"class="justify-between">
-                                        Mon profil
-                                    </a>
-                                </li>
-                                <li><a href="/logout" class="text-neutral-500">Déconnexion</a></li>
-                            </ul>
+            <ul class="hidden absolute top-1/2 left-1/2 transform -translate-y-1/2 -translate-x-1/2 lg:flex lg:mx-auto lg:flex lg:items-center lg:w-auto lg:space-x-6">
+                {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/">Accueil</a></li>{% endif %}
+                {% if (is_granted('ROLE_USER')) %} <li><a class="text-neutral-500" href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
+                {% if (is_granted('ROLE_ADMIN')) %} <li><a class="text-neutral-500" href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
+                {% if (is_granted('ROLE_HERO')) %} <li><a class="text-neutral-500" href="{{ path('hero_default_index') }}">Dashboard</a></li>{% endif %}
+                {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/heroes">Heros</a></li>{% endif %}
+                {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500" href="/events">Évènements</a></li>{% endif %}
+            </ul>
+            
+            {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}
+                <header class="w-full items-center hidden sm:flex">
+                    <div class="w-1/2"></div>
+                    <div class="w-1/2"></div>
+                    <div x-data="{ isOpen: false }" class="relative w-1/2 flex justify-end">
+                        <button @click="isOpen = !isOpen" class="realtive z-10 w-12 h-12 rounded-full overflow-hidden border-4 border-gray-400 hover:border-gray-300 focus:border-gray-300 focus:outline-none">
+                            <img src="{{ asset('uploads/default/user.png') }}">
+                        </button>
+                        <button x-show="isOpen" @click="isOpen = false" class="h-full w-full fixed inset-0 cursor-default"></button>
+                        <div x-show="isOpen" class="absolute w-32 bg-white rounded-lg shadow-lg py-2 mt-16">
+                            <a href="{{ path('front_user_edit', {'id': user[0].id}) }}" class="block px-4 py-2 account-link hover:text-white">Mon profil</a>
+                            <a href="/logout" class="block px-4 py-2 account-link hover:text-white">Déconnexion</a>
                         </div>
                     </div>
-                {% endif %}
-            </div>
-        </div>
-
-        {% block body %}{% endblock %}
+                </header>
+            {% endif %}
+        </nav>
+        <div class="navbar-menu relative z-50 hidden">
+            <div class="navbar-backdrop fixed inset-0 bg-gray-800 opacity-25"></div>
+            <nav class="fixed top-0 left-0 bottom-0 flex flex-col w-5/6 max-w-sm py-6 px-6 bg-white border-r overflow-y-auto">
+                <div class="flex items-center mb-8">
+                    <a class="mr-auto text-3xl font-bold leading-none" href="#">
+                        <img src="{{ asset('build/images/hero-call-logo.png') }}" class="h-8 mr-3" alt="Hero Call Logo" />
+                    </a>
+                    <button class="navbar-close">
+                        <svg class="h-6 w-6 text-gray-400 cursor-pointer hover:text-gray-500" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M6 18L18 6M6 6l12 12"></path>
+                        </svg>
+                    </button>
+                </div>
+                <div>
+                    <ul>
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/">Accueil</a></li>{% endif %}
+                        {% if (is_granted('ROLE_USER')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
+                        {% if (is_granted('ROLE_ADMIN')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
+                        {% if (is_granted('ROLE_HERO')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('hero_default_index') }}">Administration</a></li>{% endif %}
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/events">Évènements</a></li>{% endif %}
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('front_user_edit', {'id': user[0].id}) }}">Mon profil</a></li>{% endif %}
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/logout">Déconnexion</a></li>{% endif %}
+                    </ul>
+                </div>
+            </nav>
+	    </div>
+    
+        <div class="w-full overflow-x-hidden border-t flex flex-col">
+			<main> 
+				{% block body %}{% endblock %}
+			</main>
+		</div>
         
         <footer class="bg-white">
             <div class="container mx-auto px-8">
@@ -111,6 +155,50 @@
                 </div>
                 </div>
             </div>
-            </footer>
+        </footer>
+
+		<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
+        <script>
+            // Burger menus
+            document.addEventListener('DOMContentLoaded', function() {
+                // open
+                const burger = document.querySelectorAll('.navbar-burger');
+                const menu = document.querySelectorAll('.navbar-menu');
+
+                if (burger.length && menu.length) {
+                    for (var i = 0; i < burger.length; i++) {
+                        burger[i].addEventListener('click', function() {
+                            for (var j = 0; j < menu.length; j++) {
+                                menu[j].classList.toggle('hidden');
+                            }
+                        });
+                    }
+                }
+
+                // close
+                const close = document.querySelectorAll('.navbar-close');
+                const backdrop = document.querySelectorAll('.navbar-backdrop');
+
+                if (close.length) {
+                    for (var i = 0; i < close.length; i++) {
+                        close[i].addEventListener('click', function() {
+                            for (var j = 0; j < menu.length; j++) {
+                                menu[j].classList.toggle('hidden');
+                            }
+                        });
+                    }
+                }
+
+                if (backdrop.length) {
+                    for (var i = 0; i < backdrop.length; i++) {
+                        backdrop[i].addEventListener('click', function() {
+                            for (var j = 0; j < menu.length; j++) {
+                                menu[j].classList.toggle('hidden');
+                            }
+                        });
+                    }
+                }
+            });
+        </script>
     </body>
 </html>

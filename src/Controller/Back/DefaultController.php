@@ -13,14 +13,20 @@ use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
 use DateTimeImmutable;
 use App\Form\UpdateUserProfile;
 use Symfony\Component\HttpFoundation\Request;
+use App\Repository\EventRepository;
+use App\Repository\MissionRepository;
 
 class DefaultController extends AbstractController
 {
     #[Route('/', name: 'default_index')]
-    public function index(UserRepository $userRepository, UserInterface $user): Response
+    public function index(UserRepository $userRepository, UserInterface $user, EventRepository $eventRepository, MissionRepository $missionRepository): Response
     {
         return $this->render('back/default/index.html.twig', [
             'user_admin' => $userRepository->findBy(array('id' => $user->getId())),
+            'all_events' => $eventRepository->findAll(),
+            'users' => $userRepository->findAll(),
+            'lastest_users' => $userRepository->findAllByDate(),
+            'missions' => $missionRepository->findAll(),
         ]);
     }
 
