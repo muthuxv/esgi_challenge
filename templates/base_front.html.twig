@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -24,7 +25,8 @@
                         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/">Accueil</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER')) %} <li><a class="text-neutral-500" href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
                         {% if (is_granted('ROLE_ADMIN')) %} <li><a class="text-neutral-500" href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
-                        {% if (is_granted('ROLE_HERO')) %} <li><a class="text-neutral-500" href="{{ path('hero_default_index') }}">Administration</a></li>{% endif %}
+                        {% if (is_granted('ROLE_HERO')) %} <li><a class="text-neutral-500" href="{{ path('hero_default_index') }}">Dashboard</a></li>{% endif %}
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/heroes">Heros</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/events">Évènements</a></li>{% endif %}
                     </ul>
                 </div>
@@ -35,7 +37,8 @@
                     {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/">Accueil</a></li>{% endif %}
                     {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
                     {% if (is_granted('ROLE_ADMIN')) %} <li><a href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
-                    {% if (is_granted('ROLE_HERO')) %} <li><a href="{{ path('hero_default_index') }}">Administration</a></li>{% endif %}
+                    {% if (is_granted('ROLE_HERO')) %} <li><a href="{{ path('hero_default_index') }}">Dashboard</a></li>{% endif %}
+                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/heroes">Heros</a></li>{% endif %}
                     {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/events">Évènements</a></li>{% endif %}
                 </ul>
             </div>

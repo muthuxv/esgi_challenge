@@ -1,0 +1,75 @@
+{% extends 'base_front.html.twig' %}
+
+{% block title %}Héros{% endblock %}
+
+{% block body %}
+
+{% set ranks = ['S', 'A', 'B', 'C'] %}
+<main class="container mx-auto">
+    <h1 class="text-3xl font-bold tracking-tight text-gray-900 text-center mb-4 mt-2">Liste des héros HeroCall</h1>
+    <div class="flex flex-col flex-wrap">
+{% for rank in ranks %}
+    {% if heroes[rank] is defined %}
+    <section class="flex flex-col place-items-center mb-8">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Rang {{ rank }}</h2>
+        <div class="flex flex-col md:flex-row justify-center gap-10">
+        {% for hero in heroes[rank] %}
+            <div class="flex flex-col place-items-center">
+                <label for="my-modal-{{ hero.id }}">
+                    <div class="avatar">
+                        <div class="w-32 mask mask-hexagon">
+                            <img src="{{ hero.avatar }}" />
+                        </div>
+                    </div>
+                </label>
+                <input type="checkbox" id="my-modal-{{ hero.id }}" class="modal-toggle" />
+                <div class="modal">
+                    <div class="modal-box relative">
+                        <label for="my-modal-{{ hero.id }}" class="btn btn-sm btn-circle absolute right-2 top-2">✕</label>
+                        <div class="flex justify-evenly">
+                            <div class="flex flex-col place-items-center">
+                                <div class="avatar">
+                                    <div class="w-32 mask mask-squircle">
+                                        <img src="{{ hero.avatar }}" />
+                                    </div>
+                                </div>
+                                <div class="name">
+                                    <p class="text-md font-bold tracking-tight text-gray-900">{{ hero.name }}</a>
+                                </div>
+                            </div>
+                            <div class="flex flex-col">
+                                <dt class="text-sm font-medium text-gray-500 mb-1">POUVOIRS</dt>
+                                <dd class="mt-1 text-sm text-gray-900">
+                                {% if hero.abilities is empty %}
+                                    Ce héro n'a pas de pouvoir.
+                                {% else %}
+                                    <ul class="flex flex-col items-center justify-center mb-6 text-gray-900">
+                                        {% for ability in hero.abilities %}
+                                            <li class="mb-4 md:mb-6 badge badge-lg badge-ghost">{{ ability.name }}</li>
+                                        {% endfor %}
+                                    </ul>
+                                {% endif %}
+                                </dd>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="name">
+                    <p class="text-md font-bold tracking-tight text-gray-900">{{ hero.name }}</a>
+                </div>
+            </div>
+        {% endfor %}
+        </div>
+    </section>
+    {% else %}
+    <section class="flex flex-col place-items-center mb-8">
+        <h2 class="text-2xl font-bold tracking-tight text-gray-900">Rang {{ rank }}</h2>
+        <p class="text-center">Aucun héros de rang {{ rank }}.</p>
+    </section>
+    {% endif %}
+
+{% endfor %}
+    </div>
+</main>
+
+{% endblock %}
