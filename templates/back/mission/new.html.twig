@@ -7,5 +7,10 @@
 
     {{ include('back/mission/_form.html.twig') }}
 
-    <a href="{{ path('back_mission_index') }}">Retour</a>
+    <br>
+    <div class="max-w-sm w-24 bg-white shadow sm:rounded-md overflow-hidden">
+        <div class="px-6 py-4">
+            <a href="{{ path('back_mission_index') }}" class="no-underline hover:underline ...">Retour</a>
+        </div>
+    </div>
 {% endblock %}
