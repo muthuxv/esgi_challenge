@@ -21,22 +21,22 @@
                     <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h8m-8 6h16" /></svg>
                 </label>
                     <ul tabindex="0" class="menu menu-compact dropdown-content mt-3 p-2 shadow bg-base-100 rounded-box w-52">
-                        <li><a class="text-neutral-500"href="/">Accueil</a></li>
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/">Accueil</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER')) %} <li><a class="text-neutral-500" href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
                         {% if (is_granted('ROLE_ADMIN')) %} <li><a class="text-neutral-500" href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
                         {% if (is_granted('ROLE_HERO')) %} <li><a class="text-neutral-500" href="{{ path('hero_default_index') }}">Administration</a></li>{% endif %}
-                        <li><a class="text-neutral-500"href="/events">Évènements</a></li>
+                        {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a class="text-neutral-500"href="/events">Évènements</a></li>{% endif %}
                     </ul>
                 </div>
                 <img src="{{ asset('build/images/hero-call-logo.png') }}" class="h-8 mr-3" alt="Hero Call Logo" />
             </div>
             <div class="navbar-center hidden lg:flex">
                 <ul class="menu menu-horizontal px-1">
-                    <li><a href="/">Accueil</a></li>
+                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/">Accueil</a></li>{% endif %}
                     {% if (is_granted('ROLE_USER')) %} <li><a href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
                     {% if (is_granted('ROLE_ADMIN')) %} <li><a href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
                     {% if (is_granted('ROLE_HERO')) %} <li><a href="{{ path('hero_default_index') }}">Administration</a></li>{% endif %}
-                    <li><a href="/events">Évènements</a></li>
+                    {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li><a href="/events">Évènements</a></li>{% endif %}
                 </ul>
             </div>
                 <div class="navbar-end">

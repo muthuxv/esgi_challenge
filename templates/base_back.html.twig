@@ -71,7 +71,7 @@
 			</a>
 			<a href="{{ path('back_assign_mission_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
 				<i class="fas fa-sticky-note mr-3"></i>
-				Assigner mission
+				Assigner une mission
 			</a>
 			<a href="{{ path('back_mission_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-4 pl-6 nav-item">
 				<i class="fas fa-table mr-3"></i>
@@ -111,14 +111,62 @@
 				</button>
 			</div>
 
-			<<<<<<<HEAD<!--DropdownNav--><nav:class="isOpen?'flex':'hidden'"class="flexflex-colpt-4"><ahref="/admin"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-tachometer-altmr-3"></i>Dashboard</a><ahref="{{path('back_user_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sticky-notemr-3"></i>Lesutilisateurs</a><ahref="{{path('back_ability_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-tablemr-3"></i>Lesabilités</a><ahref="{{path('back_mission_history_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-align-leftmr-3"></i>L'historiquedesmissions</a><ahref="{{path('back_event_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sticky-notemr-3"></i>Lesévènements</a><ahref="{{path('back_mission_type_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sticky-notemr-3"></i>Lestypesdemission</a><ahref="{{path('front_default_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sticky-notemr-3"></i>Pageaccueil</a><ahref="{{path('back_edit',{'id':user_admin[0].id})}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-usermr-3"></i>Monprofil</a><ahref="/logout"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sign-out-altmr-3"></i>Déconnexion</a></nav></header><divclass="w-fulloverflow-x-hiddenborder-tflexflex-col"><mainclass="w-fullflex-growp-6">{%blockbody%}{%endblock%}</main></div></div>=======<!--DropdownNav--><nav:class="isOpen?'flex':'hidden'"class="flexflex-colpt-4"><ahref="/admin"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-tachometer-altmr-3"></i>Dashboard</a><ahref="{{path('back_user_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sticky-notemr-3"></i>Lesutilisateurs</a><ahref="{{path('back_ability_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-tablemr-3"></i>Lesabilités</a><ahref="{{path('back_mission_history_index')}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-align-leftmr-3"></i>L'historiquedesmissions</a><ahref="{{path('back_edit',{'id':user_admin[0].id})}}"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-usermr-3"></i>Monprofil</a><ahref="/logout"class="flexitems-centertext-whiteopacity-75hover:opacity-100py-2pl-4nav-item"><iclass="fasfa-sign-out-altmr-3"></i>Déconnexion</a></nav></header>>>>>>>> 5967a503 (finish assign)
+			 <!-- Dropdown Nav -->
+            <nav :class="isOpen ? 'flex': 'hidden'" class="flex flex-col pt-4">
+                <a href="/admin" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-tachometer-alt mr-3"></i>
+                    Dashboard
+                </a>
+                <a href="{{ path('back_user_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Les utilisateurs
+                </a>
+                <a href="{{ path('back_ability_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-table mr-3"></i>
+                    Les abilités
+                </a>
+                <a href="{{ path('back_mission_history_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-align-left mr-3"></i>
+                    L'historique des missions
+                </a>
+                <a href="{{ path('back_event_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Les évènements
+                </a>
+                <a href="{{ path('back_mission_type_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Les types de mission
+                </a>
+				<a href="{{ path('front_default_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Page accueil
+                </a>
+                <a href="{{ path('back_assign_mission_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Assigner une mission
+                </a>
+				<a href="{{ path('back_mission_index') }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sticky-note mr-3"></i>
+                    Les missions
+                </a>
+                <a href="{{ path('back_edit', {'id': user_admin[0].id}) }}" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-user mr-3"></i>
+                    Mon profil
+                </a>
+                <a href="/logout" class="flex items-center text-white opacity-75 hover:opacity-100 py-2 pl-4 nav-item">
+                    <i class="fas fa-sign-out-alt mr-3"></i>
+                    Déconnexion
+                </a>
+            </nav>
+        </header>
 
-			<div class="w-full overflow-x-hidden border-t flex flex-col">
-				<main class="w-full flex-grow p-6"> {% block body %}{% endblock %}
-					</main>
-				</div>
+		<div class="w-full overflow-x-hidden border-t flex flex-col">
+			<main class="w-full flex-grow p-6"> 
+				{% block body %}{% endblock %}
+			</main>
+		</div>
 
-			</div>
+	</div>
 
 			<!-- AlpineJS -->
 			<script src="https://cdn.jsdelivr.net/gh/alpinejs/alpine@v2.x.x/dist/alpine.min.js" defer></script>
