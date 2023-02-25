@@ -466,7 +466,7 @@
                 </p>
                 <div class="flex items-center flex-wrap ">
                   {% if event.price > 0 %}
-                    <button class="bg-blue-600 from-orange-300 to-amber-400 hover:scale-105 drop-shadow-md shadow-cla-violate px-4 py-1 rounded-lg">Payer</button>
+                    <button onclick="window.location.href='/stripe/{{ event.id }}';" class="bg-blue-600 from-orange-300 to-amber-400 hover:scale-105 drop-shadow-md shadow-cla-violate px-4 py-1 rounded-lg">Payer</button>
                   {% else %}
                     <button type="button" class="text-white bg-blue-300 from-orange-300 to-amber-400 drop-shadow-md shadow-cla-violate px-4 py-1 rounded-lg focus:outline-none" disabled>Gratuit</button>
                   {% endif %}

@@ -30,3 +30,7 @@ controller_reset_password:
 controller_registration:
     resource: ../src/Controller/RegistrationController.php
     type: attribute
+
+controller_stripe:
+    resource: ../src/Controller/StripeController.php
+    type: attribute
