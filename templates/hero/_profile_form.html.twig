@@ -37,10 +37,10 @@
 
     <div class="rightcontent ml-0 md:ml-10 md:w-72">
         <div class="p-4 mb-4 bg-white border border-gray-200 rounded-lg shadow-sm 2xl:col-span-2 sm:p-6">
-            <div class="items-center sm:flex xl:block 2xl:flex sm:space-x-4 xl:space-x-0 2xl:space-x-4">
+            <div class="items-center sm:flex">
                 {{ form_start(abilitiesForm) }}
                     <h1 class="text-2xl font-bold tracking-tight text-gray-900">{{ form_label(abilitiesForm.abilities) }}</h1>
-                    <div class="h-64 overflow-auto">
+                    <div class="h-64 p-5 overflow-y-auto">
                     {% for ability in abilitiesForm.abilities %}
                         <label class="flex mb-1">
                         {{ form_widget(ability, {'attr': {'class': 'checkbox checkbox-accent'}}) }}

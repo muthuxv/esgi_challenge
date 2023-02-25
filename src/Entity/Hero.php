@@ -46,6 +46,8 @@ class Hero
         $this->abilities = new ArrayCollection();
         $this->missions = new ArrayCollection();
         $this->events = new ArrayCollection();
+        //default rank
+        $this->rank = 'C';
     }
 
     public function __toString()

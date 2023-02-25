@@ -10,7 +10,7 @@ use Doctrine\Migrations\AbstractMigration;
 /**
  * Auto-generated Migration: Please modify to your needs!
  */
-final class Version20230221160816 extends AbstractMigration
+final class Version20230225103831 extends AbstractMigration
 {
     public function getDescription(): string
     {
@@ -43,7 +43,7 @@ final class Version20230221160816 extends AbstractMigration
         $this->addSql('CREATE TABLE event_payment (id INT NOT NULL, event_id INT NOT NULL, user_id INT NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_E87F2DA271F7E88B ON event_payment (event_id)');
         $this->addSql('CREATE INDEX IDX_E87F2DA2A76ED395 ON event_payment (user_id)');
-        $this->addSql('CREATE TABLE hero (id INT NOT NULL, user_id INT NOT NULL, hero_name VARCHAR(255) NOT NULL, rank INT DEFAULT NULL, is_available BOOLEAN NOT NULL, avatar VARCHAR(255) DEFAULT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE hero (id INT NOT NULL, user_id INT NOT NULL, hero_name VARCHAR(255) NOT NULL, is_available BOOLEAN NOT NULL, avatar VARCHAR(255) DEFAULT NULL, rank VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE UNIQUE INDEX UNIQ_51CE6E86A76ED395 ON hero (user_id)');
         $this->addSql('CREATE TABLE hero_ability (hero_id INT NOT NULL, ability_id INT NOT NULL, PRIMARY KEY(hero_id, ability_id))');
         $this->addSql('CREATE INDEX IDX_21CB2D1B45B0BCD ON hero_ability (hero_id)');
@@ -55,9 +55,9 @@ final class Version20230221160816 extends AbstractMigration
         $this->addSql('COMMENT ON COLUMN mission.created_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN mission.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('COMMENT ON COLUMN mission.date_end IS \'(DC2Type:datetime_immutable)\'');
-        $this->addSql('CREATE TABLE mission_history (id INT NOT NULL, mission_id INT NOT NULL, updated_by_id INT NOT NULL, comment VARCHAR(255) DEFAULT NULL, status VARCHAR(255) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
+        $this->addSql('CREATE TABLE mission_history (id INT NOT NULL, mission_id INT NOT NULL, updated_by_id INT DEFAULT NULL, comment VARCHAR(255) DEFAULT NULL, status VARCHAR(255) NOT NULL, updated_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE INDEX IDX_B686E406BE6CAE90 ON mission_history (mission_id)');
-        $this->addSql('CREATE UNIQUE INDEX UNIQ_B686E406896DBBDE ON mission_history (updated_by_id)');
+        $this->addSql('CREATE INDEX IDX_B686E406896DBBDE ON mission_history (updated_by_id)');
         $this->addSql('COMMENT ON COLUMN mission_history.updated_at IS \'(DC2Type:datetime_immutable)\'');
         $this->addSql('CREATE TABLE mission_type (id INT NOT NULL, name VARCHAR(255) NOT NULL, PRIMARY KEY(id))');
         $this->addSql('CREATE TABLE reset_password_request (id INT NOT NULL, user_id INT NOT NULL, selector VARCHAR(20) NOT NULL, hashed_token VARCHAR(100) NOT NULL, requested_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, expires_at TIMESTAMP(0) WITHOUT TIME ZONE NOT NULL, PRIMARY KEY(id))');

@@ -67,6 +67,9 @@
          <div class="sm:col-span-1 items-center justify-center flex flex-col">
             <dt class="text-sm font-medium text-gray-500 mb-1">POUVOIRS</dt>
             <dd class="mt-1 text-sm text-gray-900">
+               {% if hero.abilities is empty %}
+                  <a href="/hero/profile" class="link link-accent">Ajouter des pouvoirs</a>
+               {% else %}
                <ul class="flex flex-col items-center justify-center mb-6 text-gray-900">
                   {% for ability in hero.abilities %}
                      <li class="mb-4 md:mb-6 badge badge-lg badge-ghost" data-popover-target="popover-default-{{ability.id}}">{{ ability.name }}</li>
@@ -78,6 +81,7 @@
                      </div>
                   {% endfor %}
                </ul>
+               {% endif %}
             </dd>
          </div>
       </div>
