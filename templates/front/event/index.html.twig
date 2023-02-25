@@ -52,7 +52,7 @@
                   <b>Date: </b> {{ event.date|date('d-m-Y H:i:s') }}
                 </p>
                 <div class="flex items-center flex-wrap text-white-600">
-                  <button class="bg-green-600 text-white-600 from-orange-300 to-amber-400 hover:scale-105 drop-shadow-md shadow-cla-violate px-4 py-1 rounded-lg">Payer</button>
+                  <button onclick="window.location.href='/stripe/{{ event.id }}';" class="bg-green-600 text-white-600 from-orange-300 to-amber-400 hover:scale-105 drop-shadow-md shadow-cla-violate px-4 py-1 rounded-lg">Payer</button>
                 </div>
               </div>
             </div>
