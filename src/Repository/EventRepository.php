@@ -39,6 +39,29 @@ class EventRepository extends ServiceEntityRepository
         }
     }
 
+    public function findAllByDateAndLimit()
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.date > :today')
+            ->setParameter('today', new \DateTime())
+            ->orderBy('e.date', 'ASC')
+            ->setMaxResults(3)
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
+    public function findAllByDate()
+    {
+        return $this->createQueryBuilder('e')
+            ->where('e.date > :today')
+            ->setParameter('today', new \DateTime())
+            ->orderBy('e.date', 'ASC')
+            ->getQuery()
+            ->getResult()
+        ;
+    }
+
 //    /**
 //     * @return Event[] Returns an array of Event objects
 //     */

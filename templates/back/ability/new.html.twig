@@ -3,9 +3,14 @@
 {% block title %}Création d'un abilité{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl text-black pb-6">Création d'un abilité</h1>
+    <h1 class="text-3xl text-black pb-6">Création d'une abilité</h1>
 
     {{ include('back/ability/_form.html.twig') }}
 
-    <a href="{{ path('back_ability_index') }}">Retour</a>
+    <br>
+    <div class="max-w-sm w-24 bg-white shadow sm:rounded-md overflow-hidden">
+        <div class="px-6 py-4">
+            <a href="{{ path('back_ability_index') }}" class="no-underline hover:underline ...">Retour</a>
+        </div>
+    </div>
 {% endblock %}

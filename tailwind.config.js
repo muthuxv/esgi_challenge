@@ -5,6 +5,10 @@ module.exports = {
   "./node_modules/flowbite/**/*.js",],
   theme: {
     extend: {},
+    fontFamily: {
+      sans: ['Montserrat', 'sans-serif'],
+      serif: ['Montserrat', 'serif'],
+    },
   },
   plugins: [
     require('daisyui'), 

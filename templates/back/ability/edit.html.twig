@@ -3,9 +3,14 @@
 {% block title %}Modifier une abilité{% endblock %}
 
 {% block body %}
-    <h1>Edit Ability</h1>
+    <h1 class="text-3xl text-black pb-6">Modifier une abilité</h1>
 
-    {{ include('back/ability/_form.html.twig', {'button_label': 'Update'}) }}
+    {{ include('back/ability/_form.html.twig', {'button_label': 'Modifier'}) }}
 
-    <a href="{{ path('back_ability_index') }}">Retour</a>
+    <br>
+    <div class="max-w-sm w-24 bg-white shadow sm:rounded-md overflow-hidden">
+        <div class="px-6 py-4">
+            <a href="{{ path('back_ability_index') }}" class="no-underline hover:underline ...">Retour</a>
+        </div>
+    </div>
 {% endblock %}

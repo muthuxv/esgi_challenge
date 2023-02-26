@@ -24,10 +24,10 @@ class HeroFixtures extends Fixture implements DependentFixtureInterface
         for ($i=0; $i<10; $i++) {
             $object = (new Hero())
                 ->setName($faker->word)
-                ->setRank($faker->numberBetween(1, 10))
-                ->setIsAvailable(1)
+                ->setRank($faker->randomElement(['S', 'A', 'B', 'C']))
+                ->setIsAvailable($faker->boolean)
                 ->addAbility($faker->randomElement($abilities))
-                ->setAvatar($faker->imageUrl(200, 200))
+                ->setAvatar('saitama.png')
                 ->setUser($faker->unique()->randomElement($users))
             ;
             $manager->persist($object);

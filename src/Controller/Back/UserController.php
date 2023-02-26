@@ -58,6 +58,7 @@ class UserController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/{id}', name: 'show', methods: ['GET'])]
     public function show(User $user): Response
     {
@@ -65,6 +66,7 @@ class UserController extends AbstractController
             'user' => $user,
         ]);
     }
+    */
 
     #[Route('/{id}/edit', name: 'edit', methods: ['GET', 'POST'])]
     public function edit(Request $request, User $user, UserRepository $userRepository, UserInterface $user_admin, UserPasswordHasherInterface $passwordHasher): Response

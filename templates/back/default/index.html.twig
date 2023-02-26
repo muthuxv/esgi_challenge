@@ -3,92 +3,79 @@
 {% block title %}Accueil{% endblock %}
 
 {% block body %}
-    <h1 class="text-3xl text-black pb-6">Dashboard</h1>
-    
-    <div class="flex flex-wrap mt-6">
-        <div class="w-full lg:w-1/2 pr-0 lg:pr-2">
-            <p class="text-xl pb-3 flex items-center">
-                <i class="fas fa-plus mr-3"></i> Monthly Reports
-            </p>
-            <div class="p-6 bg-white">
-                <canvas id="chartOne" width="400" height="200"></canvas>
-            </div>
+   <!-- Statistics Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 p-4 gap-4">
+        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+        <div class="flex justify-center items-center w-14 h-14 bg-white text-black rounded-full transition-all duration-300 transform group-hover:rotate-12">
+            <i class="fas fa-users"></i>
         </div>
-        <div class="w-full lg:w-1/2 pl-0 lg:pl-2 mt-12 lg:mt-0">
-            <p class="text-xl pb-3 flex items-center">
-                <i class="fas fa-check mr-3"></i> Resolved Reports
-            </p>
-            <div class="p-6 bg-white">
-                <canvas id="chartTwo" width="400" height="200"></canvas>
-            </div>
+        <div class="text-right">
+            <p class="text-2xl">{{ users|length }}</p>
+            <p>Utilisateurs</p>
+        </div>
+        </div>
+        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+        <div class="flex justify-center items-center w-14 h-14 bg-white text-black rounded-full transition-all duration-300 transform group-hover:rotate-12">
+            <i class="fas fa-calendar"></i>
+        </div>
+        <div class="text-right">
+            <p class="text-2xl">{{ all_events|length }}</p>
+            <p>Évènements</p>
+        </div>
+        </div>
+        <div class="bg-blue-500 dark:bg-gray-800 shadow-lg rounded-md flex items-center justify-between p-3 border-b-4 border-blue-600 dark:border-gray-600 text-white font-medium group">
+        <div class="flex justify-center items-center w-14 h-14 bg-white text-black rounded-full transition-all duration-300 transform group-hover:rotate-12">
+            <i class="fas fa-list"></i>
+        </div>
+        <div class="text-right">
+            <p class="text-2xl">{{ missions|length }}</p>
+            <p>Missions</p>
+        </div>
         </div>
     </div>
+    <!-- ./Statistics Cards -->
 
-    <div class="w-full mt-12">
-        <p class="text-xl pb-3 flex items-center">
-            <i class="fas fa-list mr-3"></i> Latest Reports
-        </p>
-        <div class="bg-white overflow-auto">
-            <table class="min-w-full bg-white">
-                <thead class="bg-gray-800 text-white">
-                    <tr>
-                        <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Name</th>
-                        <th class="w-1/3 text-left py-3 px-4 uppercase font-semibold text-sm">Last name</th>
-                        <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Phone</th>
-                        <th class="text-left py-3 px-4 uppercase font-semibold text-sm">Email</th>
+    <!-- External resources -->
+    <div class="mt-8 mx-4">
+        <div class="bg-white shadow rounded-lg mb-4 p-4 sm:p-6 h-full">
+            <div class="flex items-center justify-between mb-4">
+            <h3 class="text-xl font-bold leading-none text-gray-900">Derniers utilisateurs (30 jours)</h3>
+            <a href="/admin/user" class="text-sm font-medium text-cyan-600 hover:bg-gray-100 rounded-lg inline-flex items-center p-2">Voir tout</a>
+            </div>
+            <div class="w-full overflow-hidden rounded-lg shadow-xs">
+                <div class="w-full overflow-x-auto">
+                <table class="w-full">
+                    <thead>
+                    <tr class="text-xs font-semibold tracking-wide text-left text-gray-500 uppercase border-b dark:border-gray-700 bg-gray-50 dark:text-gray-400 dark:bg-gray-800">
+                        <th class="px-4 py-3">Nom</th>
+                        <th class="px-4 py-3">Prénom</th>
+                        <th class="px-4 py-3">Email</th>
+                        <th class="px-4 py-3">Roles</th>
+                        <th class="px-4 py-3">Créé à</th>
+                        <th class="px-4 py-3">Modifié à</th>
+                        <th class="px-4 py-3">Vérifié</th>
                     </tr>
-                </thead>
-                <tbody class="text-gray-700">
-                    <tr>
-                        <td class="w-1/3 text-left py-3 px-4">Lian</td>
-                        <td class="w-1/3 text-left py-3 px-4">Smith</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr class="bg-gray-200">
-                        <td class="w-1/3 text-left py-3 px-4">Emma</td>
-                        <td class="w-1/3 text-left py-3 px-4">Johnson</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr>
-                        <td class="w-1/3 text-left py-3 px-4">Oliver</td>
-                        <td class="w-1/3 text-left py-3 px-4">Williams</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr class="bg-gray-200">
-                        <td class="w-1/3 text-left py-3 px-4">Isabella</td>
-                        <td class="w-1/3 text-left py-3 px-4">Brown</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr>
-                        <td class="w-1/3 text-left py-3 px-4">Lian</td>
-                        <td class="w-1/3 text-left py-3 px-4">Smith</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr class="bg-gray-200">
-                        <td class="w-1/3 text-left py-3 px-4">Emma</td>
-                        <td class="w-1/3 text-left py-3 px-4">Johnson</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr>
-                        <td class="w-1/3 text-left py-3 px-4">Oliver</td>
-                        <td class="w-1/3 text-left py-3 px-4">Williams</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                    <tr class="bg-gray-200">
-                        <td class="w-1/3 text-left py-3 px-4">Isabella</td>
-                        <td class="w-1/3 text-left py-3 px-4">Brown</td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="tel:622322662">622322662</a></td>
-                        <td class="text-left py-3 px-4"><a class="hover:text-blue-500" href="mailto:jonsmith@mail.com">jonsmith@mail.com</a></td>
-                    </tr>
-                </tbody>
-            </table>
+                    </thead>
+                    <tbody class="bg-white divide-y dark:divide-gray-700 dark:bg-gray-800">
+                        {% for lastest_user in lastest_users %}
+                            <tr class="hover:bg-gray-50">
+                                <td class="px-6 py-4">{{ lastest_user.lastname }}</td>
+                                <td class="px-6 py-4">{{ lastest_user.firstname }}</td>
+                                <td class="px-6 py-4">{{ lastest_user.email }}</td>
+                                <td class="px-6 py-4">{{ lastest_user.roles ? lastest_user.roles|json_encode : '' }}</td>
+                                <td class="px-6 py-4">{{ lastest_user.createdAt|date('d-m-Y H:i:s') }}</td>
+                                <td class="px-6 py-4">{{ lastest_user.updatedAt|date('d-m-Y H:i:s') }}</td>
+                                <td class="px-6 py-4">{{ lastest_user.isVerified ? 'Oui' : 'Non'}}</td>
+                            </tr>
+                        {% else %}
+                            <tr>
+                                <td colspan="11">Pas de nouvel utilisateur</td>
+                            </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+                </div>
+            </div>
         </div>
     </div>
 {% endblock %}

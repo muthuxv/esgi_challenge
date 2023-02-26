@@ -24,6 +24,7 @@ class MissionHistoryController extends AbstractController
         ]);
     }
 
+    /*
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
     public function new(Request $request, MissionHistoryRepository $missionHistoryRepository): Response
     {
@@ -78,4 +79,5 @@ class MissionHistoryController extends AbstractController
 
         return $this->redirectToRoute('back_mission_history_index', [], Response::HTTP_SEE_OTHER);
     }
+    */
 }

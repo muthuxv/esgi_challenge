@@ -19,9 +19,6 @@ class Hero
     #[ORM\Column(length: 255)]
     private ?string $hero_name = null;
 
-    #[ORM\Column(nullable: true)]
-    private ?int $rank = null;
-
     #[ORM\Column]
     private ?bool $isAvailable = true;
 
@@ -41,11 +38,16 @@ class Hero
     #[ORM\JoinColumn(nullable: false)]
     private ?User $user = null;
 
+    #[ORM\Column(length: 255)]
+    private ?string $rank = null;
+
     public function __construct()
     {
         $this->abilities = new ArrayCollection();
         $this->missions = new ArrayCollection();
         $this->events = new ArrayCollection();
+        //default rank
+        $this->rank = 'C';
     }
 
     public function __toString()
@@ -70,19 +72,7 @@ class Hero
         return $this;
     }
 
-    public function getRank(): ?int
-    {
-        return $this->rank;
-    }
-
-    public function setRank(?int $rank): self
-    {
-        $this->rank = $rank;
-
-        return $this;
-    }
-
-    public function isAvailable(): ?bool
+    public function getIsAvailable(): ?bool
     {
         return $this->isAvailable;
     }
@@ -148,18 +138,6 @@ class Hero
         return $this;
     }
 
-    //get completed missions
-    public function getNumberCompletedMissions(): int
-    {
-        $completedMissions = 0;
-        foreach ($this->getMissions() as $mission) {
-            if ($mission->getStatus() === 'completed') {
-                $completedMissions++;
-            }
-        }
-
-        return $completedMissions;
-    }
     /**
      * @return Collection<int, Event>
      */
@@ -210,4 +188,17 @@ class Hero
 
         return $this;
     }
+
+    public function getRank(): ?string
+    {
+        return $this->rank;
+    }
+
+    public function setRank(string $rank): self
+    {
+        $this->rank = $rank;
+
+        return $this;
+    }
+
 }

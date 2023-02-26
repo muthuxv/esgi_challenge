@@ -2,6 +2,7 @@
 <html>
     <head>
         <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
         <title>{% block title %}Welcome!{% endblock %}</title>
         <link rel="icon" href="data:image/svg+xml,<svg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 128 128%22><text y=%221.2em%22 font-size=%2296%22>⚫️</text></svg>">
         {# Run `composer require symfony/webpack-encore-bundle` to start using Symfony UX #}
@@ -33,7 +34,7 @@
                   <div>
                     <button type="button" class="flex text-sm bg-gray-800 rounded-full focus:ring-4 focus:ring-gray-300" aria-expanded="false" data-dropdown-toggle="dropdown-user">
                       <span class="sr-only">Open user menu</span>
-                      <img class="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/people/profile-picture-5.jpg" alt="user photo">
+                      <img class="w-8 h-8 rounded-full" src="{{ asset('uploads/avatar/' ~ hero.avatar) }}" alt="user avatar">
                     </button>
                   </div>
                   <div class="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded shadow" id="dropdown-user">
@@ -47,16 +48,13 @@
                     </div>
                     <ul class="py-1" role="none">
                       <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Dashboard</a>
+                        <a href="/hero" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Dashboard</a>
                       </li>
                       <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Settings</a>
+                        <a href="/hero/profile" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Profil</a>
                       </li>
                       <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Earnings</a>
-                      </li>
-                      <li>
-                        <a href="#" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Sign out</a>
+                        <a href="/logout" class="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100" role="menuitem">Se déconnecter</a>
                       </li>
                     </ul>
                   </div>
@@ -67,7 +65,7 @@
       </nav>
 
       <aside id="logo-sidebar" class="fixed top-0 left-0 z-40 w-64 h-screen pt-20 transition-transform -translate-x-full bg-white border-r border-gray-200 sm:translate-x-0" aria-label="Sidebar">
-        <div class="h-full px-3 pb-4 overflow-y-auto bg-gradient-to-r from-caribbean-green-500 to-caribbean-green-700">
+        <div class="h-full px-3 pb-4 overflow-y-auto">
             <ul class="space-y-2">
               <li>
                   <a href="/hero" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
@@ -76,14 +74,26 @@
                   </a>
               </li>
               <li>
-                  <a href="missions" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
-                    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path d="M5 3a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2V5a2 2 0 00-2-2H5zM5 11a2 2 0 00-2 2v2a2 2 0 002 2h2a2 2 0 002-2v-2a2 2 0 00-2-2H5zM11 5a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V5zM11 13a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"></path></svg>
-                    <span class="flex-1 ml-3 whitespace-nowrap">Missions</span>
-                  </a>
+                <button type="button" class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg group hover:bg-gray-100" aria-controls="dropdown-example" data-collapse-toggle="dropdown-example">
+                    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill="none" stroke="#303C42" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M22 20.5H2A1.5 1.5 0 0 1 .5 19V5A1.5 1.5 0 0 1 2 3.5h20A1.5 1.5 0 0 1 23.5 5v14a1.5 1.5 0 0 1-1.5 1.5z"/><path fill="none" stroke="#303C42" stroke-linecap="round" stroke-linejoin="round" stroke-miterlimit="10" d="M5.5 8.5h5v3h-5zM6.5 13.5h5v2h-5zM13.5 8.5h5v6h-5z"/></svg>
+                    <span class="flex-1 ml-3 text-left whitespace-nowrap" sidebar-toggle-item>Missions</span>
+                    <svg sidebar-toggle-item class="w-6 h-6" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                </button>
+                <ul id="dropdown-example" class="hidden py-2 space-y-2">
+                      <li>
+                        <a href="/hero/missions/in_progress" class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">En cours</a>
+                      </li>
+                      <li>
+                        <a href="/hero/missions/assigned" class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">En attente</a>
+                      </li>
+                      <li>
+                        <a href="/hero/missions/completed" class="flex items-center w-full p-2 text-base font-normal text-gray-900 transition duration-75 rounded-lg pl-11 group hover:bg-gray-100">Terminées</a>
+                      </li>
+                </ul>
               </li>
               <li>
-                  <a href="#" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
-                    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z" clip-rule="evenodd"></path></svg>
+                  <a href="/hero/profile" class="flex items-center p-2 text-base font-normal text-gray-900 rounded-lg hover:bg-gray-100">
+                    <svg aria-hidden="true" class="flex-shrink-0 w-6 h-6 text-gray-500 transition duration-75 group-hover:text-gray-900" fill="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M18.94 1.76a.49.49 0 0 0-.17-.17A14.82 14.82 0 0 0 12 0a14.82 14.82 0 0 0-6.74 1.56.49.49 0 0 0-.17.17C5 1.92 3 5.63 3 8.5V12a17.3 17.3 0 0 0 2.6 7.3 21.44 21.44 0 0 0 2 2.34l.08.08C9.25 23.22 10.69 24 12 24s2.75-.78 4.3-2.28l.08-.08a21.44 21.44 0 0 0 2-2.34A17.3 17.3 0 0 0 21 12V8.5c0-2.87-2-6.58-2.06-6.74ZM16 13a4 4 0 0 1-2-.48 3.56 3.56 0 0 1 2-.52c1 0 1 .38 1 .5s0 .5-1 .5Zm-9-.5c0-.12 0-.5 1-.5a4 4 0 0 1 2 .48A3.56 3.56 0 0 1 8 13c-1 0-1-.38-1-.5Zm-2-1v-3a11.1 11.1 0 0 1 .85-3.62c.06.24.1.45.13.61a37.59 37.59 0 0 0-1 6 9.59 9.59 0 0 0 1.8 4.79l.22.42.14 1.36A15.94 15.94 0 0 1 5 12Zm3 5.24a5.85 5.85 0 0 0 3-4.24 25.83 25.83 0 0 0-1-5.71c-.41-.87-2.16-1.45-3-1.69-.16-.39-.31-1.1-.5-1.75l.11-.22a13.45 13.45 0 0 1 10.78 0l.11.23c-.19.68-.34 1.35-.42 1.74-.87.24-2.62.82-3 1.69a25.83 25.83 0 0 0-1 5.71 5.85 5.85 0 0 0 3 4.24l-.27 2.72C14.25 21.08 12.94 22 12 22s-2.25-.92-3.68-2.54Zm8.92 0 .24-.41A9.59 9.59 0 0 0 19 11.5a37.57 37.57 0 0 0-1-6c0-.17.08-.38.14-.62A11 11 0 0 1 19 8.5V12a15.94 15.94 0 0 1-2.17 6.06Z" clip-rule="evenodd" /></svg>
                     <span class="flex-1 ml-3 whitespace-nowrap">Profil</span>
                   </a>
               </li>
@@ -97,10 +107,25 @@
         </div>
       </aside>
       <div class="p-4 sm:ml-64">
-        <div class="p-4 border-2 border-gray-200 border-dashed rounded-lg mt-14">
+        <div class="p-4 mt-14">
+        <!-- Display Flash Messages  -->
+        {% for message in app.session.flashbag.get('success') %}
+          <div class="bg-green-100 border border-green-400 text-green-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Succès !</strong>
+            <span class="block sm:inline">{{ message }}</span>
+          </div>
+        {% endfor %}
+        {% for message in app.session.flashbag.get('error') %}
+          <div class="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative" role="alert">
+            <strong class="font-bold">Erreur !</strong>
+            <span class="block sm:inline">{{ message }}</span>
+          </div>
+        {% endfor %}
         {% block body %}{% endblock %}
         </div>
+      {% block footer %}{% endblock %} 
       </div>
+
       <script src="../path/to/flowbite/dist/flowbite.min.js"></script>
     </body>
 </html>

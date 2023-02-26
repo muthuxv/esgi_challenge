@@ -5,6 +5,7 @@ namespace App\DataFixtures;
 use App\Entity\User;
 use Doctrine\Bundle\FixturesBundle\Fixture;
 use Doctrine\Persistence\ObjectManager;
+use Faker\Factory;
 
 class UserFixtures extends Fixture
 {
@@ -12,6 +13,9 @@ class UserFixtures extends Fixture
     {
         // pwd = test
         $pwd = '$2y$13$r/sNDkWI9w4h0XHSIYqYJusHu3JYZTFwEOxTCkXG31rL9Dy1Tncba';
+
+        //faker
+        $faker = Factory::create('fr_FR');
 
         $object = (new User())
             ->setEmail('user@user.fr')
@@ -51,12 +55,12 @@ class UserFixtures extends Fixture
 
         for ($i=0; $i<10; $i++) {
             $object = (new User())
-                ->setEmail('user' . $i . '@user.fr')
+                ->setEmail($faker->email())
                 ->setRoles(['ROLE_USER'])
                 ->setPassword($pwd)
                 ->setIsVerified(true)
-                ->setLastName('nom' . $i . '')
-                ->setFirstName('prenom' . $i . '')
+                ->setLastName($faker->lastname())
+                ->setFirstName($faker->firstname())
                 ->setCreatedAt(new \DateTimeImmutable('2020-01-01'))
                 ->setUpdatedAt(new \DateTimeImmutable('2020-01-01'))
             ;

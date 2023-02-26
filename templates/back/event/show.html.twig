@@ -1,0 +1,46 @@
+<!DOCTYPE html>
+
+<title>Event</title>
+
+{% block body %}
+    <h1>Event</h1>
+
+    <table class="table">
+        <tbody>
+            <tr>
+                <th>Id</th>
+                <td>{{ event.id }}</td>
+            </tr>
+            <tr>
+                <th>Name</th>
+                <td>{{ event.name }}</td>
+            </tr>
+            <tr>
+                <th>Description</th>
+                <td>{{ event.description }}</td>
+            </tr>
+            <tr>
+                <th>Date</th>
+                <td>{{ event.date|date('d-m-Y H:i:s') }}</td>
+            </tr>
+            <tr>
+                <th>Price</th>
+                <td>{{ event.price }}</td>
+            </tr>
+            <tr>
+                <th>Location</th>
+                <td>{{ event.location }}</td>
+            </tr>
+            <tr>
+                <th>Filename</th>
+                <td><img src="{{ asset('uploads/events/' ~ event.filename) }}"></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <a href="{{ path('back_event_index') }}">back to list</a>
+
+    <a href="{{ path('back_event_edit', {'id': event.id}) }}">edit</a>
+
+    {{ include('back/event/_delete_form.html.twig') }}
+{% endblock %}

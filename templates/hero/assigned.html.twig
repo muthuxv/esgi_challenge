@@ -1,0 +1,65 @@
+{% extends 'base_hero.html.twig' %}
+
+{% block title %}Missions assignées{% endblock %}
+
+{% block body %}
+
+<section class="container mx-auto px-8 bg-white overflow-hidden bg-white shadow sm:rounded-lg  h-full">
+    <div class="py-5">
+        <h3 class="text-lg font-medium leading-6 text-gray-900"> Missions en attente d'acceptation / de refus </h3>
+        <p class="mt-1 max-w-2xl text-sm text-gray-500">Lorem ipsus</p>
+    </div>
+    {% if assigned is not empty %}
+    <div id="accordion-flush" data-accordion="collapse" data-active-classes="bg-white dark:bg-gray-900 text-gray-900" data-inactive-classes="text-gray-500">
+    {% for asg in assigned %}
+        <h2 id="accordion-flush-heading-{{asg.id}}">
+            <button type="button" class="flex items-center justify-between w-full py-5 font-medium text-left text-gray-500 border-b border-gray-200" data-accordion-target="#accordion-flush-body-{{asg.id}}" aria-expanded="true" aria-controls="accordion-flush-body-{{asg.id}}">
+            <h1 class="text-xl ">{{asg.name}}</h1>
+            <svg data-accordion-icon class="w-6 h-6 rotate-180 shrink-0" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+            </button>
+        </h2>
+        <div id="accordion-flush-body-{{asg.id}}" class="hidden" aria-labelledby="accordion-flush-heading-1">
+            <dl>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Demandé par</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ asg.user.firstname }} {{ asg.user.lastname }}</dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Description</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ asg.description }}</dd>
+                </div>
+                <div class="bg-gray-50 px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Emplacement</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ asg.location }}</dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6">
+                    <dt class="text-sm font-medium text-gray-500">Résultat attendu</dt>
+                    <dd class="mt-1 text-sm text-gray-900 sm:col-span-2 sm:mt-0">{{ asg.result }}</dd>
+                </div>
+                <div class="bg-white px-4 py-5 sm:grid sm:grid-cols-3 sm:gap-4 sm:px-6 border-t border-gray-200">
+                    <!-- Accept Decline buttons -->
+                    <div class="flex">
+                        {% if hero.isavailable == false %}
+                            <a href="{{ path('hero_accept_mission', {'id': asg.id}) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500 {% if hero.isavailable == false %}cursor-not-allowed opacity-50" style='pointer-events: none'{% endif %}>
+                        {% else %}
+                            <a href="{{ path('hero_accept_mission', {'id': asg.id}) }}" class="inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-green-600 hover:bg-green-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-green-500">
+                        {% endif %}
+                            Accepter
+                            </a>
+                        <a href="{{ path('hero_reject_mission', {'id': asg.id}) }}" class="ml-4 inline-flex items-center px-4 py-2 border border-transparent text-sm font-medium rounded-md shadow-sm text-white bg-red-600 hover:bg-red-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-red-500">
+                            Refuser
+                        </a>
+                    </div>
+                </div>
+            </dl>
+        </div>
+    {% endfor %}
+    </div>
+    {% else %}
+            <div class="px-4 py-5 sm:px-6">
+                <p class="text-sm text-gray-500">Vous n'avez aucune mission en attente d'acceptation ou de refus pour le moment.</p>
+            </div>
+    {% endif %}
+</section>
+
+{% endblock %}

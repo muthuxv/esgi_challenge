@@ -39,6 +39,17 @@ class EventPaymentRepository extends ServiceEntityRepository
         }
     }
 
+    public function showPayments()
+    {
+        return $this->createQueryBuilder('ep')
+            ->select('ep.id', 'e.price as eventPrice', 'e.name as eventName', 'u.firstname as userFirstname', 'u.lastname as userLastname')
+            ->leftJoin('ep.event', 'e')
+            ->leftJoin('ep.user', 'u')
+            ->getQuery()
+            ->getResult();
+        ;
+    }
+
 //    /**
 //     * @return EventPayment[] Returns an array of EventPayment objects
 //     */

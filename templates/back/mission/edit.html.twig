@@ -1,0 +1,16 @@
+{% extends 'base_back.html.twig' %}
+
+{% block title %}Modifier une mission{% endblock %}
+
+{% block body %}
+    <h1 class="text-3xl text-black pb-6">Modifier une mission</h1>
+
+    {{ include('back/mission/_form.html.twig', {'button_label': 'Modifier'}) }}
+
+    <br>
+    <div class="max-w-sm w-24 bg-white shadow sm:rounded-md overflow-hidden">
+        <div class="px-6 py-4">
+            <a href="{{ path('back_mission_index') }}" class="no-underline hover:underline ...">Retour</a>
+        </div>
+    </div>
+{% endblock %}
