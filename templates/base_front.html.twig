@@ -3,7 +3,7 @@
     <head>
         <meta charset="UTF-8">
         <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>Administration</title>
+        <title>{% block title %}HeroCall{% endblock %}</title>
         <link rel="icon" href="{{ asset('build/images/hero-call-logo.png') }}">
         <meta name="author" content="David Grzyb">
         <meta name="description" content="">
@@ -95,7 +95,7 @@
                         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/">Accueil</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('front_mission_index') }}">Mes demandes de mission</a></li>{% endif %}
                         {% if (is_granted('ROLE_ADMIN')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('back_default_index') }}">Administration</a></li>{% endif %}
-                        {% if (is_granted('ROLE_HERO')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('hero_default_index') }}">Administration</a></li>{% endif %}
+                        {% if (is_granted('ROLE_HERO')) %} <li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('hero_default_index') }}">Dashboard</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/list-heroes">Heros</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="/events">Évènements</a></li>{% endif %}
                         {% if (is_granted('ROLE_USER') or is_granted('ROLE_ADMIN') or is_granted('ROLE_HERO')) %}<li class="mb-1"><a class="block p-4 text-sm font-semibold text-gray-400 hover:bg-blue-50 hover:text-blue-600 rounded" href="{{ path('front_user_edit', {'id': user[0].id}) }}">Mon profil</a></li>{% endif %}

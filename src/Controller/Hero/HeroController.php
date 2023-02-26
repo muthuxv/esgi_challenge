@@ -145,14 +145,21 @@ class HeroController extends AbstractController
 
         $missionhistory = new MissionHistory();
         $missionhistory->setMission($mission);
-        $missionhistory->setStatus($mission->getStatus());
+        $missionhistory->setStatus('Acceptée');
         $missionhistory->setUpdatedAt(new \DateTimeImmutable('now'));
         $missionhistory->setUpdatedBy($user);
+
+        $missionhistory2 = new MissionHistory();
+        $missionhistory2->setMission($mission);
+        $missionhistory2->setStatus($mission->getStatus());
+        $missionhistory2->setUpdatedAt(new \DateTimeImmutable('now'));
+        $missionhistory2->setUpdatedBy($user);
 
         $hero->setIsAvailable(false);
 
         $missionRepository->save($mission, true);
         $missionHistoryRepository->save($missionhistory, true);
+        $missionHistoryRepository->save($missionhistory2, true);
         $heroRepository->save($hero, true);
 
         //send email to user
@@ -208,8 +215,15 @@ class HeroController extends AbstractController
         $missionhistory->setUpdatedAt(new \DateTimeImmutable('now'));
         $missionhistory->setUpdatedBy($user);
 
+        $missionhistory2 = new MissionHistory();
+        $missionhistory2->setMission($mission);
+        $missionhistory2->setStatus('En attente');
+        $missionhistory2->setUpdatedAt(new \DateTimeImmutable('now'));
+        $missionhistory2->setUpdatedBy($user);
+
         $missionRepository->save($mission, true);
         $missionHistoryRepository->save($missionhistory, true);
+        $missionHistoryRepository->save($missionhistory2, true);
 
         return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
     }

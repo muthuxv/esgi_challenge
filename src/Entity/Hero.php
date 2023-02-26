@@ -201,26 +201,4 @@ class Hero
         return $this;
     }
 
-    //update rank of hero when he complete a mission
-    public function updateRank(): self
-    {
-        $missions = $this->getMissions();
-        $count = 0;
-        foreach ($missions as $mission) {
-            if ($mission->getIsCompleted()) {
-                $count++;
-            }
-        }
-        if ($count >= 10) {
-            $this->setRank('S');
-        } elseif ($count >= 5) {
-            $this->setRank('A');
-        } elseif ($count >= 1) {
-            $this->setRank('B');
-        } else {
-            $this->setRank('C');
-        }
-
-        return $this;
-    }
 }

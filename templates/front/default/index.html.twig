@@ -1,6 +1,6 @@
 {% extends 'base_front.html.twig' %}
 
-{% block title %}Accueil{% endblock %}
+{% block title %}HeroCall - Accueil{% endblock %}
 
 {% block body %}
     <link rel="stylesheet" href="https://unpkg.com/tailwindcss@2.2.19/dist/tailwind.min.css"/>
@@ -365,6 +365,7 @@
         </div>
       </div>
     </section>
+    {% if bestHeroes |length > 3 %}
     <section class="bg-gray-100 py-8">
       <div class="container mx-auto px-2 pt-4 pb-12 text-gray-800">
         <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">
@@ -377,35 +378,35 @@
           <div class="flex flex-col w-5/6 lg:w-1/4 mx-auto lg:mx-0 rounded-none lg:rounded-l-lg bg-white mt-4">
             <div class="flex-1 bg-white text-gray-600 rounded-t rounded-b-none overflow-hidden shadow">
               <div class="p-8 text-3xl font-bold text-center border-b-4">
-                {{ bestHeroes[0].name }}
+                {{ bestHeroes[1].name }}
               </div>
               <div class="flex avatar justify-center my-2">
                 <div class="w-40 rounded-full ring ring-gradient ring-offset-base-100 ring-offset-2">
-                  <img class="rounded-full" src="{{ bestHeroes[0].avatar }}" />
+                  <img class="rounded-full" src="{{ bestHeroes[1].avatar }}" />
                 </div>
               </div>
             </div>
             <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
               <div class="w-full pt-6 text-3xl text-gray-600 font-bold text-center">
                 <span class="text-base">Rang</span>
-                {{ bestHeroes[0].rank }}
+                {{ bestHeroes[1].rank }}
               </div>
             </div>
           </div>
           <div class="flex flex-col w-5/6 lg:w-1/3 mx-auto lg:mx-0 rounded-lg bg-white mt-4 sm:-mt-6 shadow-lg z-10">
             <div class="flex-1 bg-white rounded-t rounded-b-none overflow-hidden shadow">
-              <div class="w-full p-8 text-3xl font-bold text-center">{{ bestHeroes[1].name }}</div>
+              <div class="w-full p-8 text-3xl font-bold text-center">{{ bestHeroes[0].name }}</div>
               <div class="h-1 w-full gradient my-0 py-0 rounded-t"></div>
               <div class="flex avatar justify-center my-2">
                 <div class="w-48 rounded-full ring ring-gradient ring-offset-base-100 ring-offset-2">
-                  <img class="rounded-full" src="{{ bestHeroes[1].avatar }}" />
+                  <img class="rounded-full" src="{{ bestHeroes[0].avatar }}" />
                 </div>
               </div>
             </div>
             <div class="flex-none mt-auto bg-white rounded-b rounded-t-none overflow-hidden shadow p-6">
               <div class="w-full pt-6 text-4xl font-bold text-center">
                 <span class="text-base">Rang</span>
-                {{ bestHeroes[1].rank }}
+                {{ bestHeroes[0].rank }}
               </div>
             </div>
           </div>
@@ -435,6 +436,7 @@
         </div>
       </div>
     </section>
+    {% endif %}
     <section class="bg-white border-b py-8">
       <div class="container mx-auto flex flex-wrap pt-4 pb-12">
         <h2 class="w-full my-2 text-5xl font-bold leading-tight text-center text-gray-800">

@@ -3,8 +3,10 @@
 namespace App\Controller\Front;
 
 use App\Entity\Mission;
+use App\Entity\MissionHistory;
 use App\Form\MissionType;
 use App\Repository\MissionRepository;
+use App\Repository\MissionHistoryRepository;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
@@ -27,9 +29,10 @@ class MissionController extends AbstractController
     }
 
     #[Route('/new', name: 'new', methods: ['GET', 'POST'])]
-    public function new(Request $request, MissionRepository $missionRepository, UserRepository $userRepository, UserInterface $user): Response
+    public function new(Request $request, MissionRepository $missionRepository, MissionHistoryRepository $missionHistoryRepository, UserRepository $userRepository, UserInterface $user): Response
     {
         $mission = new Mission();
+        $missionHistory = new MissionHistory();
         $form = $this->createForm(MissionType::class, $mission);
         $form->handleRequest($request);
 
@@ -42,7 +45,13 @@ class MissionController extends AbstractController
             $mission->setUser($this->getUser());
             $mission->setHero(null);
 
+            $missionHistory->setMission($mission);
+            $missionHistory->setStatus('Création');
+            $missionHistory->setUpdatedBy($this->getUser());
+            $missionHistory->setUpdatedAt(new DateTimeImmutable('now'));
+
             $missionRepository->save($mission, true);
+            $missionHistoryRepository->save($missionHistory, true);
 
             return $this->redirectToRoute('front_mission_index', [], Response::HTTP_SEE_OTHER);
         }
