@@ -25,9 +25,9 @@ class HeroFixtures extends Fixture implements DependentFixtureInterface
             $object = (new Hero())
                 ->setName($faker->word)
                 ->setRank($faker->randomElement(['S', 'A', 'B', 'C']))
-                ->setIsAvailable(1)
+                ->setIsAvailable($faker->boolean)
                 ->addAbility($faker->randomElement($abilities))
-                ->setAvatar($faker->imageUrl(200, 200))
+                ->setAvatar('saitama.png')
                 ->setUser($faker->unique()->randomElement($users))
             ;
             $manager->persist($object);

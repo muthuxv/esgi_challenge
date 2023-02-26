@@ -25,7 +25,7 @@
                 <label for="my-modal-{{ hero.id }}">
                     <div class="avatar">
                         <div class="w-32 mask mask-hexagon">
-                            <img src="{{ hero.avatar }}" />
+                            <img src="{{ asset('uploads/avatar/' ~ hero.avatar) }}" />
                         </div>
                     </div>
                 </label>
@@ -37,7 +37,7 @@
                             <div class="flex flex-col place-items-center">
                                 <div class="avatar">
                                     <div class="w-32 mask mask-squircle">
-                                        <img src="{{ hero.avatar }}" />
+                                        <img src="{{ asset('uploads/avatar/' ~ hero.avatar) }}" />
                                     </div>
                                 </div>
                                 <div class="name">

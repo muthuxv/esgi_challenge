@@ -36,7 +36,7 @@
                                         <td class="px-6 py-4">{{ mission.description }}</td>
                                         <td class="px-6 py-4">{{ mission.location }}</td>
                                         <td class="px-6 py-4">{{ mission.result }}</td>
-                                        <td class="px-6 py-4">{{ mission.missionType }}</td>
+                                        <td class="px-6 py-4">{{ mission.missionType.name }}</td>
                                         <td class="px-6 py-4">{{ mission.status }}</td>
                                         <td class="px-6 py-4">
                                             <a href="{{ path('back_assign_mission_assign', {'id': mission.id}) }}">Assigner</a>
