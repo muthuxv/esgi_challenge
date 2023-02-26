@@ -30,7 +30,7 @@ class MissionFixtures extends Fixture implements DependentFixtureInterface
                 ->setDescription($faker->text)
                 ->setLocation($faker->address)
                 ->setResult($faker->text)
-                ->setStatus($faker->randomElement(['pending', 'in_progress', 'accepted', 'refused', 'completed']))
+                ->setStatus($faker->randomElement(['En attente', 'En cours', 'Acceptée', 'Refusée', 'Terminé']))
                 ->setCreatedAt(new \DateTimeImmutable())
                 ->setUpdatedAt(new \DateTimeImmutable())
                 ->setDateEnd(new \DateTimeImmutable())

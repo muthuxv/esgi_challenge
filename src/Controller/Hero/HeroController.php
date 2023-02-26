@@ -23,6 +23,10 @@ use Symfony\Component\HttpFoundation\File\UploadedFile;
 use Symfony\Component\Filesystem\Filesystem;
 use Symfony\Component\HttpFoundation\File\Exception\FileException;
 use Symfony\Component\PasswordHasher\Hasher\UserPasswordHasherInterface;
+use Symfony\Bridge\Twig\Mime\TemplatedEmail;
+use Symfony\Component\Mime\Address;
+use Symfony\Component\Mailer\MailerInterface;
+use Symfony\Component\Mime\Email;
 
 
 class HeroController extends AbstractController
@@ -38,7 +42,7 @@ class HeroController extends AbstractController
 
         $hero = $user->getHero();
 
-        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress']);
+        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'En cours']);
         $in_progress = $in_progress ? $in_progress[0] : null;
 
         $count_completed = $heroRepository->getCompletedMissions($hero);
@@ -53,7 +57,7 @@ class HeroController extends AbstractController
     {
         $hero = $user->getHero();
 
-        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress']);
+        $in_progress = $missionRepository->findBy(['hero' => $hero, 'status' => 'En cours']);
         $in_progress = $in_progress ? $in_progress[0] : null;
 
         return $this->render('hero/in_progress.html.twig', [
@@ -66,7 +70,7 @@ class HeroController extends AbstractController
     {
         $hero = $user->getHero();
 
-        $assigned = $missionRepository->findBy(['hero' => $hero, 'status' => 'assigned']);
+        $assigned = $missionRepository->findBy(['hero' => $hero, 'status' => 'Assigné']);
 
         return $this->render('hero/assigned.html.twig', [
             'hero' => $hero, 'assigned' => $assigned
@@ -78,7 +82,7 @@ class HeroController extends AbstractController
     {
         $hero = $user->getHero();
 
-        $completed = $missionRepository->findBy(['hero' => $hero, 'status' => 'completed']);
+        $completed = $missionRepository->findBy(['hero' => $hero, 'status' => 'Terminé']);
 
         return $this->render('hero/completed.html.twig', [
             'hero' => $hero, 'completed' => $completed
@@ -105,7 +109,7 @@ class HeroController extends AbstractController
 
     //accept mission
     #[Route('/mission/{id}/accept', name: 'accept_mission', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function acceptMission(UserInterface $user, MissionRepository $missionRepository, MissionHistoryRepository $missionHistoryRepository, HeroRepository $heroRepository, $id): Response
+    public function acceptMission(UserInterface $user, MissionRepository $missionRepository, MissionHistoryRepository $missionHistoryRepository, HeroRepository $heroRepository, $id, MailerInterface $mailer): Response
     {
         $hero = $user->getHero();
 
@@ -116,26 +120,26 @@ class HeroController extends AbstractController
         }
 
         //if not already in progress
-        if ($missionRepository->findBy(['hero' => $hero, 'status' => 'in_progress'])) {
+        if ($missionRepository->findBy(['hero' => $hero, 'status' => 'En cours'])) {
             $this->addFlash('error', 'Vous avez déjà une mission en cours.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already in progress
-        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'En cours']) !== null) {
             $this->addFlash('error', 'Cette mission est déjà en cours.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already completed
-        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'completed']) !== null) {
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'Terminé']) !== null) {
             $this->addFlash('error', 'Cette mission est déjà terminée.');
             return $this->redirectToRoute('hero_mission_completed', [], Response::HTTP_SEE_OTHER);
         }
 
         $mission = $missionRepository->find($id);
 
-        $mission->setStatus('in_progress');
+        $mission->setStatus('En cours');
         $mission->setUpdatedAt(new \DateTimeImmutable('now'));
         $mission->setDateEnd(new \DateTimeImmutable(''));
 
@@ -151,12 +155,18 @@ class HeroController extends AbstractController
         $missionHistoryRepository->save($missionhistory, true);
         $heroRepository->save($hero, true);
 
-        //set all the other missions to pending
-        $missions = $missionRepository->findBy(['hero' => $hero, 'status' => 'assigned']);
-        foreach ($missions as $mission) {
-            $mission->setStatus('pending');
-            $mission->setUpdatedAt(new \DateTimeImmutable('now'));
-        }
+        //send email to user
+        $email = (new TemplatedEmail())
+            ->from(new Address('notifications@herocall.fr', 'HeroCall'))
+            ->to($mission->getUser()->getEmail())
+            ->subject('HeroCall - Mission acceptée')
+            ->htmlTemplate('mailer/mission_accepted.html.twig')
+            ->context([
+                'mission' => $mission,
+                'hero' => $hero,
+            ]);
+
+        $mailer->send($email);
 
         return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
     }
@@ -176,25 +186,25 @@ class HeroController extends AbstractController
         }
 
         //check if this mission is already completed
-        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'completed']) !== null) {
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'Terminé']) !== null) {
             $this->addFlash('error', 'Cette mission est déjà terminée.');
             return $this->redirectToRoute('hero_mission_completed', [], Response::HTTP_SEE_OTHER);
         }
 
         //check if this mission is already in progress
-        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'in_progress']) !== null) {
+        if ($missionRepository->findOneBy(['id' => $id, 'status' => 'En cours']) !== null) {
             $this->addFlash('error', 'Cette mission est déjà en cours.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
 
-        $mission->setStatus('pending');
+        $mission->setStatus('En attente');
         $mission->setHero(null);
         $mission->setUpdatedAt(new \DateTimeImmutable('now'));
         $mission->setDateEnd(new \DateTimeImmutable(''));
 
         $missionhistory = new MissionHistory();
         $missionhistory->setMission($mission);
-        $missionhistory->setStatus('rejected');
+        $missionhistory->setStatus('Rejetée');
         $missionhistory->setUpdatedAt(new \DateTimeImmutable('now'));
         $missionhistory->setUpdatedBy($user);
 
@@ -206,7 +216,7 @@ class HeroController extends AbstractController
 
     //update mission
     #[Route('/mission/{id}/update', name: 'update_mission', requirements: ['id' => '\d+'], methods: ['GET', 'POST'])]
-    public function updateMission(Request $request, UserInterface $user, Mission $mission, MissionRepository $missionRepository, MissionHistoryRepository $missionHistoryRepository, HeroRepository $heroRepository, $id): Response
+    public function updateMission(Request $request, UserInterface $user, Mission $mission, MissionRepository $missionRepository, MissionHistoryRepository $missionHistoryRepository, HeroRepository $heroRepository, $id, MailerInterface $mailer): Response
     {
         $hero = $user->getHero();
         $mission = $missionRepository->find($id);
@@ -218,7 +228,7 @@ class HeroController extends AbstractController
         }
 
         //check if this mission is already completed
-        if ($mission->getStatus() == 'completed') {
+        if ($mission->getStatus() == 'Terminé') {
             $this->addFlash('error', 'Cette mission est déjà terminée.');
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }
@@ -236,7 +246,7 @@ class HeroController extends AbstractController
             $mission->setStatus($missionhistory->getStatus());
             $mission->setUpdatedAt(new DateTimeImmutable('now'));
 
-            if ($missionhistory->getStatus() == 'completed') {
+            if ($missionhistory->getStatus() == 'Terminé') {
                 $mission->setDateEnd(new DateTimeImmutable('now'));
                 $hero->setIsAvailable(true);
             }
@@ -247,6 +257,19 @@ class HeroController extends AbstractController
 
             //update rank
             $heroRepository->updateRank($hero);
+
+            //send email to user
+            $email = (new TemplatedEmail())
+                ->from(new Address('notifications@herocall.fr', 'HeroCall'))
+                ->to($mission->getUser()->getEmail())
+                ->subject('HeroCall - Mission mise à jour')
+                ->htmlTemplate('mailer/mission_updated.html.twig')
+                ->context([
+                    'mission' => $mission,
+                    'hero' => $hero,
+                ]);
+            
+            $mailer->send($email);
 
             return $this->redirectToRoute('hero_mission_in_progress', [], Response::HTTP_SEE_OTHER);
         }

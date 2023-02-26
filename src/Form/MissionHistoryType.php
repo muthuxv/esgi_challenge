@@ -15,8 +15,8 @@ class MissionHistoryType extends AbstractType
         $builder
             ->add('status', ChoiceType::class, [
                 'choices'  => [
-                    'En cours' => 'in_progress',
-                    'Terminé' => 'completed',
+                    'En cours' => 'En cours',
+                    'Terminé' => 'Terminé',
                 ], 
             ])
             ->add('comment')
